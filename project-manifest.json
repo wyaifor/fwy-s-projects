@@ -1,0 +1,17 @@
+{
+  "title": "实验一： 数码管显示系统设计",
+  "category": "本科实验 / 有关MSP430F5529单片机",
+  "period": "本科期间；具体年月待确认",
+  "actual_role": "课程实验参与者",
+  "verification_status": "report only",
+  "metrics": {},
+  "limits": "目前主要保存实验报告。报告内的代码片段、截图及步骤可供核验，但未找到配套完整工程时不能承诺一键复现；不将实习或企业经历混入课程实验。",
+  "public_assets": [],
+  "original_evidence": [
+    {
+      "archive_member": "实验一： 数码管显示系统设计.docx",
+      "sha256_original": "1bafac501846c5892f894d12228b814a7d31580c36d174167cff03f6a96ba718",
+      "bytes": 11143677
+    }
+  ]
+}
