@@ -1,0 +1,22 @@
+{
+  "title": "手势识别 飞腾派开发板实现",
+  "category": "本科实验 / 结合硬件类",
+  "period": "本科期间；具体年月待确认",
+  "actual_role": "课程实验参与者",
+  "verification_status": "report only",
+  "metrics": {},
+  "limits": "目前主要保存实验报告。报告内的代码片段、截图及步骤可供核验，但未找到配套完整工程时不能承诺一键复现；不将实习或企业经历混入课程实验。",
+  "public_assets": [],
+  "original_evidence": [
+    {
+      "archive_member": "手势识别+飞腾派开发板实现.pdf",
+      "sha256_original": "7e1ceb28109cf302158691d2c87378c8bd14b7d4bf601a332e2670069a1ad2d3",
+      "bytes": 1156137
+    },
+    {
+      "archive_member": "手势识别+飞腾派开发板实现.mp4",
+      "sha256_original": "80cd9d1949a9ae81a8684a9cecffd2aa3e6432b4ffc433821324736fb7cb7ed1",
+      "bytes": 2922476
+    }
+  ]
+}
