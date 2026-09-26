@@ -1,0 +1,37 @@
+{
+  "title": "空气质量时空分析与Tableau仪表板",
+  "category": "BI与数据可视化",
+  "period": "2025 S2",
+  "actual_role": "个人课程项目",
+  "verification_status": "code and saved outputs checked",
+  "metrics": {
+    "worksheets": 3,
+    "dashboards": 1,
+    "excel_dimension": "A1:N816134",
+    "dimension_note": "维度不是自动等同有效测量记录数；以复核脚本为准"
+  },
+  "limits": "使用2024年度空气质量资料制作地图和时间矩阵。工作簿阈值为课堂演示规则，未核实平均时段和单位，不可据此声称法规达标率。",
+  "public_assets": [],
+  "original_evidence": [
+    {
+      "archive_member": "7.twb",
+      "sha256_original": "8844e998f77c985432703e2d267dbb93aa1bc01a48d3efae9a3f4bfd30a7b124",
+      "bytes": 135130
+    },
+    {
+      "archive_member": "air-quality-alldata.xlsx",
+      "sha256_original": "10fdeed7226169c534dad6cae4f40b6f23896bfa66fbefc3fc16584683ee5410",
+      "bytes": 57352646
+    },
+    {
+      "archive_member": "Assignment 1.docx",
+      "sha256_original": "add50c0c40beb8e3510754a73e737c00ee6c4a1c541b309044d4992af1b75a29",
+      "bytes": 2333949
+    },
+    {
+      "archive_member": "Assignment_1.pdf",
+      "sha256_original": "92e1cf6542671e0102d675f765a7574a11c809a61a7c22891ab12f2112fb324b",
+      "bytes": 689628
+    }
+  ]
+}
