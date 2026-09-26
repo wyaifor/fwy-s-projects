@@ -1,0 +1,45 @@
+{
+  "title": "二手汽车价格预测与决策树解释",
+  "category": "机器学习与回归分析",
+  "period": "2025 S2",
+  "actual_role": "决策树模块参与者（个人Notebook）；小组项目",
+  "verification_status": "re-run verified",
+  "metrics": {
+    "input_rows": 8111,
+    "valid_target_rows": 8107,
+    "historical_MAE": 2012.83,
+    "historical_RMSE": 3080.24,
+    "historical_R2": 0.8066,
+    "grid_candidates": 360,
+    "cv_folds": 5,
+    "test_fraction": 0.2,
+    "re_run_MAE": 2012.8299160468114,
+    "re_run_RMSE": 3080.239889793564,
+    "re_run_R2": 0.8065797440732194
+  },
+  "limits": "个人Notebook名含wfen0730；线性回归和XGBoost文件署名其他成员。代码主要借助AI实现，个人贡献表述应保留结果检查与协作边界。360组超参数、5折交叉验证。",
+  "public_assets": [
+    {
+      "path": "src/decision _tree_wfen0730.ipynb",
+      "sha256": "76e64e45018a68c6cadef2d47d4a39de81d3ce174d4433811b2094c542762812",
+      "bytes": 285034
+    }
+  ],
+  "original_evidence": [
+    {
+      "archive_member": "auto_price_cleaned.csv",
+      "sha256_original": "728005c52b77d5d177a4a45a77ec08c365369b2f99a76e8d85f459bcb364c8f8",
+      "bytes": 3306838
+    },
+    {
+      "archive_member": "decision _tree_wfen0730.ipynb",
+      "sha256_original": "fdc1aae2436ac1f04d86cb4752af0cbe41db88ea2f37bc3b8bf4be5a3411b713",
+      "bytes": 284531
+    },
+    {
+      "archive_member": "Lab_13_Group_05_Report.pdf",
+      "sha256_original": "32b6f5f72d9915f1010ec96d180c090bca97f73df78cc1666af7b0cb64358604",
+      "bytes": 517046
+    }
+  ]
+}
