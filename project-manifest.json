@@ -1,0 +1,17 @@
+{
+  "title": "实验四 基于Python的深度学习应用",
+  "category": "本科实验 / python",
+  "period": "本科期间；具体年月待确认",
+  "actual_role": "课程实验参与者",
+  "verification_status": "report only",
+  "metrics": {},
+  "limits": "目前主要保存实验报告。报告内的代码片段、截图及步骤可供核验，但未找到配套完整工程时不能承诺一键复现；不将实习或企业经历混入课程实验。",
+  "public_assets": [],
+  "original_evidence": [
+    {
+      "archive_member": "冯婉怡+实验四+基于Python的深度学习应用.docx",
+      "sha256_original": "706999d49d2bceb8de40ef0bc921ee36ecae9592010eb3ab3a84fa5338ba008b",
+      "bytes": 2926979
+    }
+  ]
+}
