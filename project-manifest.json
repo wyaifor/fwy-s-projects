@@ -1,0 +1,17 @@
+{
+  "title": "神经网络与深度学习实验二",
+  "category": "本科实验 / 神经网络与深度学习",
+  "period": "本科期间；具体年月待确认",
+  "actual_role": "课程实验参与者",
+  "verification_status": "report only",
+  "metrics": {},
+  "limits": "目前主要保存实验报告。报告内的代码片段、截图及步骤可供核验，但未找到配套完整工程时不能承诺一键复现；不将实习或企业经历混入课程实验。\n原件为旧版Word文档，保留二进制供Word/LibreOffice查看；本次未执行其宏或提取其程序。",
+  "public_assets": [],
+  "original_evidence": [
+    {
+      "archive_member": "神经网络与深度学习实验二-2021010651-冯婉怡-智能2102.doc",
+      "sha256_original": "25837beaf37dee78f502498b6f9d4f5468ae5b0fc8a8e942cd21cbe2f34c2af1",
+      "bytes": 483328
+    }
+  ]
+}
