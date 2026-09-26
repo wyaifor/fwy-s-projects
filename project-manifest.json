@@ -1,0 +1,17 @@
+{
+  "title": "机器人学实验四机械臂轨迹规划及控制",
+  "category": "本科实验 / 机器人学",
+  "period": "本科期间；具体年月待确认",
+  "actual_role": "课程实验参与者",
+  "verification_status": "report only",
+  "metrics": {},
+  "limits": "目前主要保存实验报告。报告内的代码片段、截图及步骤可供核验，但未找到配套完整工程时不能承诺一键复现；不将实习或企业经历混入课程实验。",
+  "public_assets": [],
+  "original_evidence": [
+    {
+      "archive_member": "机器人学实验四机械臂轨迹规划及控制.pdf",
+      "sha256_original": "918acd9bb5df0d9957e03f93cadb3fa0587839cf85622317d89c00c2021ac917",
+      "bytes": 303075
+    }
+  ]
+}
