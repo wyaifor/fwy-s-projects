@@ -1,0 +1,17 @@
+{
+  "title": "机器学习实验二神经网络在信息预测中的应用",
+  "category": "本科实验 / 机器学习",
+  "period": "本科期间；具体年月待确认",
+  "actual_role": "课程实验参与者",
+  "verification_status": "report only",
+  "metrics": {},
+  "limits": "目前主要保存实验报告。报告内的代码片段、截图及步骤可供核验，但未找到配套完整工程时不能承诺一键复现；不将实习或企业经历混入课程实验。",
+  "public_assets": [],
+  "original_evidence": [
+    {
+      "archive_member": "机器学习实验二神经网络在信息预测中的应用.pdf",
+      "sha256_original": "7fcd69bc91bc69d27a59e8f17901bd9e84ad6f7aedb31db78f395087129407c8",
+      "bytes": 333084
+    }
+  ]
+}
