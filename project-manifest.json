@@ -1,0 +1,68 @@
+{
+  "title": "汽车、糖尿病与森林覆盖数据质量分析",
+  "category": "数据清洗与探索分析",
+  "period": "2025 S2",
+  "actual_role": "小组课程项目；个人分工待确认",
+  "verification_status": "code and saved outputs checked",
+  "metrics": {
+    "auto_rows": 18286,
+    "auto_columns_before": 24,
+    "auto_columns_after": 23,
+    "diabetes_rows": 264802,
+    "diabetes_columns_before": 23,
+    "diabetes_columns_after": 22,
+    "forest_rows": 30860,
+    "forest_columns_before": 56,
+    "forest_columns_after": 47
+  },
+  "limits": "报告和Notebook涵盖3套数据。清洗后仍有缺失值，不写“清洗后零缺失”。不把整个小组工作归为个人。",
+  "public_assets": [
+    {
+      "path": "src/5310assignment_1.ipynb",
+      "sha256": "55eccb3c19063818446114ae141a1960f68f35df42003953e7850d6b8a35c571",
+      "bytes": 387060
+    }
+  ],
+  "original_evidence": [
+    {
+      "archive_member": "5310assignment_1.ipynb",
+      "sha256_original": "6788e3add6530c7bbcec00e52780f08897bea36cb1235223dbd701a8221bd553",
+      "bytes": 384638
+    },
+    {
+      "archive_member": "auto_price.csv",
+      "sha256_original": "f2042d76963c8a4e83bd25d50fec55463711d6885def5e96fb5a52fb287e13d2",
+      "bytes": 7480685
+    },
+    {
+      "archive_member": "auto_price_cleaned.csv",
+      "sha256_original": "0f94bba40db305b75bfe39bb688bb042729cd56321583f2dc982f48145d6c35d",
+      "bytes": 6477163
+    },
+    {
+      "archive_member": "diabetes_diagnosis.csv",
+      "sha256_original": "c727224778f76d93b3a49d13581cad6454f416d07f60910b9f968d14d9d84c61",
+      "bytes": 22972463
+    },
+    {
+      "archive_member": "diabetes_diagnosis_clean.csv",
+      "sha256_original": "078df4afd253ab1c9a9f66bb47cc39af1d59333f2c09fa2f9af9fc15ab766528",
+      "bytes": 22577841
+    },
+    {
+      "archive_member": "forest_cover.csv",
+      "sha256_original": "2652c0c27b1b9278dd6ddd282c7693a7b8f58d6fc6b254b9b12cb668f36828d2",
+      "bytes": 5871102
+    },
+    {
+      "archive_member": "forest_cover_cleaned.csv",
+      "sha256_original": "f5da71cc3a8f9b49cad3de417cdb32ec39290cd7a26a589a8998af760da26737",
+      "bytes": 5755099
+    },
+    {
+      "archive_member": "Lab_13_Group_5_Report.pdf",
+      "sha256_original": "caa09fce4b8f7783f9c8a380ce35bff10f00a204c9264de7b1abc49d6d17926c",
+      "bytes": 1574217
+    }
+  ]
+}
