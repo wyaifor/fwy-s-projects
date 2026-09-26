@@ -1,0 +1,27 @@
+{
+  "title": "Android课堂应用Token安全分析与验证",
+  "category": "安全课程实验",
+  "period": "2026 S1",
+  "actual_role": "参与Token问题验证与演示",
+  "verification_status": "not suitable for public reproduction",
+  "metrics": {},
+  "limits": "只整理课堂应用的分析材料；不公开APK、真实服务账号、会话记录或第三方目标扫描数据。同种子生成同Token仅证明可预测性示例，不证明完成认证绕过。",
+  "public_assets": [],
+  "original_evidence": [
+    {
+      "archive_member": "Task4_Presentation_Complete_v2.pptx",
+      "sha256_original": "830c61b852db90cd79f853178fbc8afdc0dc1987b4f03f1f5c7c8192d5e432bd",
+      "bytes": 26604
+    },
+    {
+      "archive_member": "INFO5995_Task4poc_README.md",
+      "sha256_original": "3b644b3c906b10e73a986b5fb48fbb7260afa83208c82949aad41e16e285d480",
+      "bytes": 5550
+    },
+    {
+      "archive_member": "2026-03-20-task4-validation.md",
+      "sha256_original": "4af03e1f7f8fa43dc5a0819063c4fa90f59805a3c9b4096d92a7f7fe5b6ae378",
+      "bytes": 4943
+    }
+  ]
+}
