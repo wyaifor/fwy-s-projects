@@ -1,0 +1,17 @@
+{
+  "title": "实验三 图的表示及其遍历",
+  "category": "本科实验 / visual studio计算机软件基础",
+  "period": "本科期间；具体年月待确认",
+  "actual_role": "课程实验参与者",
+  "verification_status": "report only",
+  "metrics": {},
+  "limits": "目前主要保存实验报告。报告内的代码片段、截图及步骤可供核验，但未找到配套完整工程时不能承诺一键复现；不将实习或企业经历混入课程实验。\n原件为旧版Word文档，保留二进制供Word/LibreOffice查看；本次未执行其宏或提取其程序。",
+  "public_assets": [],
+  "original_evidence": [
+    {
+      "archive_member": "实验三 图的表示及其遍历.doc",
+      "sha256_original": "44a15bccfdf904394410a35833123d8b78d23d712723918413233bd6cab61fd3",
+      "bytes": 6257152
+    }
+  ]
+}
