@@ -1,0 +1,488 @@
+{
+  "title": "QANet问答模型调试与实验",
+  "category": "自然语言处理",
+  "period": "2026 S1",
+  "actual_role": "基于课程框架的项目；个人模块待确认",
+  "verification_status": "code and saved outputs checked",
+  "metrics": {},
+  "limits": "保留课程框架来源与调试记录。不能把课程提供的基础模型写为独立原创；完整训练需要SQuAD、词向量及GPU。本次未重新下载数据和执行训练。",
+  "public_assets": [
+    {
+      "path": "src/assignment1.ipynb",
+      "sha256": "ff3895f9a05b3af0d43785a17b760077d4dfffd55988d40bb49c5988f46ba444",
+      "bytes": 12863
+    },
+    {
+      "path": "src/README.md",
+      "sha256": "f5c6e64258ebc336adda29200eb6bff785818ba65a0ca57701731bccaba6aa9d",
+      "bytes": 1929
+    },
+    {
+      "path": "src/STAGE12_CODE_CHANGES_BY_MODULE.md",
+      "sha256": "b0c283a67c02adea4245d4b193732cb9ce5397aceb10049531f5ddc81b866fb4",
+      "bytes": 11502
+    },
+    {
+      "path": "src/STAGE2_DEBUG_LOG.md",
+      "sha256": "382a127ad1895808efd77ef8543bda5f117db6586af0e94468e70110bd151729",
+      "bytes": 7389
+    },
+    {
+      "path": "src/Data/io.py",
+      "sha256": "4351be2b2ce3ff8ac98b51fee6a12408566e94b78fc60d78c659f144434e4172",
+      "bytes": 684
+    },
+    {
+      "path": "src/Data/loader.py",
+      "sha256": "42ce8d896ff3537b6ad919c0fc86ba61b3adfc8de814ab75aecbcd9fbecc2222",
+      "bytes": 706
+    },
+    {
+      "path": "src/Data/squad.py",
+      "sha256": "778958e2148153b3525df86ff86e0e648f31cde55b2a028368d7ab4f58818f8f",
+      "bytes": 2259
+    },
+    {
+      "path": "src/Data/__init__.py",
+      "sha256": "e40f8f20640987e7d5e0b0d7821cbd7f670a43fde699b9d2a3e262839a38c83f",
+      "bytes": 323
+    },
+    {
+      "path": "src/EvaluateTools/evaluate.py",
+      "sha256": "8ff9e7a8f356e1eb21e2989e185d02dfb0dc820e5ffc427f162c92ac7f5ee2a2",
+      "bytes": 4758
+    },
+    {
+      "path": "src/Losses/loss.py",
+      "sha256": "c73034e212200cb33ade984e5338819ca0e2c51ab6038b74c56d39712bdecb81",
+      "bytes": 509
+    },
+    {
+      "path": "src/Losses/__init__.py",
+      "sha256": "6e5d1e65fb7185c5b3d26766cfdd634645319b73b11bf83987637a240c9e193d",
+      "bytes": 78
+    },
+    {
+      "path": "src/Models/attention.py",
+      "sha256": "8743c3d31b6184787ffc02057fe7d5af5e6c801b29bb551d6241e10a870847e2",
+      "bytes": 1509
+    },
+    {
+      "path": "src/Models/conv.py",
+      "sha256": "fbb246e6698d7be27f691b6118b5637878aaa8aadd9666f37444dffa5c0a5ac3",
+      "bytes": 6295
+    },
+    {
+      "path": "src/Models/dropout.py",
+      "sha256": "e92d516ddba71f75cba489ea0341586c450127fd48654613a8731cfc84e19f4b",
+      "bytes": 549
+    },
+    {
+      "path": "src/Models/embedding.py",
+      "sha256": "b20a0fa33e917440f89fcc014fb27d005e1188f1c61baec61e015f52b0e8330a",
+      "bytes": 2011
+    },
+    {
+      "path": "src/Models/encoder.py",
+      "sha256": "46a4a4fa15fc66ff0a8d6e7e0a513a1c9918527bde7d750852c866935841b131",
+      "bytes": 5419
+    },
+    {
+      "path": "src/Models/heads.py",
+      "sha256": "7fc1f22167ebcf702017bbcca18ab2e24949961adecadd5bc2dbdb48563bb55f",
+      "bytes": 1038
+    },
+    {
+      "path": "src/Models/qanet.py",
+      "sha256": "24546e18da375301f83a45937705dd21a1337f04ba86b74c4210c98c08c479d2",
+      "bytes": 3569
+    },
+    {
+      "path": "src/Models/__init__.py",
+      "sha256": "ccaaa2c6f2494f07987c0535f873ac1472370ea5f7567381c96ac912b97513f9",
+      "bytes": 49
+    },
+    {
+      "path": "src/Optimizers/optimizer.py",
+      "sha256": "afa4e2e3b44d8ffe847bdf7766d6aa686219e0de14c57c9f1a5a12b75a0c85e7",
+      "bytes": 1505
+    },
+    {
+      "path": "src/Optimizers/__init__.py",
+      "sha256": "d2c6a45ca70af33028d3929ac7cf5b62af7e0aaf2a7ebba1f59311c21a067290",
+      "bytes": 63
+    },
+    {
+      "path": "src/Schedulers/cosine_scheduler.py",
+      "sha256": "750776b05a86bc7e223649307a9ca5f6d21072144f6c4e5cc3141ea655e165f1",
+      "bytes": 963
+    },
+    {
+      "path": "src/Schedulers/lambda_scheduler.py",
+      "sha256": "e88e3ad14413851bf2716b3f8677bd4719b00ce8ef9b0ef3c1c141deb89d4215",
+      "bytes": 745
+    },
+    {
+      "path": "src/Schedulers/scheduler.py",
+      "sha256": "4ba1404b9c8e0aaac62eda9d586d50b762f3cb6e3bf2534beac4ab0285ac4afd",
+      "bytes": 1571
+    },
+    {
+      "path": "src/Schedulers/step_scheduler.py",
+      "sha256": "8147d4546f16a214c40304e92902223d08f9f75cce627ed0423f4ecc295a0fef",
+      "bytes": 868
+    },
+    {
+      "path": "src/Schedulers/__init__.py",
+      "sha256": "49c6ebeaba2ff1c7ab04db8791091b37548c3947108ae5310c8464a8ca33f5ad",
+      "bytes": 63
+    },
+    {
+      "path": "src/Tools/download.py",
+      "sha256": "d53558d67dcb3aa72c70671af741c5fcfe8ffbac6b220ed8e69e01f0e0e16c33",
+      "bytes": 7315
+    },
+    {
+      "path": "src/Tools/preproc.py",
+      "sha256": "f9b4c9c01a2cb5fdafd31369839e18a15a8cdb86158a50ab6d16daa58358204a",
+      "bytes": 15094
+    },
+    {
+      "path": "src/Tools/utils.py",
+      "sha256": "444d2acd26ebb5fc1208f733c022704b83cdfe03cb604ad6a29dfc8826ec7812",
+      "bytes": 319
+    },
+    {
+      "path": "src/Tools/__init__.py",
+      "sha256": "1006dbe3b9098c316928c495336986c4acc5444d44ce05ec56fe4014f98b82f0",
+      "bytes": 55
+    },
+    {
+      "path": "src/TrainTools/train.py",
+      "sha256": "0ec8446e4d7c15e0a557b7639d95b64ea7a6d70fd8c8fd384491575d0c54c80b",
+      "bytes": 8969
+    },
+    {
+      "path": "src/TrainTools/train_utils.py",
+      "sha256": "228df1dc72afc59383feb075c0e212cf55546b9f7dec84f5c100e9f7fe4a6688",
+      "bytes": 1878
+    },
+    {
+      "path": "src/Models/Activations/activation_function.py",
+      "sha256": "35901174aea3c92c16852520894ee2738ac4e685f3f5f3b8b101c5c0acfe34f7",
+      "bytes": 777
+    },
+    {
+      "path": "src/Models/Activations/leakeyReLU.py",
+      "sha256": "461ee8f65e7a8759d78badd4c2747838cccc1f56c6dd9da40e2521f6c5bea331",
+      "bytes": 555
+    },
+    {
+      "path": "src/Models/Activations/relu.py",
+      "sha256": "f5a9ce9760a8c8c341e937bc45841a1dbfbb73e7d3b4856b52d43ce2d3d41792",
+      "bytes": 281
+    },
+    {
+      "path": "src/Models/Activations/__init__.py",
+      "sha256": "e5a0d27de85859a7bcbb9b093d0b683c1c03324588f5b2995b5c4ff00d700803",
+      "bytes": 109
+    },
+    {
+      "path": "src/Models/Initializations/initialization.py",
+      "sha256": "e4869da0328dff60b5cbe5d9f8a0c6500ee65aaf47c23f39be793954dc9dc3ba",
+      "bytes": 854
+    },
+    {
+      "path": "src/Models/Initializations/kaiming.py",
+      "sha256": "d6a49e76a617ed24854c8fadeb3a4cd0baa067965ee472c34184fd487d903e07",
+      "bytes": 1345
+    },
+    {
+      "path": "src/Models/Initializations/xavier.py",
+      "sha256": "f45e4608fd0e4081156e74cc80dc36c856710e1b26ba0e32223ddf709140ab28",
+      "bytes": 1275
+    },
+    {
+      "path": "src/Models/Initializations/__init__.py",
+      "sha256": "621085864298d82bef58b2e72d867cd7b2d6aadc7f0dc83a832cf019c9b8dba8",
+      "bytes": 124
+    },
+    {
+      "path": "src/Models/Normalizations/groupnorm.py",
+      "sha256": "806439e9f8b79514d235d96d7bcb696981d7024420cb26caeee7abf898a7628d",
+      "bytes": 1812
+    },
+    {
+      "path": "src/Models/Normalizations/layernorm.py",
+      "sha256": "9a5001041f4fcf909a10a2fdd974e24ac748145bb453b29a3236a1b9af51d6da",
+      "bytes": 1499
+    },
+    {
+      "path": "src/Models/Normalizations/normalization.py",
+      "sha256": "c4d493ef6eb0f9f0906a4d997c524f3c39f957e5fdb8f65edbc44badf47925cc",
+      "bytes": 1280
+    },
+    {
+      "path": "src/Models/Normalizations/__init__.py",
+      "sha256": "92cdb8a252c794929b7bba7215f47d2210351970f90c77daf89c48e43931e2f1",
+      "bytes": 97
+    }
+  ],
+  "original_evidence": [
+    {
+      "archive_member": "assignment1.ipynb",
+      "sha256_original": "b3eca162827dfb61288c5d31946a6c25216bc5580269b4245d9301225404efed",
+      "bytes": 12424
+    },
+    {
+      "archive_member": "README.md",
+      "sha256_original": "40a54ae6151baf5f4a3070a312de774cd955274ae721a4b63f45b151413c8284",
+      "bytes": 1879
+    },
+    {
+      "archive_member": "requirements.txt",
+      "sha256_original": "1fc48d2119445ac28b0975c8b3f91422df5ccb23bbf352e40300bd63ab02d120",
+      "bytes": 66
+    },
+    {
+      "archive_member": "STAGE12_CODE_CHANGES_BY_MODULE.md",
+      "sha256_original": "d228b1a1a6fc3bcddb135575e7a1246b2fe71e8d40a85e2043f682eba0f19afd",
+      "bytes": 10826
+    },
+    {
+      "archive_member": "STAGE1_DEBUG_LOG.md",
+      "sha256_original": "c9428a76885d720645906597c3e1c542ae9fabde2cd629e31c51cba2c459bcfd",
+      "bytes": 33224
+    },
+    {
+      "archive_member": "STAGE2_DEBUG_LOG.md",
+      "sha256_original": "2b1f16cd7ff110cb94d3ff0070fbfa2c3ae73a90dc2e4ef8a65d12d6ce88c524",
+      "bytes": 7004
+    },
+    {
+      "archive_member": "io.py",
+      "sha256_original": "8b61e6e3a9ff417705d774eaca271ce7087695b238d17d653bc44eda9db63bed",
+      "bytes": 660
+    },
+    {
+      "archive_member": "loader.py",
+      "sha256_original": "a29de65024fee3bea7dc9e8ea9ea12291d91d6af9e8242eb394e005f3d56b4f5",
+      "bytes": 684
+    },
+    {
+      "archive_member": "squad.py",
+      "sha256_original": "533c6956672516a802d48c8fd50da78916a57883696474f009c78736a89edf9d",
+      "bytes": 2203
+    },
+    {
+      "archive_member": "__init__.py",
+      "sha256_original": "ebfc06dc55d3659f15ad8ebc47b13a5be3d77f9eb3d5508de35f8174fe12c35c",
+      "bytes": 311
+    },
+    {
+      "archive_member": "evaluate.py",
+      "sha256_original": "8a3cb0c1db675802c4d599f52088422dad8fc73bc545e082aab6c2731c1b1382",
+      "bytes": 4624
+    },
+    {
+      "archive_member": "eval_utils.py",
+      "sha256_original": "b6aca754712443c87d11f6c8b59ea846e9cf858cf98c500b439da9ec0ff4a799",
+      "bytes": 3871
+    },
+    {
+      "archive_member": "loss.py",
+      "sha256_original": "65d05d9dd0e971d09c2d1948a906d7f99eb679d23b86a5e0a909da652928a7fd",
+      "bytes": 490
+    },
+    {
+      "archive_member": "__init__.py",
+      "sha256_original": "2c79d6b8fffbbfc72738e21f73fe701227264107bfbba85647561b31c97cba7f",
+      "bytes": 75
+    },
+    {
+      "archive_member": "attention.py",
+      "sha256_original": "a5d8d4bbb2686d88b2f9b68bbf0ec451b6b978e23b9ec878134502767a47538a",
+      "bytes": 1466
+    },
+    {
+      "archive_member": "conv.py",
+      "sha256_original": "2324477f437ca2559400e99f1bc891c2f0043bd9cf9a5ba3f88723da9aec2754",
+      "bytes": 6120
+    },
+    {
+      "archive_member": "dropout.py",
+      "sha256_original": "6144b0d769fd906e3e94aa316fb27effa7b6d1a30989745ad3ce281d5d8d97e7",
+      "bytes": 532
+    },
+    {
+      "archive_member": "embedding.py",
+      "sha256_original": "965a02f09d487ff5dbfeeda5f66b36714192749854e51b5560b6dc2d7beb301e",
+      "bytes": 1961
+    },
+    {
+      "archive_member": "encoder.py",
+      "sha256_original": "b4ca59e53e69bcb4bd92d847f1b20e61bce46222ef0f36df4c1fff649fd0f166",
+      "bytes": 5286
+    },
+    {
+      "archive_member": "heads.py",
+      "sha256_original": "d38ec3c88d4091e7e695c3771f745c49b75f4c877b606157d9aa919bbaa7877b",
+      "bytes": 1007
+    },
+    {
+      "archive_member": "qanet.py",
+      "sha256_original": "6b784a85ae96810fa43e540ad09ad7eb58ffa6cee2958a84d03832ced9fef0a7",
+      "bytes": 3479
+    },
+    {
+      "archive_member": "__init__.py",
+      "sha256_original": "45f78a5d2948b5a1c834c4544aa263e3bbb7bed6d02c5b01b14b0e5dde4876b8",
+      "bytes": 46
+    },
+    {
+      "archive_member": "adam.py",
+      "sha256_original": "a8b6633fb742ead588f1041e8ca2f41edc141170d8e9c59e8827e15654e1de9e",
+      "bytes": 2615
+    },
+    {
+      "archive_member": "optimizer.py",
+      "sha256_original": "376bfa4c3e28b5d9cccbe406cf2f67468d7033365b3e7062b3869eb2ba1d947e",
+      "bytes": 1459
+    },
+    {
+      "archive_member": "sgd.py",
+      "sha256_original": "389c991fd84bd9bc14ecf1370129e79ee7d1d75c3d33ebe2c0658c730915a0a0",
+      "bytes": 1148
+    },
+    {
+      "archive_member": "sgd_momentum.py",
+      "sha256_original": "0dca7e0fa6025ed238fe2883874533d1e89e7afff435678d85c22d4ffd7424fe",
+      "bytes": 1632
+    },
+    {
+      "archive_member": "__init__.py",
+      "sha256_original": "7a667240b396002eeb9a23ca57b8622b2b96d2b5a9aa8b2665206c476e2d378f",
+      "bytes": 60
+    },
+    {
+      "archive_member": "cosine_scheduler.py",
+      "sha256_original": "1bd39c81c98b3f1b1311071241705537547797106b7e1fe47be7312278e4722e",
+      "bytes": 933
+    },
+    {
+      "archive_member": "lambda_scheduler.py",
+      "sha256_original": "9680bf5f04e10139c3d1c3c2580509d7be2f78dfe2291f1157da5ebebd43654f",
+      "bytes": 722
+    },
+    {
+      "archive_member": "scheduler.py",
+      "sha256_original": "9670f1d2fa30c21a2eec8de3f3fb842328f15c8bb50928cb5fad09292c3f9f5b",
+      "bytes": 1525
+    },
+    {
+      "archive_member": "step_scheduler.py",
+      "sha256_original": "0f8e7d87271c6dce4425f93c33882c744031bc4af5855f77bf730728570c88ab",
+      "bytes": 841
+    },
+    {
+      "archive_member": "__init__.py",
+      "sha256_original": "adbf112fcf56f2dfd5a5557a2cd4db5c5f43b187989d3ed8fb0849a42f107447",
+      "bytes": 60
+    },
+    {
+      "archive_member": "download.py",
+      "sha256_original": "94175d48fd56c0f191a9c4314a29cf86e0ea9e06024b23ff6daff029077e9b07",
+      "bytes": 7083
+    },
+    {
+      "archive_member": "preproc.py",
+      "sha256_original": "8cd545767bb794d391f1a953ef88bac66199de665ab2bbae278460b9af2bb117",
+      "bytes": 14698
+    },
+    {
+      "archive_member": "utils.py",
+      "sha256_original": "7966cab0b7fa9666c652afca9dfdff789cac6175a543379e6fc4ceb772aef2e5",
+      "bytes": 306
+    },
+    {
+      "archive_member": "__init__.py",
+      "sha256_original": "c1d8a4c65e9ebe17b3d5e3770016ecce77654bf047928561eac567a45fc6b49b",
+      "bytes": 52
+    },
+    {
+      "archive_member": "train.py",
+      "sha256_original": "32d9279627f305e88013bf0f13a9e377506703fe27e82973a27d132631f6618c",
+      "bytes": 8750
+    },
+    {
+      "archive_member": "train_utils.py",
+      "sha256_original": "63e585208c36745cf1add0d3e3aaf00a386a913036f17ba04c40b0a58ca65d49",
+      "bytes": 1821
+    },
+    {
+      "archive_member": "activation_function.py",
+      "sha256_original": "bbcd18dcdc24a70dd027f8d5cf99604d13b81f2b7967c182d6e2bb756da0843b",
+      "bytes": 747
+    },
+    {
+      "archive_member": "leakeyReLU.py",
+      "sha256_original": "2bbb412e7a26d1e931edda4ea46e27abab5040c431a860350aac379de2626ded",
+      "bytes": 536
+    },
+    {
+      "archive_member": "relu.py",
+      "sha256_original": "a0ef83d65ec5c0ff697d57cd872a74e75f8600013698b6ab87a3f5a47568b1b5",
+      "bytes": 269
+    },
+    {
+      "archive_member": "__init__.py",
+      "sha256_original": "2b86ba0bbd9c5f6c4d2e58f1ef899ea0119d2b70b5ff26faf530eb8840c5edcf",
+      "bytes": 106
+    },
+    {
+      "archive_member": "initialization.py",
+      "sha256_original": "cc367eb73dfc7814b0c1d5909fda0a2147b628d649b6fc7c7f1a71b6d06616b9",
+      "bytes": 826
+    },
+    {
+      "archive_member": "kaiming.py",
+      "sha256_original": "1a48f49320b094214b4a1d464469118fe1fb90d4e24c37067187a83ee35668c3",
+      "bytes": 1303
+    },
+    {
+      "archive_member": "xavier.py",
+      "sha256_original": "99711f5de1598945ae53cb26220f028e0cdadf778b4103c20b337b5c179367ee",
+      "bytes": 1235
+    },
+    {
+      "archive_member": "__init__.py",
+      "sha256_original": "20d787a1a19c8fb21c43268913f57cd01502584019a23bf73a8a8df08876da98",
+      "bytes": 121
+    },
+    {
+      "archive_member": "groupnorm.py",
+      "sha256_original": "a3b9e8915c13dfd2b12c80e4e4ad47652d3fe47ff67fcfb026e53660c3f0edb7",
+      "bytes": 1764
+    },
+    {
+      "archive_member": "layernorm.py",
+      "sha256_original": "10e814268889a6b865a8df95592bd8716df16a0c33e09f5a524ad66c51e3641f",
+      "bytes": 1458
+    },
+    {
+      "archive_member": "normalization.py",
+      "sha256_original": "b6bf5420686be76259d01b5112d17aaac7b061b3b91b86087f14a9be2ca6b33c",
+      "bytes": 1240
+    },
+    {
+      "archive_member": "__init__.py",
+      "sha256_original": "5a6abb9b48a0dc9c99f5f028a9d783e1f36994bf9b3090a7b2de87f37ddb8a6b",
+      "bytes": 94
+    },
+    {
+      "archive_member": "assignment1.ipynb",
+      "sha256_original": "ebb2c28c1db52bb7948f5c7b02819d0ae2cb0750a8a48832533b679287b4e13d",
+      "bytes": 65776
+    }
+  ]
+}
