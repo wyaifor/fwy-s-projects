@@ -1,0 +1,17 @@
+{
+  "title": "数据挖掘与处理实验1-2",
+  "category": "本科实验 / wake",
+  "period": "本科期间；具体年月待确认",
+  "actual_role": "课程实验参与者",
+  "verification_status": "report only",
+  "metrics": {},
+  "limits": "目前主要保存实验报告。报告内的代码片段、截图及步骤可供核验，但未找到配套完整工程时不能承诺一键复现；不将实习或企业经历混入课程实验。",
+  "public_assets": [],
+  "original_evidence": [
+    {
+      "archive_member": "数据挖掘与处理实验1-2.pdf",
+      "sha256_original": "c4ef1b4c691f8854d9b9c46321da71ded74b5e7b2b3f4f41af5b8c299f187482",
+      "bytes": 1055185
+    }
+  ]
+}
