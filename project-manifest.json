@@ -1,0 +1,17 @@
+{
+  "title": "ROS实验报告",
+  "category": "本科实验 / 虚拟机",
+  "period": "本科期间；具体年月待确认",
+  "actual_role": "课程实验参与者",
+  "verification_status": "report only",
+  "metrics": {},
+  "limits": "目前主要保存实验报告。报告内的代码片段、截图及步骤可供核验，但未找到配套完整工程时不能承诺一键复现；不将实习或企业经历混入课程实验。",
+  "public_assets": [],
+  "original_evidence": [
+    {
+      "archive_member": "ROS实验报告.docx",
+      "sha256_original": "3b2447dcc476a25abf38a8bdb8dbfde291f72400df2350e9e581fd00634574cb",
+      "bytes": 16691256
+    }
+  ]
+}
