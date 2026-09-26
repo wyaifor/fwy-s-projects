@@ -1,0 +1,17 @@
+{
+  "title": "基于查表法的智能温度计开发（proteus仿真）",
+  "category": "本科实验 / 智能感知实验",
+  "period": "本科期间；具体年月待确认",
+  "actual_role": "课程实验参与者",
+  "verification_status": "report only",
+  "metrics": {},
+  "limits": "目前主要保存实验报告。报告内的代码片段、截图及步骤可供核验，但未找到配套完整工程时不能承诺一键复现；不将实习或企业经历混入课程实验。",
+  "public_assets": [],
+  "original_evidence": [
+    {
+      "archive_member": "基于查表法的智能温度计开发（proteus仿真）.docx",
+      "sha256_original": "1cf27277c6d7ff31f420db0780e19f060a374c64c452d24503924abae96a6c3d",
+      "bytes": 3606970
+    }
+  ]
+}
