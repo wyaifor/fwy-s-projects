@@ -1,0 +1,40 @@
+{
+  "title": "水稻品种分类与8种机器学习模型比较",
+  "category": "机器学习与分类评估",
+  "period": "2026 S1",
+  "actual_role": "课程项目参与者；AI辅助实验与结果检查",
+  "verification_status": "code and saved outputs checked",
+  "metrics": {
+    "rows": 1400,
+    "features": 7,
+    "models": 8,
+    "cv_folds": 10,
+    "historical_RF_accuracy": 0.9429,
+    "historical_RF_macro_F1": 0.9414,
+    "historical_RF_weighted_F1": 0.9427
+  },
+  "limits": "原代码在划分/交叉验证前对全量数据进行填补和缩放，存在数据泄漏风险。历史指标仅用于还原课程实验；不得声称严谨独立测试性能。",
+  "public_assets": [],
+  "original_evidence": [
+    {
+      "archive_member": "ml-project-group223.ipynb",
+      "sha256_original": "060837d8d2742a43243768df648727c1f1b59d066aa2cb4ae89158d5362b84f5",
+      "bytes": 28796
+    },
+    {
+      "archive_member": "ml-project-group223.pdf",
+      "sha256_original": "5677a123a930115a3b7bce217e5d41067f9239a42ae81543c449416b595190cb",
+      "bytes": 6792492
+    },
+    {
+      "archive_member": "rice-final2.csv",
+      "sha256_original": "c544821088e6af478a0ccdf944b4b672b4dde5ba40feaa77672893e079aec6e5",
+      "bytes": 110892
+    },
+    {
+      "archive_member": "test-before.csv",
+      "sha256_original": "488db9dcc243f94d4ed45b56ad6534da7648814fc538a5c82917dd9aaf234ae3",
+      "bytes": 9286
+    }
+  ]
+}
