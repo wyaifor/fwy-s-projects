@@ -1,0 +1,17 @@
+{
+  "title": "智能系统建模与仿真实验1 微分方程的求解 实验报告(1)",
+  "category": "本科实验 / 智能系统建模与仿真",
+  "period": "本科期间；具体年月待确认",
+  "actual_role": "课程实验参与者",
+  "verification_status": "report only",
+  "metrics": {},
+  "limits": "目前主要保存实验报告。报告内的代码片段、截图及步骤可供核验，但未找到配套完整工程时不能承诺一键复现；不将实习或企业经历混入课程实验。",
+  "public_assets": [],
+  "original_evidence": [
+    {
+      "archive_member": "智能系统建模与仿真实验1_微分方程的求解_实验报告(1).pdf",
+      "sha256_original": "c93ea1f0e3f880c193ae81eb2365a351f434a3c38a4d0a947ccaeb61f2b0aaf6",
+      "bytes": 476563
+    }
+  ]
+}
