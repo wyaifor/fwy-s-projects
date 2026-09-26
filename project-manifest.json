@@ -1,0 +1,17 @@
+{
+  "title": "智能感知，了解如下实验器材及原理：温度计，电阻应变式传感器，电涡流传感器，光电传感器热敏实验，光纤传感器，",
+  "category": "本科实验 / 智能感知实验",
+  "period": "本科期间；具体年月待确认",
+  "actual_role": "课程实验参与者",
+  "verification_status": "report only",
+  "metrics": {},
+  "limits": "目前主要保存实验报告。报告内的代码片段、截图及步骤可供核验，但未找到配套完整工程时不能承诺一键复现；不将实习或企业经历混入课程实验。",
+  "public_assets": [],
+  "original_evidence": [
+    {
+      "archive_member": "智能感知，了解如下实验器材及原理：温度计，电阻应变式传感器，电涡流传感器，光电传感器热敏实验，光纤传感器，.docx",
+      "sha256_original": "d493a37a6021d544ef1b1b7cd9c6b46cb1151f3b5fdaed1558e9ae7e5ca20027",
+      "bytes": 6525986
+    }
+  ]
+}
