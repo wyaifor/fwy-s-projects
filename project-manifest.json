@@ -1,0 +1,17 @@
+{
+  "title": "模式识别实验三图像目标系统设计与实现",
+  "category": "本科实验 / 模式识别",
+  "period": "本科期间；具体年月待确认",
+  "actual_role": "课程实验参与者",
+  "verification_status": "report only",
+  "metrics": {},
+  "limits": "目前主要保存实验报告。报告内的代码片段、截图及步骤可供核验，但未找到配套完整工程时不能承诺一键复现；不将实习或企业经历混入课程实验。",
+  "public_assets": [],
+  "original_evidence": [
+    {
+      "archive_member": "模式识别实验三图像目标系统设计与实现.pdf",
+      "sha256_original": "c5bf84f720470d3631578eb1719f5598007cb4cc7436e9f7d8c187d4d748f34d",
+      "bytes": 463427
+    }
+  ]
+}
