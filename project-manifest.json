@@ -1,0 +1,17 @@
+{
+  "title": "智能系统建模与仿真实验2",
+  "category": "本科实验 / 智能系统建模与仿真",
+  "period": "本科期间；具体年月待确认",
+  "actual_role": "课程实验参与者",
+  "verification_status": "report only",
+  "metrics": {},
+  "limits": "目前主要保存实验报告。报告内的代码片段、截图及步骤可供核验，但未找到配套完整工程时不能承诺一键复现；不将实习或企业经历混入课程实验。",
+  "public_assets": [],
+  "original_evidence": [
+    {
+      "archive_member": "智能系统建模与仿真实验2-智能2102-2021010651-冯婉怡.pdf",
+      "sha256_original": "48f3c2e8e710ed7a4a5e548b2a9894ce5ff7bca0986952002620e396ef989cfe",
+      "bytes": 1822495
+    }
+  ]
+}

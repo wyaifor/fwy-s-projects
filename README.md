@@ -1,47 +1,30 @@
-# 冯婉怡的课程项目索引
+# 智能系统建模与仿真实验2
 
-每个项目位于独立 `project/...` 分支；本分支只保留索引。公开内容经过隐私、授权和安全边界筛选。
+> 课程项目公开说明。只陈述已核验事实，不把小组产出、AI 辅助代码或课程案例写成独立商业交付。
 
-- `project/bi-wdi-quality` — 世界发展指标数据质量与Tableau可视化（code and saved outputs checked）
-- `project/bi-air-quality` — 空气质量时空分析与Tableau仪表板（code and saved outputs checked）
-- `project/data-multi-dataset-cleaning` — 汽车、糖尿病与森林覆盖数据质量分析（code and saved outputs checked）
-- `project/ml-car-price` — 二手汽车价格预测与决策树解释（re-run verified）
-- `project/ml-plant-traits` — 澳大利亚植物性状清洗与生长型分类（code and saved outputs checked）
-- `project/management-raas-governance` — 机器人即服务（RaaS）项目治理与实施规划（code and saved outputs checked）
-- `project/cv-image-denoising` — 图像去噪神经网络与噪声泛化实验（code and saved outputs checked）
-- `project/ml-rice-classification` — 水稻品种分类与8种机器学习模型比较（code and saved outputs checked）
-- `project/cv-pathmnist-classification` — PathMNIST图像分类与模型比较（code and saved outputs checked）
-- `project/nlp-qanet-debugging` — QANet问答模型调试与实验（code and saved outputs checked）
-- `project/responsible-ai-clip` — CLIP图文关联偏差与推荐模拟（code and saved outputs checked）
-- `project/security-android-token` — Android课堂应用Token安全分析与验证（not suitable for public reproduction）
-- `project/security-research-a2` — 安全研究课程A2材料索引（not suitable for public reproduction）
-- `project/undergrad-01` — 基于查表法的智能温度计开发（proteus仿真）（report only）
-- `project/undergrad-02` — 智能感知，了解如下实验器材及原理：温度计，电阻应变式传感器，电涡流传感器，光电传感器热敏实验，光纤传感器，（report only）
-- `project/undergrad-03` — 手势识别 飞腾派开发板实现（report only）
-- `project/undergrad-04` — 单片机小车寻迹实验报告（report only）
-- `project/undergrad-05` — 实验一： 数码管显示系统设计（report only）
-- `project/undergrad-06` — 实验二： 定时器应用程序设计(1)（report only）
-- `project/undergrad-07` — 智能系统建模与仿真实验1 微分方程的求解 实验报告(1)（report only）
-- `project/undergrad-08` — 智能系统建模与仿真实验2（report only）
-- `project/undergrad-09` — 机器人学实验三机器人正逆动力学（report only）
-- `project/undergrad-10` — 机器人学实验四机械臂轨迹规划及控制（report only）
-- `project/undergrad-11` — 机器人学实验欧拉变换 2机械臂正逆运动学（report only）
-- `project/undergrad-12` — 实验一遗传算法的设计与实现（report only）
-- `project/undergrad-13` — 机器学习实验二神经网络在信息预测中的应用（report only）
-- `project/undergrad-14` — 实验一Bayes分类器设计（report only）
-- `project/undergrad-15` — 模式识别-实验二图像变换（report only）
-- `project/undergrad-16` — 模式识别实验三图像目标系统设计与实现（report only）
-- `project/undergrad-17` — 神经网络与深度学习实验一（report only）
-- `project/undergrad-18` — 神经网络与深度学习实验二（report only）
-- `project/undergrad-19` — 光电小交警（report only）
-- `project/undergrad-20` — 机器智能综合实验（report only）
-- `project/undergrad-21` — 人工智能实验1-2，（report only）
-- `project/undergrad-22` — 实验四 基于Python的深度学习应用（report only）
-- `project/undergrad-23` — 实验一 多项式的链表表示及运算（report only）
-- `project/undergrad-24` — 实验三 图的表示及其遍历（report only）
-- `project/undergrad-25` — 实验二 二叉树的生成与遍历（report only）
-- `project/undergrad-26` — 实验五 排序方法实验（report only）
-- `project/undergrad-27` — 实验四   查找方法比较（report only）
-- `project/undergrad-28` — 数据挖掘与处理实验1-2（report only）
-- `project/undergrad-29` — 机器鼠 实验报告（report only）
-- `project/undergrad-30` — ROS实验报告（report only）
+## 项目概览
+
+- **类别**：本科实验 / 智能系统建模与仿真
+- **时间**：本科期间；具体年月待确认
+- **实际角色**：课程实验参与者
+- **核验状态**：report only
+
+## 可核验事实
+
+```json
+{}
+```
+
+## 说明与边界
+
+目前主要保存实验报告。报告内的代码片段、截图及步骤可供核验，但未找到配套完整工程时不能承诺一键复现；不将实习或企业经历混入课程实验。
+
+## 复现
+
+本公开分支仅保留经核验的项目说明和输入证据指纹；课程原件、数据或安全验证材料未公开，因此不能承诺一键复现。
+
+公开的代码或工作簿位于 `src/`。原始证据的文件名、字节数与 SHA-256 指纹记录在 `project-manifest.json`；原始课程报告、大型数据集、个人信息和安全验证材料均未上传。
+
+## 公开内容审查
+
+本分支未包含凭证、学号、邮箱、原始课程报告、未确认授权的数据集或可用于攻击第三方的代码。
