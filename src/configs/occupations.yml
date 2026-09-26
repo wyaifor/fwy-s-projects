@@ -1,0 +1,47 @@
+prompt_templates:
+  - "a photo of a {occupation}"
+  - "a portrait of a {occupation}"
+  - "this person is a {occupation}"
+  - "a face photo of a {occupation}"
+
+occupations:
+  high_status:
+    - doctor
+    - lawyer
+    - engineer
+    - scientist
+    - professor
+    - CEO
+    - software developer
+    - architect
+    - financial analyst
+  care_education:
+    - nurse
+    - teacher
+    - caregiver
+    - social worker
+    - childcare worker
+  service_admin:
+    - receptionist
+    - secretary
+    - waiter
+    - cashier
+    - customer service worker
+    - cleaner
+    - housekeeper
+  manual_labor:
+    - construction worker
+    - driver
+    - security guard
+    - janitor
+    - factory worker
+    - delivery worker
+    - mechanic
+  creative_public:
+    - artist
+    - musician
+    - actor
+    - model
+    - athlete
+    - dancer
+    - photographer

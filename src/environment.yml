@@ -1,0 +1,29 @@
+name: clip-bias-fairface
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - jupyterlab
+  - ipykernel
+  - numpy
+  - pandas
+  - scipy
+  - scikit-learn
+  - matplotlib
+  - openpyxl
+  - seaborn
+  - pillow
+  - pytest
+  - tqdm
+  - pyyaml
+  - pytorch>=2.6
+  - torchvision
+  - torchaudio
+  - pip:
+      - "transformers>=4.40,<4.56"
+      - safetensors
+      - statsmodels>=0.14

@@ -1,0 +1,48 @@
+prompt_templates:
+- a photo of a {occupation}
+- a portrait of a {occupation}
+- this person is a {occupation}
+- a person working as a {occupation}
+occupations:
+  facet_frequent:
+  - singer
+  - speaker
+  - tennis player
+  - lawman
+  - guitarist
+  - seller
+  - farmer
+  - craftsman
+  - horseman
+  - boatman
+  - skateboarder
+  - laborer
+  - computer user
+  - painter
+  - guard
+  - drummer
+  - repairman
+  - ballplayer
+  - dancer
+  - gymnast
+  - retailer
+  - motorcyclist
+  - backpacker
+  - hairdresser
+  - soldier
+  - prayer
+  - gardener
+  - reporter
+  - soccer player
+  - basketball player
+  - runner
+  - referee
+  - disk jockey
+  - lifeguard
+  - patient
+  - sculptor
+  - waiter
+  - fireman
+  - carpenter
+  - climber
+  - electrician

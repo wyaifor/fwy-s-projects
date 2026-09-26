@@ -1,0 +1,383 @@
+{
+  "title": "CLIP图文关联偏差与推荐模拟",
+  "category": "负责任AI与多模态分析",
+  "period": "2026 S1",
+  "actual_role": "三人团队成员；分工排期、进度跟进、材料整合",
+  "verification_status": "code and saved outputs checked",
+  "metrics": {
+    "sample_images": 4200,
+    "occupation_labels": 41,
+    "prompts": 164,
+    "team_members": 3
+  },
+  "limits": "FairFace没有真实职业标签，项目测量图文关联，不是识别真实职业或招聘系统。职业推荐仅为合成模拟，不涉及真实用户。",
+  "public_assets": [
+    {
+      "path": "src/environment.yml",
+      "sha256": "9858adcc05871f6b7e612e8cf8eec520d1705a9ce2225446c3b8b438eef47209",
+      "bytes": 451
+    },
+    {
+      "path": "src/README.md",
+      "sha256": "28da9ab69e1353d9ddb74b511955f377b490bada49dcaa433c8c43a9947b2b4b",
+      "bytes": 7293
+    },
+    {
+      "path": "src/configs/occupations.yml",
+      "sha256": "adaaa2b44eb81e600877d6d445b28761deefc94a8f14214b2924008bc8199f24",
+      "bytes": 891
+    },
+    {
+      "path": "src/configs/occupations_facet_broad.yml",
+      "sha256": "e5e0f3809afd849a1c1b922b78bef2af59ef4af3e05ceec39232ad373918136f",
+      "bytes": 778
+    },
+    {
+      "path": "src/scripts/clean_facet_images.py",
+      "sha256": "c6da6757c1dbeab42ca8668c219be82d62720c404812bb4e0d1098e1fb543745",
+      "bytes": 5426
+    },
+    {
+      "path": "src/scripts/make_split_archive.py",
+      "sha256": "3eac0e7a282b868a0644f60ce923e7411899b48c8f835649ec6eb80752d680b5",
+      "bytes": 2307
+    },
+    {
+      "path": "src/tests/test_recommendation_dummy.py",
+      "sha256": "1b10541a7e6e89421a431ac842526a21bbec60760da1da2948242675f2ef7b96",
+      "bytes": 6406
+    },
+    {
+      "path": "src/src/clip_bias/config.py",
+      "sha256": "2822dcf7aafef7767fa5247765e897ca738c925548d52ac3157da96636c44f93",
+      "bytes": 1121
+    },
+    {
+      "path": "src/src/clip_bias/data.py",
+      "sha256": "7ab5e94ea72e107db5abcacc6e3812cb9eca9fd90d95dcf40b2c2d7cff343515",
+      "bytes": 3697
+    },
+    {
+      "path": "src/src/clip_bias/model.py",
+      "sha256": "9acf5ae551727848453a7fb580adaa75945a4919c10de3f70da8ca01e63e2142",
+      "bytes": 2335
+    },
+    {
+      "path": "src/src/clip_bias/realworld.py",
+      "sha256": "4b4f8fa0e9f506da8d514c34ad86a54345a20b453b1086e90fe95b2e2a8db4ab",
+      "bytes": 6358
+    },
+    {
+      "path": "src/src/clip_bias/__init__.py",
+      "sha256": "81147fa5dfdabadb4c0916d77e8037edacbc2d9b1548c85208796d60f9858552",
+      "bytes": 69
+    },
+    {
+      "path": "src/src/notebooks/01_fairface_clip_occupation_bias.ipynb",
+      "sha256": "2ed4c122eb33601dee430f8d56b00b40e5ea9347330e11a55f2192f367fb15b0",
+      "bytes": 303750
+    },
+    {
+      "path": "src/src/notebooks/03_facet_data_and_occupation_design.ipynb",
+      "sha256": "0798e1a65390ddfc4506a50bdb8b7fbdbbf2f9a966bb90573a7390bb34b8002e",
+      "bytes": 15672
+    },
+    {
+      "path": "src/src/notebooks/04_fairface_facet_broad_occupation_bias.ipynb",
+      "sha256": "6455921889948c48d83d2877f15d2a5022839ca33dec04627a10c024875288f0",
+      "bytes": 20628
+    },
+    {
+      "path": "src/src/notebooks/stage4_realworld_distribution_comparison.ipynb",
+      "sha256": "27edb5de84f6705cdcdaf4b539c7a6c64e8c387e238501f79cdda8c04b11a0e9",
+      "bytes": 104148
+    },
+    {
+      "path": "src/src/notebooks/stage5_recommendation_scenario_simulation.ipynb",
+      "sha256": "40884a1747dffd9de72ec6c40a2f31c6cf52727315fb03c898fa632a59f44e22",
+      "bytes": 117937
+    }
+  ],
+  "original_evidence": [
+    {
+      "archive_member": "environment.yml",
+      "sha256_original": "3c6ce9b4e5efb7752d068fdf7cc33d402d851a105c79be5e36111e8239fd4dfb",
+      "bytes": 422
+    },
+    {
+      "archive_member": "pyproject.toml",
+      "sha256_original": "2633ce3b4238c7a82f82fffeba8175afa5897ce1c25ab3a3e1f8fb1c0e14ef5b",
+      "bytes": 282
+    },
+    {
+      "archive_member": "README.md",
+      "sha256_original": "e904c10650981274e1e8424a482c608615534d40b4946f896b9b5dc31c0f086d",
+      "bytes": 7032
+    },
+    {
+      "archive_member": "occupations.yml",
+      "sha256_original": "4df419d49c1e9751d3d1eab23039fe5be56686446247fd921a55d955496483a4",
+      "bytes": 844
+    },
+    {
+      "archive_member": "occupations_facet_broad.yml",
+      "sha256_original": "935b30da17cb6f561a5f90e756c59598b2dfc67f1ff6d825a2604bc2b77bc2b6",
+      "bytes": 730
+    },
+    {
+      "archive_member": "occupation_realworld_mapping.csv",
+      "sha256_original": "60ada272a5c9eaa7a349a6afe6f4e3a012ce7d9aaaa7799642287fabefead739",
+      "bytes": 1258
+    },
+    {
+      "archive_member": "clean_facet_images.py",
+      "sha256_original": "8319df7564e14e257ff1ab9767828474063121601f8ca10aef7e4bcc732dba81",
+      "bytes": 5302
+    },
+    {
+      "archive_member": "make_split_archive.py",
+      "sha256_original": "a151265935776cc980a69aaf963dfb6779fc61d4cdef4f14d10f135af7ce68a7",
+      "bytes": 2245
+    },
+    {
+      "archive_member": "test_recommendation_dummy.py",
+      "sha256_original": "62496166119c23c66edd86a98229c179bc0f7ed8ee5e1b557933d799b77d1387",
+      "bytes": 6215
+    },
+    {
+      "archive_member": "analysis.py",
+      "sha256_original": "fd9c8c8838799612de64d1fa375056702dd905c5511c893d9898c337344faaaf",
+      "bytes": 4478
+    },
+    {
+      "archive_member": "config.py",
+      "sha256_original": "fedcc0ce4c48981330022bad1bb63b3c524b78c5cd691585382f4824e6795814",
+      "bytes": 1087
+    },
+    {
+      "archive_member": "data.py",
+      "sha256_original": "31e8890f1b8de407a868f30c9685eb0b5e13e27a64a05c070e92fead0754867e",
+      "bytes": 3599
+    },
+    {
+      "archive_member": "model.py",
+      "sha256_original": "6362645c56e56cf6d1105622dfca9fcbb19035bb50d07bf098c8662d62590c42",
+      "bytes": 2278
+    },
+    {
+      "archive_member": "realworld.py",
+      "sha256_original": "b98f68a144296d41b4a355e8010e109d4dda599dcb5eb68d7274e253b1902388",
+      "bytes": 6203
+    },
+    {
+      "archive_member": "recommendation.py",
+      "sha256_original": "d90a386623d0ddd80bbe61ad78422d9944e690188d6ebc59e4980de19a3c055d",
+      "bytes": 15326
+    },
+    {
+      "archive_member": "__init__.py",
+      "sha256_original": "3c144aab14dd0630d609358edee69c2f2cf322d5dca973c1b8cad60bf5e18d82",
+      "bytes": 67
+    },
+    {
+      "archive_member": "01_fairface_clip_occupation_bias.ipynb",
+      "sha256_original": "a7f95002a6443a8373548851f669c8b6c8bf4863eda8aec68fc226d48b5ccc0a",
+      "bytes": 301865
+    },
+    {
+      "archive_member": "03_facet_data_and_occupation_design.ipynb",
+      "sha256_original": "0798e1a65390ddfc4506a50bdb8b7fbdbbf2f9a966bb90573a7390bb34b8002e",
+      "bytes": 15672
+    },
+    {
+      "archive_member": "04_fairface_facet_broad_occupation_bias.ipynb",
+      "sha256_original": "6455921889948c48d83d2877f15d2a5022839ca33dec04627a10c024875288f0",
+      "bytes": 20628
+    },
+    {
+      "archive_member": "stage4_realworld_distribution_comparison.ipynb",
+      "sha256_original": "64641b0a39e5c9b2fa33de333d60e7e014074417b8051fa7b152ebc4d2d89064",
+      "bytes": 12121
+    },
+    {
+      "archive_member": "stage5_recommendation_scenario_simulation.ipynb",
+      "sha256_original": "184e743a8acb34df581a34b8517b647772858b839eda98a1f1aa60817ed68520",
+      "bytes": 13811
+    },
+    {
+      "archive_member": "image_embeddings.npy",
+      "sha256_original": "774f924a87867871a84ccae716ec5f7939794da4cf217de9cfc758a26383ba09",
+      "bytes": 8601728
+    },
+    {
+      "archive_member": "text_embeddings.npy",
+      "sha256_original": "43f4389e705f6eff1ff86e7c2981d3a86e3d7ad86ec9e82851d52f1bc753ef17",
+      "bytes": 336000
+    },
+    {
+      "archive_member": "gender_gap_by_occupation.png",
+      "sha256_original": "00e04e3119f72096dd48d134b1da8d866fc58a8dc307e1fcbaebd005e94cd209",
+      "bytes": 213389
+    },
+    {
+      "archive_member": "intersectional_group_occupation_heatmap.png",
+      "sha256_original": "c4e16ec9974cf02e4f79ddee64385e8983f8d700c8acd06af1de1b37d3602950",
+      "bytes": 408412
+    },
+    {
+      "archive_member": "intersectional_top_gaps.png",
+      "sha256_original": "1e40e1eebac3c544b9bf71873a83968aca304fdd8e18d183bfe9b8e9d5bde4aa",
+      "bytes": 163871
+    },
+    {
+      "archive_member": "race_gap_by_occupation.png",
+      "sha256_original": "6a03abb9bc56156fa0bbd2959899e5ed7cc8e1ceae24a532271eada494c89d4d",
+      "bytes": 164109
+    },
+    {
+      "archive_member": "race_occupation_heatmap.png",
+      "sha256_original": "1fa4a310207f55322a55ef51cc9f5791142e3760089d35ebcb8d42b524733c59",
+      "bytes": 319230
+    },
+    {
+      "archive_member": "top_ranked_occupations_by_group.png",
+      "sha256_original": "b1af1559cae6b1c967f2a933eaf8a7fdfec46fc1254aa223e1787e4bf7bc295d",
+      "bytes": 285887
+    },
+    {
+      "archive_member": "within_gender_race_gap_top.png",
+      "sha256_original": "c688a75aaf43a6e14af0be2d900b40fbce2a27e2593f4e6ed44f2bc843653d02",
+      "bytes": 138823
+    },
+    {
+      "archive_member": "within_race_gender_gap_heatmap.png",
+      "sha256_original": "762fd0a01de8ba21dfb62730f35b6545f853f95791aa9929c604c3c487f8a124",
+      "bytes": 206130
+    },
+    {
+      "archive_member": "gender_gap_by_occupation.csv",
+      "sha256_original": "4c86f3df668a549378a4abd7c8ccd40afb60d534780e7855e96a392a67f20caa",
+      "bytes": 3070
+    },
+    {
+      "archive_member": "gender_occupation_summary.csv",
+      "sha256_original": "d4118c0471edc3945596bf9ec1e9f401b76ec145139dccc9d8c3aa6ebe31d6f0",
+      "bytes": 4975
+    },
+    {
+      "archive_member": "group_occupation_rank_summary.csv",
+      "sha256_original": "a87c5ad4ed1975098093c80c283bfd6713392e26c1f621a8621a98c546501abe",
+      "bytes": 44812
+    },
+    {
+      "archive_member": "group_occupation_summary.csv",
+      "sha256_original": "602beb0ddc179d3f47b519e305fbb1aeb2bc6ab1438af09098e98ec7260bfc68",
+      "bytes": 51035
+    },
+    {
+      "archive_member": "intersectional_group_tests.csv",
+      "sha256_original": "8331437e3e01c29f8468477a6c013ede69081faa4d60fd4bedfe14173d3cebfc",
+      "bytes": 5913
+    },
+    {
+      "archive_member": "occupation_prompts.csv",
+      "sha256_original": "66f20accf2bda808fbe341028dfa150a1b8dcac9a2e8bd7d148ad6db63aacad5",
+      "bytes": 13316
+    },
+    {
+      "archive_member": "occupation_ranks.csv",
+      "sha256_original": "20c9b91c7538cbe95f627b6987fb573e181bbc87d587d6e4d2d637477eb23e95",
+      "bytes": 18251031
+    },
+    {
+      "archive_member": "occupation_similarity_scores.csv",
+      "sha256_original": "da973da34a367f871062233c17b76ae48747bf0f8e6cd99928c961710e86b6d2",
+      "bytes": 17427821
+    },
+    {
+      "archive_member": "race_gap_by_occupation.csv",
+      "sha256_original": "90ea672ba6be2342f0531e3cbb02a8c7948c358f7b7bc0e5651d14dc70539f3a",
+      "bytes": 2616
+    },
+    {
+      "archive_member": "race_occupation_summary.csv",
+      "sha256_original": "e29357af7d1742b48822c82c1a1f45fe038a0fc24b420b4e5a958e7dd80ff815",
+      "bytes": 18396
+    },
+    {
+      "archive_member": "sampled_fairface_labels.csv",
+      "sha256_original": "3039ba81d123206c191afc4f554f373024d5294cb147355594760694444b4f0d",
+      "bytes": 602204
+    },
+    {
+      "archive_member": "similarity_scores_prompt_level.csv",
+      "sha256_original": "4fcef1f85d1c931823d979e82896beef69c7dc6e9edaeaaefa50280d009e5c4b",
+      "bytes": 109510308
+    },
+    {
+      "archive_member": "within_gender_race_gap.csv",
+      "sha256_original": "83c0b972989598553070ed3bee548d3e3f6cdf971be87a54be07427a6a89049a",
+      "bytes": 4441
+    },
+    {
+      "archive_member": "within_race_gender_gap.csv",
+      "sha256_original": "e119230b8e324caa682d861135689ab1462426c00f87aefd4518d34fc0880fb5",
+      "bytes": 16500
+    },
+    {
+      "archive_member": "occupation_realworld_mapping_used.csv",
+      "sha256_original": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "archive_member": "recommendation_disparity_top_occupations.png",
+      "sha256_original": "30d7cbad6a21fd76dc9d4018af7bda6836bff149249aa0fb83f891ef596f6c20",
+      "bytes": 173830
+    },
+    {
+      "archive_member": "recommendation_sensitivity_top_disparities.png",
+      "sha256_original": "7d5d5b816009cfcc5e3c7301a4c572ef0c02827e7078c493b8547323aeabf960",
+      "bytes": 227698
+    },
+    {
+      "archive_member": "topk_distribution_heatmap.png",
+      "sha256_original": "82da185b0c4215708d49e92c557593fcc51ec37205b8b58b2ff78f93b0048d81",
+      "bytes": 321164
+    },
+    {
+      "archive_member": "recommendation_disparity_bootstrap_ci.csv",
+      "sha256_original": "07e9c3d06c5ceb7f823b1acb7cab9aab7f4ebde8b74ec178e8d205c4657e4e9d",
+      "bytes": 2363
+    },
+    {
+      "archive_member": "recommendation_disparity_by_occupation.csv",
+      "sha256_original": "84411c84dc3e0dd7eeafef3f3295948838efeed1a8144cae328b8a2046cf9d54",
+      "bytes": 2219
+    },
+    {
+      "archive_member": "recommendation_sensitivity_results.csv",
+      "sha256_original": "4fef6d11046a8cfb37baf6019e081fe185c770585714e67c13ebe9850a744d4e",
+      "bytes": 109490
+    },
+    {
+      "archive_member": "recommendation_sensitivity_summary.csv",
+      "sha256_original": "914c300e031402a8e4174117eb1532db7599ec5b232b0842fe2cb54ed492a969",
+      "bytes": 14132
+    },
+    {
+      "archive_member": "synthetic_user_recommendations.csv",
+      "sha256_original": "96afccca6bd652508c8bf029740bf4fa82f2cf7aea7a4e94527d507c751f8daf",
+      "bytes": 613455
+    },
+    {
+      "archive_member": "topk_occupation_distribution_by_group.csv",
+      "sha256_original": "f95afddfc4aaa0f16c61b53edc9df588edeb88294d7319149f9fae8523763597",
+      "bytes": 21259
+    },
+    {
+      "archive_member": "main.tex",
+      "sha256_original": "9db7293c1bb80fba6778a0769ec696828240362eb52348515055f27831c30c29",
+      "bytes": 22864
+    }
+  ]
+}
