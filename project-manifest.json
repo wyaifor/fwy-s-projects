@@ -1,0 +1,17 @@
+{
+  "title": "实验一 多项式的链表表示及运算",
+  "category": "本科实验 / visual studio计算机软件基础",
+  "period": "本科期间；具体年月待确认",
+  "actual_role": "课程实验参与者",
+  "verification_status": "report only",
+  "metrics": {},
+  "limits": "目前主要保存实验报告。报告内的代码片段、截图及步骤可供核验，但未找到配套完整工程时不能承诺一键复现；不将实习或企业经历混入课程实验。\n原件为旧版Word文档，保留二进制供Word/LibreOffice查看；本次未执行其宏或提取其程序。",
+  "public_assets": [],
+  "original_evidence": [
+    {
+      "archive_member": "实验一 多项式的链表表示及运算.doc",
+      "sha256_original": "72658789aab3aa00dc616fdcecad3ae415f7eb8dac242921cd725d8ee7d33cd0",
+      "bytes": 5572608
+    }
+  ]
+}
