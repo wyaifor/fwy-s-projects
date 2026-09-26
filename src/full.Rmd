@@ -1,0 +1,1151 @@
+---
+title: "5003_assignment1_W07_G07"
+output:
+  html_document:
+    code_folding: hide
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# 1.Define the Problem:
+## 1.1 The research question that our group wants to investigate is :
+Predicting the growth forms (plant_growth_form) of Australian plants based on measurable functional traits (e.g., leaf length, leaf width, plant height, seed mass).
+
+## 1.2 Describe how this is a classification problem
+My target variable is plant_growth_form, which takes a finite set of discrete categories and therefore represents a categorical label. Since there are multiple categories rather than just two, it is a multiclass setting. The input variables are measurable functional traits, such as leaf length, leaf width, plant height, and seed mass. Hence, this study is framed as a supervised multiclass classification problem.
+
+## 1.3 Why does it matter, and how does it connect to Sydney/Australia?
+This research focuses on Australian vegetation, situated within one of the world’s biodiversity hotspots. Different plant growth forms fulfill distinct ecological roles within ecosystems, and the ability to identify or predict these growth forms is of significant importance. Such knowledge contributes to biodiversity conservation, informs the management of invasive species, and supports sustainable urban greening initiatives.
+
+# 2.Describe the Data
+## 2.1 Data sources used:
+https://zenodo.org/records/15718081
+Published June 20, 2025 | Version v7.0.0
+Artical name: AusTraits: a curated plant trait database for the Australian flora
+Filename:austraits-7.0.0.zip -> traits.csv
+
+## 2.2 Describe the data
+```{r}
+library(dplyr)
+# 1. Load the original dataset (traits.csv)
+traits = read.csv("traits.csv", stringsAsFactors = FALSE)
+# 2. The `glimpse()` function from the `dplyr` package provides a quick overview of the dataset.
+traits |> glimpse()
+# 3. Individually check how many samples and variables the original dataset contains
+cat("The original dataset has", nrow(traits), "rows and", ncol(traits), "columns.\n")
+# 4.Use colnames(traits) for column names 
+traits |> colnames()
+# 5. Use head(traits) to view the first few lines and class(traits) to confirm it’s a data frame.
+head(traits)
+class(traits)
+# 6. Check the number of missing values in each column.
+for (col in colnames(traits)) {
+  missing_count <- sum(is.na(traits[[col]]))
+  if (missing_count > 0) {
+    cat(col,":", missing_count, "\n")
+  }
+}
+# 7.  Check the proportion of missing values in each column.
+for (col in colnames(traits)) {
+  missing_count <- sum(is.na(traits[[col]]))
+  missing_percent <- (missing_count / nrow(traits)) * 100
+  if (missing_count > 0) {
+    cat(col,":", round(missing_percent, 2), "%\n")
+  }
+}
+```
+```{r}
+# 8. Display the 20 traits with the highest frequencies
+trait_counts = table(traits$trait_name)
+trait_counts_sorted = sort(trait_counts, decreasing = TRUE)
+head(trait_counts_sorted, 20)
+```
+```{r}
+# 9.Among all trait names, plant_growth_form appeared with the highest frequency. Therefore, we examined this trait separately to inspect its structure, the number and types of unique values it contains, and further ranked the categories of plant_growth_form in descending order according to their frequencies.
+pgf = traits[traits$trait_name == "plant_growth_form", ]
+str(pgf)
+unique(pgf$value)
+length(unique(pgf$value))
+sort(table(pgf$value), decreasing = TRUE)
+```
+## 2.3 Identify the outcome variable
+The outcome variable is ‘plant_growth_form’, extracted from the ‘trait_name’ column.
+
+## 2.4 Challenges in the dataset:
+1.The current plant_growth_form variable contains over one hundred unique categories, but the distribution is highly imbalanced. While a few dominant categories exist, dozens of other categories occur only a handful of times. Directly using all categories in a multi-class model may lead to severe class imbalance, making it difficult for the model to learn rare categories and potentially compromising predictive performance. In ecological and vegetation studies, however, plant growth forms are typically grouped into a small number of major functional types—such as Trees, Shrubs, Herbs, Graminoids, Ferns, Climbers, Subshrubs, and Others (infrequent or miscellaneous categories)—(a reference can be added here in the final manuscript to support this classification). Therefore, prior to further analysis, rare categories should be addressed.
+
+2.Many traits are sparsely recorded across samples, which may complicate downstream analysis and require careful handling of missing values.
+
+3.The main traits dataset contains numerous columns, some of which (e.g., method, location) exhibit high missingness and are largely unrelated to the current classification task. While these columns could be integrated from related sub-datasets via ID references, they are considered non-essential for the present analysis and can be safely excluded, thereby reducing unnecessary complexity.
+
+# 3.Clean and Prepare the Data
+## 3.1 Removing space and lowering case
+```{r}
+library(tidyverse)                   
+theme_set(theme_minimal(base_size = 12))
+
+# Read the complete traits table and specify the encoding to be compatible with special characters; Turn off column type printing
+traits <- readr::read_csv("traits.csv",
+                          locale = locale(encoding = "Latin1"),
+                          show_col_types = FALSE)
+# define a function to normalize collapse space and turning lower case
+norm <- function(x) x %>%
+  stringr::str_replace_all("\\s+", " ") %>%   # collapse spaces
+  stringr::str_trim() %>%                     # remove leading and trailing space
+  stringr::str_to_lower()                     # lower case
+
+# frequency table of normalized value_type
+# list all value in value_type except Na
+traits %>%
+  dplyr::distinct(value_type) %>%
+  dplyr::filter(!is.na(value_type)) %>%
+  dplyr::arrange(value_type)
+
+
+# nomalize key colums
+traits <- traits %>%
+  mutate(
+    trait_name = norm(trait_name),            # normalize trait name
+    value_type = norm(value_type),            # normalize value
+    unit       = if_else(is.na(unit), NA, norm(unit)),   # normalize the unit
+    value      = if_else(value_type %in% c("mode","bin"),
+                         norm(value), value), # only categorical value get string clean
+    taxon_name = stringr::str_replace_all(taxon_name, "\\s+"," ") %>% stringr::str_trim()
+  ) %>%
+  distinct()                          #remove the exact same duplicate rows
+
+
+```
+## 3.2 Handle Blank and place holder to real NA
+There are many values contain blank and NA, n/a, unknown, so convert them to real NA values across all character columns so the missingness is measured correctly. For the primary key(taxon_name,trait_name) if they miss then removed
+```{r}
+# Convert blanks/placeholder tokens to real NA
+to_na_all <- function(v){
+  v <- stringr::str_trim(v)                             # trim spaces
+  v[v == ""] <- NA_character_                               # empty string → NA
+  mask <- stringr::str_detect(stringr::str_to_lower(v),"^(na|n/?a|none|unknown|not available|nan|-+)$")
+  v[mask] <- NA_character_                                # placeholders → NA
+  v}
+
+# Apply to every character column
+char_cols <- names(traits)[sapply(traits, is.character)]
+traits[char_cols] <- lapply(traits[char_cols], to_na_all)
+
+# Drop rows missing essential identifiers
+traits <- traits %>% filter(!is.na(taxon_name), !is.na(trait_name))
+
+```
+## 3.3
+the plant_growth_form contains 100 plus labels, but many of them are low frequency so map to 7 types: tree, shrub, herb, graminoid, climver,fern, subshrub, everything else->other. collapse globally rare classes(<200)to other .For each species, gather all its growth-form records. Choose the class that appears most often. Assign it only if that class covers ≥70% of the species’ records. If not, leave it unlabeled. Classes with very few species overall are merged into “other.”It is crucial for our stage 2. This is because species can have conflicting labels. the majority vote can denoise(降噪) and if we pick a randam labe treats noise as truth that affected the model evaluation
+```{r}
+# Rule-based mapping from raw growth_form strings to 7 classes
+map7 <- function(x){
+  case_when(
+    str_detect(x,"tree") & !str_detect(x,"shrub") ~ "tree",
+    str_detect(x,"subshrub|mallee")               ~ "subshrub",
+    str_detect(x,"shrub")                         ~ "shrub",
+    str_detect(x,"graminoid|grass|sedge|rush|tussock|hummock") ~ "graminoid",
+    str_detect(x,"climber")                       ~ "climber",
+    str_detect(x,"fern|lycophyte")                ~ "fern",
+    str_detect(x,"herb|herbaceous|forb") & !str_detect(x,"graminoid|grass|sedge|rush") ~ "herb",
+    TRUE ~ "other"
+  )
+}
+
+# Extract growth_form rows and apply the mapping
+gf <- traits %>%
+  filter(trait_name == "plant_growth_form") %>%
+  mutate(y0 = map7(value)) %>%
+  filter(!is.na(y0))
+
+# Species-level majority vote; require ≥70% agreement
+lab <- gf %>%
+  count(taxon_name, y0) %>%               # counts per species per class
+  group_by(taxon_name) %>%
+  mutate(p = n/sum(n)) %>%               # within-species proportions
+  slice_max(p, n = 1, with_ties = FALSE) %>%     # winning class per species
+  ungroup() %>%
+  filter(p >= 0.70)                           # stability threshold 0.7
+
+# Collapse globally rare classes to 'other' (< 200 species)
+rare <- lab %>% count(y0, name = "m") %>% filter(m < 200) %>% pull(y0)
+
+# Final label table (factor with explicit levels)
+label_df <- lab %>%
+  mutate(y = if_else(y0 %in% rare, "other", y0)) %>%
+  transmute(taxon_name,
+            y = factor(y,
+              levels = c("tree","shrub","herb","graminoid","climber","fern","subshrub","other")))
+
+```
+## 3.3 Prevent information leakage
+remove traits plant_growth_form to prevent model seeing the answer through the feature
+```{r}
+# Exclude plant_growth_form
+traits_x <- traits %>%
+  filter(!str_detect(trait_name,
+         "plant[_ ]?growth[_ ]?form"))
+```
+## 3.4 Build Numerical Traits(keep majority unit, species-level median,pivot wider)
+There are a column called value_type it tell us the statistical meaning of the value recorded for a given species-trait row.So if we want to handle numerical traits that we only keep the value_type including raw,minimum,maximum,mean,median and keep the majority unit to avoid unit mixing.Aggregate median per species × trait (robust), then pivot wider to create a species × numeric-features matrix (X_num).
+```{r}
+# --- 3.4 Numerical traits: majority unit → species-level median → pivot wider ---
+
+# Select numeric records and parse numeric values (defensively)
+num_raw <- traits_x %>%
+  # keep only numeric-like value types
+  filter(value_type %in% c("raw","maximum","minimum","mean","median")) %>%
+  # keep only rows whose value actually contains at least one digit
+  filter(stringr::str_detect(value, "\\d")) %>%
+  # parse a numeric from the string (handles commas, units attached to numbers, etc.)
+  mutate(v = readr::parse_number(value)) %>%
+  # drop any rows that still failed to parse
+  filter(!is.na(v))
+
+# Majority unit per trait (most frequent unit → prevents unit mixing)
+major_unit <- num_raw %>%
+  count(trait_name, unit, sort = TRUE) %>%    # counts by trait × unit
+  group_by(trait_name) %>%
+  slice_max(n, n = 1, with_ties = FALSE) %>%  # pick majority unit per trait
+  ungroup()
+
+# Keep only rows whose unit matches the majority unit (or unit is missing)
+num_keep <- num_raw %>%
+  left_join(major_unit, by = "trait_name") %>%    # add majority unit info
+  filter(is.na(unit.y) | unit.x == unit.y)   # enforce unit consistency
+#  after the join, unit.x is the row's unit, unit.y is the majority unit
+
+# Aggregate median per species × trait (robust), then pivot to a wide matrix
+X_num <- num_keep %>%
+  group_by(taxon_name, trait_name) %>%
+  summarise(val = median(v, na.rm = TRUE), .groups = "drop") %>%  # one robust number per species×trait
+  mutate(trait_name = make.names(trait_name)) %>%   # sanitize column names
+  pivot_wider(
+    names_from  = trait_name,           # trait names become columns
+    values_from = val,                  # median values fill the cells
+    values_fill = NA_real_                # missing become NA
+  )
+
+```
+## 3.5 Build Categorical Traits()
+In this part, we want to keep categorical rows only so we retain records whose value_type is categorical(e.g mode and bin) these rows are labels instead of numbers so they belong to the categorical branch. Compute the species×trait mode(most frequent label) as the representative level.Then we control the cardinality with Top-K+ other.For each trait,we only keep the TOP-K most frequent levels(k=5) and merge the rest into other.This can prevent high cardinality trait from exploding into thousands of ultra sparse dummy column and it wastes memory and might overfitting. we create features trait_level(e.g leaf_shape_elliptic), let them 1 when a species mode equals that level and 0 otherwise and then pivot_wider() and then trait)_name becomes columns and yielding X_cat(species × categorical features).
+```{r}
+#mode function (majority level)
+mode1 <- function(x) names(sort(table(x), decreasing = TRUE))[1]
+
+# Select categorical records and normalize the value
+cat_raw <- traits_x %>%
+  filter(value_type %in% c("mode","bin")) %>%                          
+  mutate(v = norm(value)) %>%                                          
+  filter(!is.na(v))
+
+# Aggregate to species×trait mode
+cat_sp <- cat_raw %>%
+  group_by(taxon_name, trait_name) %>%
+  summarise(lbl = mode1(v), .groups = "drop")
+
+# Keep Top-K levels for each trait to control sparsity; others → 'other'
+K <- 5
+top_levels <- cat_sp %>%
+  count(trait_name, lbl, sort = TRUE) %>%   # counts per trait×level
+  group_by(trait_name) %>% slice_head(n = K) %>% ungroup()
+
+# Build one-hot features 'trait__level' and pivot to wide
+X_cat <- cat_sp %>%
+  left_join(top_levels, by = c("trait_name","lbl")) %>%
+  mutate(lbl2 = if_else(is.na(n), "other", lbl),                       
+         feat = paste0(make.names(trait_name), "__", make.names(lbl2)),      # column name: trait__level
+         val  = 1L) %>%
+  select(taxon_name, feat, val) %>% distinct() %>%
+  pivot_wider(names_from = feat, values_from = val, values_fill = 0L)
+```
+## 3.6 Join, Prune,Impute
+join labels with numeric and categorical wide table to form XY(one row per species and one column per feature) and then dropping features with greater than 50% missing. Impute numeric columns with medians fill NA in numeric predictors.One-hot categorical columns are already 0/1 and need no imputation.
+```{r}
+#Join, prune (only high-missing), and impute(NO near-constant removal)
+#Join label + numeric-wide + categorical-wide → final modeling matrix
+XY <- label_df %>%
+  inner_join(X_num, by = "taxon_name") %>%   # numeric features
+  left_join(X_cat,  by = "taxon_name")       # categorical features
+
+# Drop features with >50% missingness (keep keys/label)
+drop_na50 <- names(XY)[ sapply(XY, function(z) mean(is.na(z)) > 0.5) ]
+XY <- XY %>% select(-any_of(setdiff(drop_na50, c("taxon_name","y"))))
+
+# Median imputation for numeric predictors (one-hots are already 0/1)
+num_cols <- names(XY)[sapply(XY, is.numeric)]
+for(nm in setdiff(num_cols, "taxon_name")){
+  med <- median(XY[[nm]], na.rm = TRUE)
+  XY[[nm]][is.na(XY[[nm]])] <- med
+}
+
+# Quick check
+cat("ready for modeling:", nrow(XY), "species ×", ncol(XY) - 2, "features\n")
+
+
+```
+```{r}
+View(XY)    #view the table after processing
+# 保存 XY 数据到当前工作目录（代码所在位置）
+write.csv(XY, "XY.csv", row.names = FALSE)
+
+```
+
+
+# 4.Explore and Visualize
+## 4.1 Missing value
+In Part 3, we have already inspected and conducted basic processing on the missing values. To make the data features more intuitive, we further present the proportion and distribution of the missing values through visualization here. This systematic examination helps us assess the completeness and validity of the data
+
+We use colSums() and colMeans() to calculate missingness, and barplot for visualization.  
+```{r}
+# check missing values per column
+na_count <- colSums(is.na(XY))
+na_percent <- colMeans(is.na(XY))*100
+
+# barplot
+barplot(na_percent,
+        main="Missing value percentage by column",
+        ylab="Percent (%)",
+        las=2, cex.names=0.7)
+```
+
+## 4.2 Outliers
+Use the boxplot to visually identify outliers. The boxplot can simultaneously display the median, quartiles and extreme points.
+```{r}
+# pick the first 6 numeric columns from XY
+num_cols <- names(XY)[sapply(XY, is.numeric)]
+sel_cols <- num_cols[1:6]
+
+# set plotting area: 2 rows x 3 columns
+par(mfrow = c(2, 3))
+
+# draw a boxplot for each selected column
+for (nm in sel_cols){
+  boxplot(XY[[nm]], 
+          main = paste("Boxplot of", nm),  # plot title
+          ylab = nm)                       # y-axis label
+}
+
+# reset layout back to default (1 plot per window)
+par(mfrow = c(1, 1))
+
+```
+
+## 4.3 Distribution of variables
+What is the distribution shape of the numerical variable? Is there any skewness or multimodality?
+
+Use histogram and density plot. Histograms are suitable for showing the overall distribution and central tendency. Density plot can smooth out curves and make skewness more intuitively visible.
+```{r}
+# pick the first 6 numeric columns
+num_cols <- names(XY)[sapply(XY, is.numeric)]
+sel_cols <- num_cols[1:6]
+
+# loop through selected columns
+for (nm in sel_cols){
+  x <- XY[[nm]]
+  x <- x[!is.na(x)]   # remove NA values
+  
+  if (length(x) > 0){
+    # set plotting area: 1 row x 2 columns
+    par(mfrow = c(1, 2), mar = c(4, 4, 2, 1))
+    
+    # raw scale histogram
+    hist(x, breaks=50, col="skyblue", border="white",
+         main=paste("Histogram of", nm),
+         xlab=nm)
+    
+    # log10 histogram (positive values only)
+    x2 <- log10(x[x>0])
+    hist(x2, breaks=50, col="lightgreen", border="white",
+         main=paste("log10 Histogram of", nm),
+         xlab=paste("log10", nm))
+    
+    # reset after each pair (not strictly necessary, but cleaner)
+    par(mfrow = c(1, 1))
+  }
+}
+```
+
+## 4.4 Distribution of target variable
+Is the category distribution of the target variable (growth form) balanced?
+
+Use a barplot to display the sample size of each category. Class imbalance can affect the performance of classification models.
+```{r}
+tab <- sort(table(XY$y), decreasing=TRUE)
+
+barplot(tab, las=2, col="orange",
+        main="Distribution of growth forms",
+        ylab="count")
+```
+  
+It is clear that the dataset is highly imbalanced. Two classes, shrub and herb, dominate the dataset, with shrub having over 10,000 samples and herb around 7,500. In contrast, other classes such as graminoid, tree, climber, subshrub, fern, and others have far fewer samples, and some are extremely rare.
+
+## 4.5 Trait distributions across growth forms（boxplot）
+
+```{r}
+# choose several numeric traits to compare
+sel_traits <- c("leaf_length", "leaf_width", "plant_height")
+
+for (trait in sel_traits) {
+  # safely extract and log10-transform (only positive values)
+  vals <- XY[[trait]]
+  vals[vals <= 0] <- NA   # log10 can't handle zero or negative
+  XY$log_val <- log10(vals)
+  
+  # plot
+  boxplot(log_val ~ y, data = XY,
+          main = paste("log10", trait, "by growth form"),
+          xlab = "Growth form",
+          ylab = paste("log10", trait),
+          xaxt = "n", col = "lightgreen")
+  
+  # Rotate the x-axis labels by 45 degrees to prevent text overlap and improve visual clarity.
+  labs <- levels(XY$y)
+  axis(1, at = 1:length(labs), labels = FALSE)
+  text(x = 1:length(labs), 
+       y = par("usr")[3] - 0.1, 
+       labels = labs, 
+       srt = 45, adj = 1, xpd = TRUE)
+}
+```
+  
+In the boxplot (leaf_length by growth form): trees and climbers tend to have longer leaves on average, while subshrubs and shrubs generally have shorter leaves. Herbs and graminoids show wide variation, with many species having intermediate leaf lengths but also a few with very long leaves.
+
+In the boxplot (leaf_width by growth form): trees and climbers have wider leaves compared to most other groups, with their medians clearly above those of shrubs, herbs, and graminoids. Shrubs and herbs show relatively narrow leaves on average, although both categories include a large number of outliers, indicating considerable variability within these groups. Ferns also display moderate values but with a fairly wide spread, while the "other" category remains small and less representative.
+
+In the boxplot (plant_height by growth form): trees stand out with the greatest median plant height and the largest overall values, reflecting their tall growth habit. Climbers also show relatively high values, though with a wider spread that includes many shorter species. In contrast, shrubs, herbs, and graminoids generally have much smaller heights, with medians below those of trees and climbers.
+
+## 4.6 PCA visualisation
+In high-dimensional space, the relationships among features are complex. Can the differences in categories be discerned in a low-dimensional space?
+
+Use Principal Component Analysis (PCA) to reduce the data dimension to 2D and display it with a scatter plot.
+```{r}
+# keep only numeric predictors and drop the target column y
+num_cols <- names(XY)[sapply(XY, is.numeric)]
+num_cols <- setdiff(num_cols, "y")
+X <- XY[, num_cols, drop = FALSE]
+
+# drop columns that are all NA or have < 2 non-NA values (cannot compute sd)
+keep_non_na <- colSums(!is.na(X)) >= 2
+X <- X[, keep_non_na, drop = FALSE]
+
+# drop zero-variance columns (sd == 0 after removing NA)
+sdx <- apply(X, 2, function(z) sd(z, na.rm = TRUE))
+keep_var <- !is.na(sdx) & sdx > 0
+X <- X[, keep_var, drop = FALSE]
+
+# drop near-constant binary one-hots (e.g., prevalence <0.5% or >99.5%)
+is_binary <- sapply(X, function(z) all(z %in% c(0, 1), na.rm = TRUE))
+if (any(is_binary)) {
+  m <- colMeans(X[, is_binary, drop = FALSE], na.rm = TRUE)
+  keep_bin <- m > 0.005 & m < 0.995
+  X <- cbind(
+    X[, !is_binary, drop = FALSE],
+    X[, is_binary, drop = FALSE][, keep_bin, drop = FALSE]
+  )
+}
+
+# drop rows with any remaining NA across kept columns and align y accordingly
+row_keep <- complete.cases(X)
+X <- X[row_keep, , drop = FALSE]
+y_vec <- XY$y[row_keep]
+
+# safety checks: need at least 2 rows and 2 columns for PCA
+if (nrow(X) < 2 || ncol(X) < 2) {
+  stop(sprintf("Not enough data for PCA after filtering: rows=%d, cols=%d", nrow(X), ncol(X)))
+}
+
+# PCA (center & scale)
+p <- prcomp(X, center = TRUE, scale. = TRUE)
+
+# prepare data for plotting
+df <- data.frame(PC1 = p$x[, 1], PC2 = p$x[, 2], y = y_vec)
+
+# plot
+cols <- as.factor(df$y)
+plot(df$PC1, df$PC2,
+     col = as.integer(cols), pch = 19,
+     xlab = "PC1", ylab = "PC2",
+     main = "PCA by target class (y)")
+legend("topright", legend = levels(cols),
+       col = 1:length(levels(cols)), pch = 19, cex = 0.6)
+
+```
+  
+From the PCA plot, we can observe that points representing different growth forms (tree, shrub, herb, graminoid, climber, fern, subshrub, and others) show considerable overlap in the PC1–PC2 space. Although some small local groupings exist, there is no strong global separation between major classes. This suggests that the top two principal components capture part of the variance but are not sufficient to fully distinguish the classes.  
+
+However, this result does not necessarily imply that classification is infeasible. PCA is an unsupervised dimensionality reduction method that focuses on maximizing overall variance rather than optimizing separation between predefined classes. Therefore, while the first two PCs provide a useful visualization of the data structure, more advanced feature extraction and supervised modeling approaches may still uncover meaningful class distinctions.
+
+# 5.Modelling Plan
+## 5.1 Models plan to use
+In the next stage, we plan to implement five classification models:
+Logistic Regression: This will serve as the baseline model for comparison with more complex approaches. Its strong interpretability allows for an initial examination of which features are most discriminative.
+
+Decision Tree: This model can capture non-linear relationships while maintaining good interpretability, which helps in understanding how features contribute to the splitting points among growth forms.
+
+Random Forest: In addition to improving classification performance, it provides measures of feature importance, offering valuable support for subsequent analyses.
+
+Support Vector Machine (SVM): Since the PCA visualization revealed partial overlaps among different growth forms, the kernel functions of SVM are useful for capturing more complex decision boundaries.
+
+k-Nearest Neighbors (kNN): As a simple and intuitive classifier, it enables straightforward comparison of classification performance in lower-dimensional spaces.
+
+## 5.2 How to evaluate classification model
+To evaluate the models, we will first split the dataset into training and testing sets. Within the training set, we will tune parameters in order to select the most suitable model. Model performance will then be assessed using accuracy, precision, recall, and F1-score. Both macro- and weighted-averaged metrics will be reported to account for class imbalance. In addition, confusion matrices will be used to provide further insight into misclassifications across different growth forms.
+
+## 5.3 Decision Tree Modelling and Interpretation
+### Step 0. Environment Setup
+Before training and evaluating the decision tree model,  
+the computing environment needs to be prepared by loading the required R packages and setting a random seed for reproducibility.
+```{r}
+# Step 0: Setup
+
+library(data.table)   # fast data reading/writing
+library(dplyr)        # data wrangling
+library(tidyr)        # reshape data (long ↔ wide)
+library(stringr)      # string operations
+library(forcats)      # factor utilities
+library(rpart)        # decision tree
+library(rpart.plot)   # tree visualization
+library(yardstick)    # evaluation metrics
+library(ggplot2)      # plotting
+library(caret)        # confusion matrix
+library(tibble)       # tidy data frames
+
+set.seed(2025)        # set random seed for reproducibility
+
+```
+### Step 1. Load Cleaned Dataset (XY)
+**Goal of this step**
+
+Load the cleaned dataset from XY.csv.
+Confirm that it is already in wide format (each row = one species, each column = one trait or derived feature).
+
+Identify:
+- y as the target class label (plant growth form category).
+- numeric trait columns as predictors.
+- Remove unusable columns (all NA, zero variance, near-constant dummy columns, etc.).
+- Remove rows with missing values so that the decision tree can train without errors.
+- Save the final modelling dataframe (model_df) for the next steps.
+
+**The decision tree (rpart) expects**
+
+a factor outcome (classification labels),
+
+clean numeric predictors without missing values.
+
+If we don't clean first, the model can fail or overfit badly.
+
+This step also confirms the class imbalance in y, which is important for later evaluation (we will not only report Accuracy, but also Precision, Recall, Macro-F1, and later we will also compute uncertainty / confidence intervals by resampling).
+
+**What you should see after running the code**
+
+Printed shape of the original XY.csv.
+
+Printed class distribution of y.
+
+Printed shape of the final model_df.
+
+A preview of model_df.
+
+A file called model_df_clean.RData saved to disk.
+
+```{r}
+### Step 1: Load XY from CSV and prepare modelling dataframe
+### After this step you will have:
+###   - model_df : cleaned features + factor outcome y
+###   - model_df_clean.RData saved to disk
+
+library(dplyr)
+
+set.seed(2025)  # ensure reproducibility later
+
+#### 0) Read the dataset from CSV ####
+# Assumes XY.csv is in the current working directory.
+# If it's somewhere else, setwd("that/folder") before running this.
+
+cat("Reading XY.csv ...\n")
+XY <- read.csv("XY.csv", stringsAsFactors = FALSE)
+
+cat("XY loaded.\n\n")
+
+#### 1) Basic sanity checks on XY ####
+cat("Original XY shape:\n")
+cat("Rows:", nrow(XY), "  Columns:", ncol(XY), "\n\n")
+
+# Show first 10 column names so we understand what's inside
+cat("First 10 column names in XY:\n")
+print(names(XY)[1:min(10, ncol(XY))])
+cat("\n")
+
+# Check that we have a target column 'y'
+if (!("y" %in% names(XY))) {
+  stop("FATAL: Could not find target column 'y' in XY. Please confirm the correct name of the class label.")
+}
+
+# Convert y to factor (classification target)
+if (!is.factor(XY$y)) {
+  XY$y <- as.factor(XY$y)
+}
+
+cat("Target class distribution in XY$y:\n")
+print(table(XY$y))
+cat("\nNumber of classes:", length(levels(XY$y)), "\n\n")
+
+# Optional peek at the class labels
+cat("Levels of y:\n")
+print(levels(XY$y))
+cat("\n")
+
+
+#### 2) Identify numeric predictor columns ####
+# We will keep only numeric columns as predictors.
+# We will drop:
+#   - y (the target)
+#   - obvious ID-type columns if they exist (e.g. 'taxon_name').
+# Note: If 'taxon_name' is character, it's dropped automatically when we select numeric cols.
+
+numeric_cols_all <- names(XY)[sapply(XY, is.numeric)]
+
+# make sure the target isn't treated as a predictor
+numeric_cols_all <- setdiff(numeric_cols_all, "y")
+
+# also exclude any ID column that slipped in as numeric (rare, but safe to include)
+numeric_cols_all <- setdiff(numeric_cols_all, "taxon_name")
+
+cat("Total numeric candidate predictors before cleaning:", length(numeric_cols_all), "\n\n")
+
+# Build initial feature matrix X from these numeric columns
+X <- XY[, numeric_cols_all, drop = FALSE]
+
+cat("Initial X shape (before filtering):\n")
+cat("Rows:", nrow(X), "  Cols:", ncol(X), "\n\n")
+
+
+#### 3) Remove columns that are all NA or almost empty ####
+# Keep columns that have at least 2 non-NA values.
+keep_non_na <- colSums(!is.na(X)) >= 2
+X <- X[, keep_non_na, drop = FALSE]
+
+cat("After removing all-NA / nearly-empty columns:\n")
+cat("Rows:", nrow(X), "  Cols:", ncol(X), "\n\n")
+
+
+#### 4) Remove zero-variance columns ####
+# If a column has standard deviation 0 (constant), it does not help splits.
+sd_per_col <- apply(X, 2, function(z) sd(z, na.rm = TRUE))
+keep_var <- !is.na(sd_per_col) & sd_per_col > 0
+X <- X[, keep_var, drop = FALSE]
+
+cat("After removing zero-variance columns:\n")
+cat("Rows:", nrow(X), "  Cols:", ncol(X), "\n\n")
+
+
+#### 5) Remove "almost always 0 or 1" binary columns ####
+# Some columns might be one-hot encoded binary flags (0/1). If they are extremely rare
+# (like 0.1% = 1 and 99.9% = 0), they carry almost no useful split info and just add noise.
+is_binary_col <- sapply(X, function(z) all(z %in% c(0,1), na.rm = TRUE))
+
+if (any(is_binary_col)) {
+  prevalence <- colMeans(X[, is_binary_col, drop = FALSE], na.rm = TRUE)
+  # keep only binary columns that aren't extremely imbalanced
+  keep_bin <- prevalence > 0.005 & prevalence < 0.995
+  
+  X <- cbind(
+    X[, !is_binary_col, drop = FALSE],
+    X[, is_binary_col, drop = FALSE][, keep_bin, drop = FALSE]
+  )
+  
+  cat("After dropping extreme-imbalance binary columns:\n")
+  cat("Rows:", nrow(X), "  Cols:", ncol(X), "\n\n")
+} else {
+  cat("No binary 0/1-only columns detected. Skipping binary filter.\n\n")
+}
+
+
+#### 6) Remove rows with any missing values in X ####
+# rpart (decision tree) will complain if predictors have NA at fit time.
+row_keep <- complete.cases(X)
+X_clean <- X[row_keep, , drop = FALSE]
+y_clean <- XY$y[row_keep]
+
+cat("After dropping rows with missing values:\n")
+cat("Rows:", nrow(X_clean), "  Cols:", ncol(X_clean), "\n\n")
+
+# Sanity check: ensure we still have enough data
+if (nrow(X_clean) < 2 || ncol(X_clean) < 2) {
+  stop(sprintf("Not enough usable data after cleaning: rows=%d, cols=%d",
+               nrow(X_clean), ncol(X_clean)))
+}
+
+
+#### 7) Build final modelling dataframe ####
+# We'll use this single data frame (model_df) in all later steps.
+model_df <- data.frame(X_clean)
+model_df$y <- droplevels(y_clean)
+
+cat("Final modelling dataset (model_df) shape:\n")
+cat("Rows:", nrow(model_df), "  Cols:", ncol(model_df), "\n\n")
+
+cat("Final target distribution in model_df$y:\n")
+print(table(model_df$y))
+cat("\n")
+
+cat("Preview of model_df (first few columns + y):\n")
+print(head(model_df[, c(1:min(5, ncol(model_df)-1), ncol(model_df)) ]))
+cat("\n")
+
+
+#### 8) Save cleaned dataframe for later steps ####
+save(model_df, file = "model_df_clean.RData")
+cat("✅ Saved cleaned modelling dataset to 'model_df_clean.RData'\n")
+
+
+```
+XY is fully loaded and clean.
+
+The target variable is y, with 8 growth-form categories.
+
+There are 654 numeric features ready for training.
+
+The dataset shows severe class imbalance, which we’ll handle later when evaluating the decision-tree model.
+
+  
+### Step 2. Target Variable and Feature Check (Post-EDA Verification)
+
+> **Note:** 
+> The detailed exploratory data analysis (EDA) was performed previously.
+> This step only provides a brief verification to ensure that the cleaned, wide-format modelling dataset
+> (after trait aggregation, encoding, and filtering) is still consistent and ready for model training. 
+
+**Explanation：**
+
+- **Purpose：**  
+  Validate that the modelling dataset is usable for classification:
+  the response variable y is present and correctly formatted as a factor,
+  predictors are numeric and contain no missing values,
+  class imbalance is understood before training.
+
+- **Key outputs：**  
+  - A summary table of class counts in y.
+  
+  - A bar chart showing class imbalance. 
+
+  - Summary statistics (Min, Median, Mean, Max) for main numeric traits.  
+  
+
+- **Interpretation：**  
+  If the class distribution in y is highly imbalanced,then simple Accuracy is not sufficient to evaluate performance.This motivates the use of additional metrics such as Precision, Recall, Macro-F1, and later, confidence intervals / resampling-based stability checks.
+
+```{r}
+### Step 2: Target & Feature Verification (engineered modelling dataset)
+
+library(dplyr)
+library(ggplot2)
+library(forcats)
+
+# 0) Load the cleaned modelling dataset from Step 1
+#    This file was created in Step 1 and contains:
+#    - model_df: rows = species, columns = numeric features + 'y' (factor label)
+load("model_df_clean.RData")
+
+# 1) Quick structural check
+cat("Structure of model_df:\n")
+str(model_df)
+
+cat("\nDimensions of model_df:\n")
+cat("Rows:", nrow(model_df), "  Columns:", ncol(model_df), "\n\n")
+
+# 2) Summarize the target variable 'y'
+#    We count how many observations fall in each growth-form class.
+target_summary <- model_df %>%
+  count(y) %>%
+  arrange(desc(n)) %>%
+  mutate(percentage = round(100 * n / sum(n), 2))
+
+cat("Target class distribution:\n")
+print(target_summary)
+
+# 3) Visualize class imbalance in 'y'
+#    This is important for interpretation later, since imbalance affects metrics.
+ggplot(target_summary,
+       aes(x = fct_reorder(y, n), y = n)) +
+  geom_col(fill = "lightblue") +
+  coord_flip() +
+  labs(
+    title = "Class Distribution of y",
+    x = "Growth Form Class (y)",
+    y = "Count"
+  )
+
+# 4) Numeric feature summary
+#    There are hundreds of numeric predictors. For reporting purposes,
+#    we show summary statistics (min/median/mean/max) for a small subset
+#    of the first few numeric columns.
+#
+#    NOTE: We exclude the last column 'y' because it's the label, not a predictor.
+
+predictor_cols <- setdiff(names(model_df), "y")
+example_cols <- predictor_cols[1:min(5, length(predictor_cols))]
+
+cat("\nSummary of example numeric predictors:\n")
+print(summary(model_df[, example_cols]))
+
+# (Optional) If you want to visually inspect ranges of these features:
+# pairs(model_df[, c(example_cols, "y")])
+# But pairs() may be slow with 24k rows, so we don't plot it by default.
+
+```
+**Figure Distribution of Growth Form**  
+
+The bar chart shows the number of species belonging to each growth-form category after the long-to-wide data transformation.  
+The dataset is **highly imbalanced** — most samples belong to *shrub*, *herb*, *graminoid* and *tree*
+while *fern*, *subshrub*, *climber* and *other* categories are relatively rare.  
+
+The target variable y is correctly recognized as a categorical factor with eight growth-form levels.
+
+The feature columns are all numeric and ready for modelling.
+
+The class imbalance has been identified and will be considered in model evaluation and interpretation
+
+### Step 3 Train/Test Split and Model Training (10-fold CV tuning)
+
+Divide the cleaned dataset (model_df) into training (70 %) and testing (30 %) sets using stratified sampling on y.
+Perform 10-fold cross-validation (CV) on the training set to tune three key hyperparameters of the decision tree:
+
+- cp – Complexity Parameter (pruning penalty), controls overfitting (by pruning smaller branches).
+
+- maxdepth – Maximum Tree Depth, limits tree complexity.
+
+- minsplit – Minimum samples required to attempt a split, prevents splitting nodes with very few samples.
+
+Evaluate CV performance (Accuracy and Macro-F1 on training folds).
+Save the tuned model and the train/test split for later evaluation.
+
+```{r}
+### STEP 3: Train/Test split + 10-fold CV with 3-parameter tuning
+### Clean full version
+
+library(caret)
+library(rpart)
+library(rpart.plot)
+library(MLmetrics)   # needed for multiClassSummary
+
+set.seed(2025)
+
+# 1) Load cleaned modelling data from Step 1
+load("model_df_clean.RData")   # creates model_df in memory
+
+# model_df: rows = species, columns = predictors + y (factor)
+cat("Loaded model_df with", nrow(model_df), "rows and", ncol(model_df), "columns.\n")
+
+
+# 2) Stratified 70/30 split on y
+train_index <- createDataPartition(model_df$y, p = 0.7, list = FALSE)
+
+train <- model_df[train_index, ]
+test  <- model_df[-train_index, ]
+
+cat("Train size:", nrow(train), "\n")
+cat("Test size :", nrow(test),  "\n\n")
+
+cat("Train class proportions:\n")
+print(round(prop.table(table(train$y)), 3))
+cat("\nTest class proportions:\n")
+print(round(prop.table(table(test$y)), 3))
+cat("\n")
+
+save(train, test, file = "train_test_split.RData")
+cat("✅ Saved train/test split to train_test_split.RData\n\n")
+
+
+# 3) CV control (10-fold CV)
+#    multiClassSummary gives Accuracy, Kappa, MacroF1, etc.
+ctrl <- trainControl(
+  method = "cv",
+  number = 10,
+  classProbs = TRUE,
+  summaryFunction = multiClassSummary,
+  allowParallel = FALSE  # keep it single-threaded to avoid worker mismatch
+)
+
+# 4) Hyperparameter grid
+#    (you can shrink this grid to run faster if you want)
+grid <- expand.grid(
+  cp       = seq(0.001, 0.05, by = 0.01),
+  maxdepth = c(3, 5, 7, 9),
+  minsplit = c(5, 10, 20, 30)
+)
+
+cat("Total combinations in grid:", nrow(grid), "\n\n")
+
+# 5) Custom rpart model with cp + maxdepth + minsplit tuning
+#    IMPORTANT: predict() and prob() both coerce newdata to data.frame
+rpart_custom <- list(
+  label = "rpart (cp, maxdepth, minsplit)",
+  library = "rpart",
+  type = c("Classification"),
+
+  parameters = data.frame(
+    parameter = c("cp", "maxdepth", "minsplit"),
+    class     = rep("numeric", 3),
+    label     = c("Complexity Parameter", "Maximum Tree Depth", "Minimum Split Size")
+  ),
+
+  grid = function(x, y, len = NULL, search = "grid") {
+    expand.grid(
+      cp       = seq(0.001, 0.05, by = 0.01),
+      maxdepth = c(3, 5, 7, 9),
+      minsplit = c(5, 10, 20, 30)
+    )
+  },
+
+  fit = function(x, y, wts, param, lev, last, classProbs, ...) {
+    # caret passes x as predictors (may be matrix or df), y as outcome
+    dat <- as.data.frame(x)
+    dat$.outcome <- y
+
+    rpart::rpart(
+      .outcome ~ .,
+      data = dat,
+      method = "class",
+      control = rpart.control(
+        cp       = param$cp,
+        maxdepth = param$maxdepth,
+        minsplit = param$minsplit
+      ),
+      ...
+    )
+  },
+
+  predict = function(modelFit, newdata, submodels = NULL) {
+    newdata <- as.data.frame(newdata)    # <-- CRITICAL FIX
+    predict(modelFit, newdata, type = "class")
+  },
+
+  prob = function(modelFit, newdata, submodels = NULL) {
+    newdata <- as.data.frame(newdata)    # <-- CRITICAL FIX
+    as.data.frame(predict(modelFit, newdata, type = "prob"))
+  },
+
+  levels = function(x) x$ylevels,
+
+  sort = function(x) x[order(x$cp),]
+)
+
+# 6) Train with caret::train()
+cat("Training decision tree with 10-fold CV tuning...\n")
+
+dt_tuned <- train(
+  y ~ .,
+  data = train,
+  method = rpart_custom,
+  trControl = ctrl,
+  tuneGrid = grid,
+  metric = "Accuracy"  # caret will also compute F1 etc. via multiClassSummary
+)
+
+cat("✅ Finished CV tuning.\n\n")
+
+print(dt_tuned)
+cat("\nBest tuned parameters:\n")
+print(dt_tuned$bestTune)
+
+plot(dt_tuned, main = "CV Accuracy by (cp, maxdepth, minsplit)")
+
+save(dt_tuned, file = "dt_tuned.RData")
+cat("✅ Saved tuned model to dt_tuned.RData\n")
+```
+**Summary of Step 3 Results**
+
+The 10-fold cross-validation tuning results in Figure 5.3 show that model performance is mainly driven by the complexity parameter (cp) rather than by maxdepth or minsplit.
+Across all four panels, the accuracy curves follow the same pattern — accuracy decreases sharply as cp increases, indicating that stronger pruning (larger cp) leads to underfitting, while smaller cp values yield better performance.
+
+The effect of minsplit is minimal because the dataset is large (over 24 000 samples), meaning most nodes already satisfy the minimum split size even when minsplit = 30.
+Similarly, varying maxdepth beyond 7 provides little additional gain, suggesting that deeper trees do not significantly improve predictive power.
+
+Overall, the results demonstrate that cp is the dominant tuning parameter, while the model is relatively insensitive to maxdepth and minsplit.
+The best performance occurs around cp ≈ 0.001, maxdepth ≈ 7, and minsplit ≈ 10, achieving stable and high cross-validated accuracy without overfitting.
+
+
+### Step 4. Train–Test Split
+**Explanation：**
+
+Before evaluating the final model, we divide the cleaned dataset into training and testing subsets.
+The model will be trained on the training set (≈ 70%) and validated on the testing set (≈ 30%) to measure its generalization performance.
+
+We also use the best parameters found in Step 3
+(cp = 0.001, maxdepth = 7, minsplit = 10) to retrain the optimized decision tree model.
+
+This ensures that the tree used for evaluation is both cross-validated and pruned appropriately.
+```{r}
+# Step 4: Final Model Training with Best Hyperparameters
+# We use the SAME train/test split that was created in Step 3.
+
+library(dplyr)
+library(caret)
+library(rpart)
+library(rpart.plot)
+set.seed(2025)  # reproducibility
+
+# 1) Load the split from Step 3
+load("train_test_split.RData")  # gives 'train' and 'test'
+cat("Loaded train/test split from Step 3.\n")
+str(train)
+str(test)
+
+# 2) Use best hyperparameters from Step 3 CV results
+best_cp <- 0.001
+best_maxdepth <- 7
+best_minsplit <- 10
+
+# 3) Train final decision tree on the training set
+final_tree <- rpart(
+  y ~ ., 
+  data = train,
+  method = "class",
+  control = rpart.control(
+    cp = best_cp,
+    maxdepth = best_maxdepth,
+    minsplit = best_minsplit
+  )
+)
+
+# 4) Visualize final tree
+rpart.plot(
+  final_tree,
+  main = "Final Decision Tree (Optimized Parameters)",
+  extra = 104,             # show class probabilities
+  under = TRUE,            
+  faclen = 0,              
+  tweak = 0.8,             
+  cex = 0.5,               
+  fallen.leaves = TRUE,    
+  box.palette = "Blues"
+)
+
+# 5) Save final tree + the same train/test for evaluation
+save(final_tree, train, test, file = "final_decision_tree.RData")
+message("✅ Final decision tree trained and saved successfully.")
+
+```
+**Summary of Step 4 Results**
+
+The stratified sampling successfully divided the cleaned dataset into approximately 70% training data (≈ 16,900 samples) and 30% testing data (≈ 7,300 samples), maintaining the overall total of 24,212 plant records.
+
+The class distribution between training and testing subsets remains consistent —
+shrub and herb are still the dominant categories, followed by graminoid and tree,
+while climber, subshrub, fern, and other appear less frequently.
+
+
+### Step 5. Decision Tree Model Training
+
+This step evaluates the performance of the final decision tree model trained in Step 4.
+The model is applied to the test dataset (≈30%), which has not been used in training,
+to assess its generalization ability.
+
+**Explanation：**
+Multiple evaluation metrics are used to provide a fair and comprehensive view of model performance,
+especially under class imbalance conditions.
+
+- Accuracy – overall proportion of correctly predicted samples.
+
+- Precision – proportion of correctly predicted positive samples for each class.
+
+- Recall – proportion of actual positives correctly identified.
+
+- Macro-F1 – average F1-score across all classes (treating each class equally).
+
+- Balanced Accuracy – average recall across all classes (robust to class imbalance).
+
+- 95% Confidence Interval (CI) for Accuracy – obtained through bootstrap resampling,
+representing the uncertainty of model performance.
+
+```{r}
+# Step 5: Model Evaluation and Performance Metrics
+
+library(caret)
+library(yardstick)
+library(ggplot2)
+library(dplyr)
+
+set.seed(2025)
+
+# 1) Load the trained model and data
+load("final_decision_tree.RData")   # contains final_tree, train, test
+cat("✅ Final decision tree loaded successfully.\n")
+
+
+# 2) Predict on the testing set
+pred_class <- predict(final_tree, newdata = test, type = "class")
+
+
+# 3) Create confusion matrix
+conf_mat <- confusionMatrix(pred_class, test$y)
+print(conf_mat)
+
+# 4) Extract main metrics
+acc  <- conf_mat$overall["Accuracy"]
+prec <- mean(conf_mat$byClass[, "Precision"], na.rm = TRUE)
+rec  <- mean(conf_mat$byClass[, "Recall"], na.rm = TRUE)
+f1   <- mean(conf_mat$byClass[, "F1"], na.rm = TRUE)
+bal_acc <- mean(conf_mat$byClass[, "Balanced Accuracy"], na.rm = TRUE)
+
+cat("\n--- Performance Summary ---\n")
+cat("Accuracy:", round(acc,3),
+    "| Precision:", round(prec,3),
+    "| Recall:", round(rec,3),
+    "| Macro-F1:", round(f1,3),
+    "| Balanced Accuracy:", round(bal_acc,3), "\n")
+
+# 5) Visualize confusion matrix
+cm_df <- as.data.frame(conf_mat$table)
+ggplot(cm_df, aes(x = Reference, y = Prediction, fill = Freq)) +
+  geom_tile() +
+  geom_text(aes(label = Freq), color = "white", size = 3) +
+  scale_fill_gradient(low = "skyblue", high = "darkblue") +
+  labs(
+    title = "Figure： Confusion Matrix of Final Decision Tree",
+    x = "Actual Class",
+    y = "Predicted Class"
+  ) +
+  theme_minimal(base_size = 12)
+
+# 6) Compute 95% Confidence Interval for Accuracy (Bootstrap)
+boot_iters <- 1000
+acc_boot <- numeric(boot_iters)
+
+for (i in 1:boot_iters) {
+  idx <- sample(1:nrow(test), replace = TRUE)
+  pred_boot <- predict(final_tree, newdata = test[idx, ], type = "class")
+  acc_boot[i] <- mean(pred_boot == test$y[idx])
+}
+
+acc_ci <- quantile(acc_boot, probs = c(0.025, 0.975))
+cat("\n95% CI for Accuracy:", round(acc_ci[1],3), "-", round(acc_ci[2],3), "\n")
+
+# 7) Save evaluation results
+save(conf_mat, acc, prec, rec, f1, bal_acc, acc_ci, file = "decision_tree_evaluation.RData")
+message("✅ Model evaluation completed and results saved successfully.")
+
+```
+The final decision tree model achieved an overall accuracy of 90.9%, with a 95% confidence interval (0.903 – 0.916), indicating strong predictive performance and high reliability.
+The Kappa = 0.868 further supports substantial agreement between predicted and actual labels, demonstrating that the model performs much better than random chance.
+
+In the confusion matrix, most correct classifications occur along the diagonal, showing that the model predicts dominant classes accurately.
+
+Shrub (97.4%), Herb (96.8%), and Tree (87.8%) exhibit very high sensitivities, indicating strong recognition for major plant forms.
+
+Smaller classes such as Fern (68.9%) and Graminoid (79.5%) perform reasonably well, while Climber (29.1%) and Subshrub (31.2%) remain difficult to distinguish due to class imbalance and overlapping features.
+
+The Macro-F1 = 0.776 and Balanced Accuracy = 0.856 confirm that performance remains robust across classes even with unbalanced data.
+High Precision (0.875) but relatively lower Recall (0.728) suggests the model is slightly conservative—it avoids false positives but may miss some true cases.
+Overall, the model generalizes well and produces interpretable, biologically meaningful splits, making it a suitable baseline for further ensemble methods.
+
+# 6.Appendix
+I acknowledge that i used ai to learn standard preprocessing techniques like one-hot top-k level and species level majority vote, the ai was used for concept explanation and code drating only. 
+
+I acknowledge that I used generative AI tools, including ChatGPT and GitHub, to support my understanding of the concepts in Part 4. These tools help me clarify coding methods and structure my analysis. All final interpretations, conclusions are entirely my own. 
+
+I acknowledge that I used AI for translation in Sections 1 and 5.

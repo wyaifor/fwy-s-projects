@@ -1,0 +1,334 @@
+---
+title: "decision_tree"
+output: html_document
+date: "2025-10-26"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 5.3 Decision Tree Modelling and Interpretation
+### Step 1. Load Cleaned Dataset (XY)
+Load the cleaned dataset from XY.csv.
+Confirm that it is already in wide format (each row = one species, each column = one trait or derived feature).
+```{r}
+
+library(dplyr)
+set.seed(2025)
+
+# 1. Load and check target ----
+XY <- read.csv("XY.csv")
+stopifnot("y" %in% names(XY))
+XY$y <- as.factor(XY$y)
+
+# 2. Keep numeric predictors only ----
+num_cols <- setdiff(names(XY)[sapply(XY, is.numeric)], c("y", "taxon_name"))
+X <- XY[, num_cols, drop = FALSE]
+
+# 3. Clean columns ----
+X <- X[, colSums(!is.na(X)) >= 2, drop = FALSE]                    # remove mostly NA
+X <- X[, apply(X, 2, sd, na.rm = TRUE) > 0, drop = FALSE]          # remove zero variance
+is_bin <- sapply(X, function(z) all(z %in% c(0, 1), na.rm = TRUE)) # remove rare binary
+if (any(is_bin)) {
+  bin <- X[, is_bin, drop = FALSE]
+  keep <- colMeans(bin, na.rm = TRUE) %>% between(0.005, 0.995)
+  X <- cbind(X[, !is_bin, drop = FALSE], bin[, keep, drop = FALSE])
+}
+
+# 4. Remove rows with NA ----
+good <- complete.cases(X)
+model_df <- cbind(X[good, , drop = FALSE], y = droplevels(XY$y[good]))
+
+# 5. Save ----
+save(model_df, file = "model_df_clean.RData")
+
+```
+
+XY is fully loaded and clean.
+
+The target variable is y, with 8 growth-form categories.
+
+There are 654 numeric features ready for training.
+
+  
+### Step 2. Target Variable and Feature Check (Post-EDA Verification)
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(forcats)
+
+# 1. Load cleaned dataset 
+load("model_df_clean.RData")
+
+# 2. Target summary 
+target_summary <- model_df %>%
+  count(y, name = "n") %>%
+  mutate(pct = round(100 * n / sum(n), 2))
+
+print(target_summary)
+
+ggplot(target_summary, aes(x = fct_reorder(y, n), y = n)) +
+  geom_col(fill = "skyblue") +
+  coord_flip() +
+  labs(title = "Class Distribution of y", x = "Class", y = "Count") +
+  theme_minimal()
+
+# 3. Quick numeric summary 
+num_cols <- setdiff(names(model_df), "y")
+summary(model_df[, head(num_cols, 5)])
+
+```
+
+### Step 3 Train/Test Split and Model Training (10-fold CV tuning)
+
+
+```{r}
+
+library(caret)
+library(rpart)
+library(rpart.plot)
+library(MLmetrics)   # for multiClassSummary
+
+set.seed(2025)
+
+### 1. Load data (from Step 1) ----
+# should give you model_df (predictors + factor y)
+load("model_df_clean.RData")
+
+### 2. Train / test split (70/30, stratified on y)
+idx <- createDataPartition(model_df$y, p = 0.7, list = FALSE)
+train <- model_df[idx, ]
+test  <- model_df[-idx, ]
+
+# quick check of class balance
+round(prop.table(table(train$y)), 3)
+round(prop.table(table(test$y)), 3)
+
+# save split for later evaluation / confusion matrix etc.
+save(train, test, file = "train_test_split.RData")
+
+### 3. CV setup
+# 10-fold CV, report Accuracy / Kappa / MacroF1 etc.
+ctrl <- trainControl(
+  method = "cv",
+  number = 10,
+  classProbs = TRUE,
+  summaryFunction = multiClassSummary,
+  allowParallel = FALSE  # keep single-threaded for reproducibility
+)
+
+### 4. Hyperparameter grid to search
+# You can shrink these if training is too slow
+grid <- expand.grid(
+  cp       = seq(0.001, 0.05, by = 0.01),
+  maxdepth = c(3, 5, 7, 9),
+  minsplit = c(5, 10, 20, 30)
+)
+
+### 5. Custom rpart model (cp + maxdepth + minsplit)
+rpart_custom <- list(
+  label = "rpart (cp, maxdepth, minsplit)",
+  library = "rpart",
+  type = "Classification",
+
+  parameters = data.frame(
+    parameter = c("cp", "maxdepth", "minsplit"),
+    class     = c("numeric", "numeric", "numeric"),
+    label     = c("Complexity Parameter", "Max Depth", "Min Split")
+  ),
+
+  grid = function(x, y, len = NULL, search = "grid") {
+    expand.grid(
+      cp       = seq(0.001, 0.05, by = 0.01),
+      maxdepth = c(3, 5, 7, 9),
+      minsplit = c(5, 10, 20, 30)
+    )
+  },
+
+  fit = function(x, y, wts, param, lev, last, classProbs, ...) {
+    df <- as.data.frame(x)
+    df$.outcome <- y
+
+    rpart(
+      .outcome ~ .,
+      data = df,
+      method = "class",
+      control = rpart.control(
+        cp       = param$cp,
+        maxdepth = param$maxdepth,
+        minsplit = param$minsplit
+      ),
+      ...
+    )
+  },
+
+  predict = function(modelFit, newdata, submodels = NULL) {
+    newdata <- as.data.frame(newdata)
+    predict(modelFit, newdata, type = "class")
+  },
+
+  prob = function(modelFit, newdata, submodels = NULL) {
+    newdata <- as.data.frame(newdata)
+    as.data.frame(predict(modelFit, newdata, type = "prob"))
+  },
+
+  levels = function(x) x$ylevels,
+  sort   = function(x) x[order(x$cp), ]
+)
+
+### 6. Train with caret + 10-fold CV
+#dt_tuned <- train(
+#  y ~ .,
+#  data = train,
+#  method = rpart_custom,
+#  trControl = ctrl,
+#  tuneGrid = grid,
+#  metric = "Accuracy"   # multiClassSummary still calculates MacroF1 etc.
+#)
+
+# best tuning result
+
+load("dt_tuned.RData")
+
+print(dt_tuned)
+dt_tuned$bestTune
+
+# plot CV results (Accuracy vs params)
+plot(dt_tuned, main = "CV Accuracy (Decision Tree Grid Search)")
+
+# save tuned model for later (evaluation on test set, plotting tree, etc.)
+save(dt_tuned, file = "dt_tuned.RData")
+```
+
+
+### Step 4. Train–Test Split
+Before evaluating the final model, we divide the cleaned dataset into training and testing subsets.
+The model will be trained on the training set (≈ 70%) and validated on the testing set (≈ 30%) to measure its generalization performance.
+
+We also use the best parameters found in Step 3
+(cp = 0.001, maxdepth = 7, minsplit = 10) to retrain the optimized decision tree model.
+
+This ensures that the tree used for evaluation is both cross-validated and pruned appropriately.
+```{r}
+# Step 4: Train final decision tree with best params
+library(dplyr)
+library(caret)
+library(rpart)
+library(rpart.plot)
+
+set.seed(2025)
+
+### 1. Load train/test split from Step 3 
+load("train_test_split.RData")
+
+### 2. Best hyperparameters from CV (Step 3)
+best_cp        <- 0.001
+best_maxdepth  <- 7
+best_minsplit  <- 10
+
+### 3. Fit final model on training data
+final_tree <- rpart(
+  y ~ .,
+  data = train,
+  method = "class",
+  control = rpart.control(
+    cp       = best_cp,
+    maxdepth = best_maxdepth,
+    minsplit = best_minsplit
+  )
+)
+
+### 4. Plot the tree
+rpart.plot(
+  final_tree,
+  main = "Final Decision Tree",
+  extra = 104,          # show predicted class + probs
+  under = TRUE,
+  faclen = 0,
+  tweak = 0.8,
+  cex = 0.5,
+  fallen.leaves = TRUE,
+  box.palette = "Blues"
+)
+
+### 5. Save model + data for later evaluation/report
+save(final_tree, train, test, file = "final_decision_tree.RData")
+
+```
+
+### Step 5. Decision Tree Model Training
+
+This step evaluates the performance of the final decision tree model trained in Step 4.
+The model is applied to the test dataset (≈30%), which has not been used in training,
+to assess its generalization ability.
+
+```{r}
+# Step 5: Evaluate final decision tree
+library(caret)
+library(yardstick)
+library(ggplot2)
+library(dplyr)
+
+set.seed(2025)
+
+### 1. Load model + data
+# gives you: final_tree, train, test
+load("final_decision_tree.RData")
+
+### 2. Predict on test set
+pred_class <- predict(final_tree, newdata = test, type = "class")
+
+### 3. Confusion matrix + core metrics
+cm <- confusionMatrix(pred_class, test$y)
+print(cm)
+
+# macro-style metrics (average over classes)
+acc      <- cm$overall["Accuracy"]
+precision<- mean(cm$byClass[, "Precision"], na.rm = TRUE)
+recall   <- mean(cm$byClass[, "Recall"],    na.rm = TRUE)
+f1_macro <- mean(cm$byClass[, "F1"],        na.rm = TRUE)
+bal_acc  <- mean(cm$byClass[, "Balanced Accuracy"], na.rm = TRUE)
+
+data.frame(
+  Accuracy = round(acc, 3),
+  Precision = round(precision, 3),
+  Recall = round(recall, 3),
+  MacroF1 = round(f1_macro, 3),
+  BalancedAcc = round(bal_acc, 3)
+)
+
+### 4. Plot confusion matrix heatmap
+cm_df <- as.data.frame(cm$table)
+
+ggplot(cm_df, aes(x = Reference, y = Prediction, fill = Freq)) +
+  geom_tile() +
+  geom_text(aes(label = Freq), color = "white", size = 3) +
+  scale_fill_gradient(low = "skyblue", high = "darkblue") +
+  labs(
+    title = "Confusion Matrix - Final Decision Tree",
+    x = "Actual",
+    y = "Predicted"
+  ) +
+  theme_minimal(base_size = 12)
+
+### 5. 95% bootstrap CI for accuracy
+# resample test set with replacement and recompute accuracy
+boot_iters <- 1000
+acc_boot <- numeric(boot_iters)
+
+for (i in 1:boot_iters) {
+  idx <- sample(seq_len(nrow(test)), replace = TRUE)
+  pred_i <- predict(final_tree, newdata = test[idx, ], type = "class")
+  acc_boot[i] <- mean(pred_i == test$y[idx])
+}
+
+acc_ci <- quantile(acc_boot, c(0.025, 0.975))
+acc_ci
+
+### 6. Save results for the report
+save(cm, acc, precision, recall, f1_macro, bal_acc, acc_ci,
+     file = "decision_tree_evaluation.RData")
+
+```

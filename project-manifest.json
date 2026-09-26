@@ -1,0 +1,130 @@
+{
+  "title": "澳大利亚植物性状清洗与生长型分类",
+  "category": "机器学习与数据处理",
+  "period": "2025 S2",
+  "actual_role": "小组课程项目；个人分工待确认",
+  "verification_status": "code and saved outputs checked",
+  "metrics": {
+    "raw_rows": 800000,
+    "raw_columns": 26,
+    "model_rows": 24212,
+    "model_columns": 655,
+    "id_label_columns": 2,
+    "feature_columns": 653
+  },
+  "limits": "报告为课程分析。原流程部分预处理在划分前完成，不能将保存的指标无条件解释为无泄漏泛化性能。个人署名Rmd为同伴评审，不证明全部模型由本人实现。",
+  "public_assets": [
+    {
+      "path": "src/5003_assignment1_W07_G07(2).Rmd",
+      "sha256": "6c13a33f001fc9bc7c61bad77bed0869fcdf2c0e341b30d3d08f3cdb4d0013a4",
+      "bytes": 27171
+    },
+    {
+      "path": "src/decision_tree.Rmd",
+      "sha256": "3a4c2566ef57c870b3fb1689ea6ca09557bf36727423c21e4f4977dbcc57d8da",
+      "bytes": 9342
+    },
+    {
+      "path": "src/eda.Rmd",
+      "sha256": "3c3e25eca81a4b93b4c02fe4abe68ad9bb7a617d37757d1c6390f6dbc4576ca9",
+      "bytes": 2309
+    },
+    {
+      "path": "src/full.Rmd",
+      "sha256": "edf15b824bc460e3e5927db3ea6014984491e0c9a089c301406029cd1c8d4e08",
+      "bytes": 51008
+    }
+  ],
+  "original_evidence": [
+    {
+      "archive_member": "5003_assignment1_W07_G07(2).Rmd",
+      "sha256_original": "be4ac05f9d1af4ebf678dc65d9763f5e2071cc967f1e472c1cfc544a91522569",
+      "bytes": 26668
+    },
+    {
+      "archive_member": "class_distribution.png",
+      "sha256_original": "5e05ba8e9f779b9ac127e0cf7db6b0fa595632ab053e4150c7785b831b2462a5",
+      "bytes": 37127
+    },
+    {
+      "archive_member": "confusion_matrix.png",
+      "sha256_original": "c84cb9af6f6368fc340c9fb55c7a3bd1a2ee5ed555a36be6786a39f9b132fbe3",
+      "bytes": 56403
+    },
+    {
+      "archive_member": "decision_tree.Rmd",
+      "sha256_original": "76ac0385c5e378df42a51c7ee9adda292ffd240a265d729f53c6fcbe0caab09b",
+      "bytes": 9008
+    },
+    {
+      "archive_member": "decision_tree_model.docx",
+      "sha256_original": "7560f2e431d9e97aa469d40e52413ef39da44492cc148c0229914ebc24a724d1",
+      "bytes": 19655
+    },
+    {
+      "archive_member": "eda.Rmd",
+      "sha256_original": "f17bdc30bc7e5faca8dfd0d8ac3e7bf6af670bf26f237c63b7c2a27c23011960",
+      "bytes": 2229
+    },
+    {
+      "archive_member": "fig_hist.png",
+      "sha256_original": "dfaf7913632cc5c70c79da5b5ad054840955ce9849024b0ded396a3e8347ba28",
+      "bytes": 83670
+    },
+    {
+      "archive_member": "fig_missing.png",
+      "sha256_original": "bddc566cafee15a1c5a0458776f8b324e843f1dbddc0b5910484f753461dd3af",
+      "bytes": 75098
+    },
+    {
+      "archive_member": "fig_outlier.png",
+      "sha256_original": "9f977e1635785eb9d4dcc8c3a0bb215468a3ea49fa409869fa7e566980078a14",
+      "bytes": 86096
+    },
+    {
+      "archive_member": "fig_pca.png",
+      "sha256_original": "6571d30acb2590b928af78a84d29aa5f3c5259aa6e5567c2b3dfbc995cf83a85",
+      "bytes": 105905
+    },
+    {
+      "archive_member": "fig_target.png",
+      "sha256_original": "72fe7f22fc954b179ad35b176fb73174c584d7955caa3cae357ac3b7a07a304c",
+      "bytes": 77323
+    },
+    {
+      "archive_member": "fig_trait_box.png",
+      "sha256_original": "b7e4da87cf7bb9ea4431ebe7aded47080724eb663ba8654e99742fbfe8734710",
+      "bytes": 124564
+    },
+    {
+      "archive_member": "final_tree.png",
+      "sha256_original": "1f4bced08a3d149e0f7688ffbf7bbda9d45dc59c45b252c1ea43cd1ddc055a0b",
+      "bytes": 134796
+    },
+    {
+      "archive_member": "full.Rmd",
+      "sha256_original": "905a7b73664e3477e5eba7ae18fecb840adcae69e507143c55d92fee6438b12c",
+      "bytes": 49858
+    },
+    {
+      "archive_member": "pca.png",
+      "sha256_original": "41fe3114e127e8dfb5a507481041a42d0d86b8c761ae15f45ad4fc9644d05a0d",
+      "bytes": 105000
+    },
+    {
+      "archive_member": "report4.6decision_tree.Rmd",
+      "sha256_original": "a6b66973008957a27f37342f0dd119ef54a255761b66e20d4f57cf936ea176f3",
+      "bytes": 9106
+    },
+    {
+      "archive_member": "traits.csv",
+      "sha256_original": "fda2f1155981d196db13f0b4feea896482a15b3212c52a3e99a2237007dbc216",
+      "bytes": 339437936
+    },
+    {
+      "archive_member": "XY.csv",
+      "sha256_original": "1b494a618c6b6165e3b649381cb10a70c57ea2451db69e64dec39b4f5a738eb8",
+      "bytes": 32578275
+    }
+  ]
+}

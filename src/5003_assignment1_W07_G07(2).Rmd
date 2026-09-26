@@ -1,0 +1,504 @@
+---
+title: "5003_assignment1_W07_G07"
+output:
+  html_document:
+    code_folding: hide
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# 1.Define the Problem:
+## 1.1 The research question that our group wants to investigate is :
+Predicting the growth forms (plant_growth_form) of Australian plants based on measurable functional traits (e.g., leaf length, leaf width, plant height, seed mass).
+
+## 1.2 Describe how this is a classification problem
+My target variable is plant_growth_form, which takes a finite set of discrete categories and therefore represents a categorical label. Since there are multiple categories rather than just two, it is a multiclass setting. The input variables are measurable functional traits, such as leaf length, leaf width, plant height, and seed mass. Hence, this study is framed as a supervised multiclass classification problem.
+
+## 1.3 Why does it matter, and how does it connect to Sydney/Australia?
+This research focuses on Australian vegetation, situated within one of the world’s biodiversity hotspots. Different plant growth forms fulfill distinct ecological roles within ecosystems, and the ability to identify or predict these growth forms is of significant importance. Such knowledge contributes to biodiversity conservation, informs the management of invasive species, and supports sustainable urban greening initiatives.
+
+# 2.Describe the Data
+## 2.1 Data sources used:
+https://zenodo.org/records/15718081
+Published June 20, 2025 | Version v7.0.0
+Artical name: AusTraits: a curated plant trait database for the Australian flora
+Filename:austraits-7.0.0.zip -> traits.csv
+
+## 2.2 Describe the data
+```{r}
+library(dplyr)
+# 1. Load the original dataset (traits.csv)
+traits = read.csv("traits.csv", stringsAsFactors = FALSE)
+# 2. The `glimpse()` function from the `dplyr` package provides a quick overview of the dataset.
+traits |> glimpse()
+# 3. Individually check how many samples and variables the original dataset contains
+cat("The original dataset has", nrow(traits), "rows and", ncol(traits), "columns.\n")
+# 4.Use colnames(traits) for column names 
+traits |> colnames()
+# 5. Use head(traits) to view the first few lines and class(traits) to confirm it’s a data frame.
+head(traits)
+class(traits)
+# 6. Check the number of missing values in each column.
+for (col in colnames(traits)) {
+  missing_count <- sum(is.na(traits[[col]]))
+  if (missing_count > 0) {
+    cat(col,":", missing_count, "\n")
+  }
+}
+# 7.  Check the proportion of missing values in each column.
+for (col in colnames(traits)) {
+  missing_count <- sum(is.na(traits[[col]]))
+  missing_percent <- (missing_count / nrow(traits)) * 100
+  if (missing_count > 0) {
+    cat(col,":", round(missing_percent, 2), "%\n")
+  }
+}
+```
+```{r}
+# 8. Display the 20 traits with the highest frequencies
+trait_counts = table(traits$trait_name)
+trait_counts_sorted = sort(trait_counts, decreasing = TRUE)
+head(trait_counts_sorted, 20)
+```
+```{r}
+# 9.Among all trait names, plant_growth_form appeared with the highest frequency. Therefore, we examined this trait separately to inspect its structure, the number and types of unique values it contains, and further ranked the categories of plant_growth_form in descending order according to their frequencies.
+pgf = traits[traits$trait_name == "plant_growth_form", ]
+str(pgf)
+unique(pgf$value)
+length(unique(pgf$value))
+sort(table(pgf$value), decreasing = TRUE)
+```
+## 2.3 Identify the outcome variable
+The outcome variable is ‘plant_growth_form’, extracted from the ‘trait_name’ column.
+
+## 2.4 Challenges in the dataset:
+1.The current plant_growth_form variable contains over one hundred unique categories, but the distribution is highly imbalanced. While a few dominant categories exist, dozens of other categories occur only a handful of times. Directly using all categories in a multi-class model may lead to severe class imbalance, making it difficult for the model to learn rare categories and potentially compromising predictive performance. In ecological and vegetation studies, however, plant growth forms are typically grouped into a small number of major functional types—such as Trees, Shrubs, Herbs, Graminoids, Ferns, Climbers, Subshrubs, and Others (infrequent or miscellaneous categories)—(a reference can be added here in the final manuscript to support this classification). Therefore, prior to further analysis, rare categories should be addressed.
+
+2.Many traits are sparsely recorded across samples, which may complicate downstream analysis and require careful handling of missing values.
+
+3.The main traits dataset contains numerous columns, some of which (e.g., method, location) exhibit high missingness and are largely unrelated to the current classification task. While these columns could be integrated from related sub-datasets via ID references, they are considered non-essential for the present analysis and can be safely excluded, thereby reducing unnecessary complexity.
+
+# 3.Clean and Prepare the Data
+## 3.1 Removing space and lowering case
+Our raw table contains many NA and blank strings(such as unknown," ",NA) plus mixed cases,extra spaces.To make the model ready we collapse mutiple spaces,trim,lower-case key text fields(trait_name,value_type,unit) and then we convert blank placeholdes to real NA. This can prevent fake categories. 
+```{r}
+suppressPackageStartupMessages(library(tidyverse))
+```
+
+```{r, warning=FALSE}
+theme_set(theme_minimal(base_size = 12))
+
+# Read the complete traits table and specify the encoding to be compatible with special characters; Turn off column type printing
+traits <- readr::read_csv("traits.csv",
+                          locale = locale(encoding = "Latin1"),
+                          show_col_types = FALSE)
+# define a function to normalize collapse space and turning lower case
+norm <- function(x) x %>%
+  stringr::str_replace_all("\\s+", " ") %>%   # collapse spaces
+  stringr::str_trim() %>%                     # remove leading and trailing space
+  stringr::str_to_lower()                     # lower case
+
+# frequency table of normalized value_type
+# list all value in value_type except Na
+traits %>%
+  dplyr::distinct(value_type) %>%
+  dplyr::filter(!is.na(value_type)) %>%
+  dplyr::arrange(value_type)
+
+
+# nomalize key colums
+traits <- traits %>%
+  mutate(
+    trait_name = norm(trait_name),            # normalize trait name
+    value_type = norm(value_type),            # normalize value
+    unit       = if_else(is.na(unit), NA, norm(unit)),   # normalize the unit
+    value      = if_else(value_type %in% c("mode","bin"),
+                         norm(value), value), # only categorical value get string clean
+    taxon_name = stringr::str_replace_all(taxon_name, "\\s+"," ") %>% stringr::str_trim()
+  ) %>%
+  distinct()                          #remove the exact same duplicate rows
+
+
+```
+## 3.2 Handle Blank and place holder to real NA
+There are many values contain blank and NA, n/a, unknown, so convert them to real NA values across all character columns so the missingness is measured correctly. For the primary key(taxon_name,trait_name) if they miss then removed
+```{r}
+# Convert blanks/placeholder tokens to real NA
+to_na_all <- function(v){
+  v <- stringr::str_trim(v)                             # trim spaces
+  v[v == ""] <- NA_character_                               # empty string → NA
+  mask <- stringr::str_detect(stringr::str_to_lower(v),"^(na|n/?a|none|unknown|not available|nan|-+)$")
+  v[mask] <- NA_character_                                # placeholders → NA
+  v}
+
+# Apply to every character column
+char_cols <- names(traits)[sapply(traits, is.character)]
+traits[char_cols] <- lapply(traits[char_cols], to_na_all)
+
+# Drop rows missing essential identifiers
+traits <- traits %>% filter(!is.na(taxon_name), !is.na(trait_name))
+
+```
+## 3.3 Target construction(7-class mapping+species level majority vote)
+the plant_growth_form contains 100 plus labels, but many of them are low frequency so map to 7 types: tree, shrub, herb, graminoid, climver,fern, subshrub, everything else->other. collapse globally rare classes(<200)to other .For each species, gather all its growth-form records. Choose the class that appears most often. Assign it only if that class covers ≥70% of the species’ records. If not, leave it unlabeled. Classes with very few species overall are merged into “other.”It is crucial for our stage 2. This is because species can have conflicting labels. the majority vote can denoise and if we pick a randam labe treats noise as truth that affected the model evaluation
+```{r}
+# Rule-based mapping from raw growth_form strings to 7 classes
+map7 <- function(x){
+  case_when(
+    str_detect(x,"tree") & !str_detect(x,"shrub") ~ "tree",
+    str_detect(x,"subshrub|mallee")               ~ "subshrub",
+    str_detect(x,"shrub")                         ~ "shrub",
+    str_detect(x,"graminoid|grass|sedge|rush|tussock|hummock") ~ "graminoid",
+    str_detect(x,"climber")                       ~ "climber",
+    str_detect(x,"fern|lycophyte")                ~ "fern",
+    str_detect(x,"herb|herbaceous|forb") & !str_detect(x,"graminoid|grass|sedge|rush") ~ "herb",
+    TRUE ~ "other"
+  )
+}
+
+# Extract growth_form rows and apply the mapping
+gf <- traits %>%
+  filter(trait_name == "plant_growth_form") %>%
+  mutate(y0 = map7(value)) %>%
+  filter(!is.na(y0))
+
+# Species-level majority vote; require ≥70% agreement
+lab <- gf %>%
+  count(taxon_name, y0) %>%               # counts per species per class
+  group_by(taxon_name) %>%
+  mutate(p = n/sum(n)) %>%               # within-species proportions
+  slice_max(p, n = 1, with_ties = FALSE) %>%     # winning class per species
+  ungroup() %>%
+  filter(p >= 0.70)                           # stability threshold 0.7
+
+# Collapse globally rare classes to 'other' (< 200 species)
+rare <- lab %>% count(y0, name = "m") %>% filter(m < 200) %>% pull(y0)
+
+# Final label table (factor with explicit levels)
+label_df <- lab %>%
+  mutate(y = if_else(y0 %in% rare, "other", y0)) %>%
+  transmute(taxon_name,
+            y = factor(y,
+              levels = c("tree","shrub","herb","graminoid","climber","fern","subshrub","other")))
+
+```
+## 3.4 Prevent information leakage
+remove traits plant_growth_form to prevent model seeing the answer through the feature
+```{r}
+# Exclude plant_growth_form
+traits_x <- traits %>%
+  filter(!str_detect(trait_name,
+         "plant[_ ]?growth[_ ]?form"))
+```
+## 3.5 Build Numerical Traits(keep majority unit, species-level median,pivot wider)
+There are a column called value_type it tell us the statistical meaning of the value recorded for a given species-trait row.So if we want to handle numerical traits that we only keep the value_type including raw,minimum,maximum,mean,median and keep the majority unit to avoid unit mixing.Aggregate median per species × trait (robust), then pivot wider to create a species × numeric-features matrix (X_num).
+```{r}
+# --- 3.4 Numerical traits: majority unit → species-level median → pivot wider ---
+
+# Select numeric records and parse numeric values (defensively)
+num_raw <- traits_x %>%
+  # keep only numeric-like value types
+  filter(value_type %in% c("raw","maximum","minimum","mean","median")) %>%
+  # keep only rows whose value actually contains at least one digit
+  filter(stringr::str_detect(value, "\\d")) %>%
+  # parse a numeric from the string (handles commas, units attached to numbers, etc.)
+  mutate(v = readr::parse_number(value)) %>%
+  # drop any rows that still failed to parse
+  filter(!is.na(v))
+
+# Majority unit per trait (most frequent unit → prevents unit mixing)
+major_unit <- num_raw %>%
+  count(trait_name, unit, sort = TRUE) %>%    # counts by trait × unit
+  group_by(trait_name) %>%
+  slice_max(n, n = 1, with_ties = FALSE) %>%  # pick majority unit per trait
+  ungroup()
+
+# Keep only rows whose unit matches the majority unit (or unit is missing)
+num_keep <- num_raw %>%
+  left_join(major_unit, by = "trait_name") %>%    # add majority unit info
+  filter(is.na(unit.y) | unit.x == unit.y)   # enforce unit consistency
+#  after the join, unit.x is the row's unit, unit.y is the majority unit
+
+# Aggregate median per species × trait (robust), then pivot to a wide matrix
+X_num <- num_keep %>%
+  group_by(taxon_name, trait_name) %>%
+  summarise(val = median(v, na.rm = TRUE), .groups = "drop") %>%  # one robust number per species×trait
+  mutate(trait_name = make.names(trait_name)) %>%   # sanitize column names
+  pivot_wider(
+    names_from  = trait_name,           # trait names become columns
+    values_from = val,                  # median values fill the cells
+    values_fill = NA_real_                # missing become NA
+  )
+
+```
+## 3.6 Build Categorical Traits()
+In this part, we want to keep categorical rows only so we retain records whose value_type is categorical(e.g mode and bin) these rows are labels instead of numbers so they belong to the categorical branch. Compute the species×trait mode(most frequent label) as the representative level.Then we control the cardinality with Top-K+ other.For each trait,we only keep the TOP-K most frequent levels(k=5) and merge the rest into other.This can prevent high cardinality trait from exploding into thousands of ultra sparse dummy column and it wastes memory and might overfitting. we create features trait_level(e.g leaf_shape_elliptic), let them 1 when a species mode equals that level and 0 otherwise and then pivot_wider() and then trait)_name becomes columns and yielding X_cat(species × categorical features).
+```{r}
+#mode function (majority level)
+mode1 <- function(x) names(sort(table(x), decreasing = TRUE))[1]
+
+# Select categorical records and normalize the value
+cat_raw <- traits_x %>%
+  filter(value_type %in% c("mode","bin")) %>%                          
+  mutate(v = norm(value)) %>%                                          
+  filter(!is.na(v))
+
+# Aggregate to species×trait mode
+cat_sp <- cat_raw %>%
+  group_by(taxon_name, trait_name) %>%
+  summarise(lbl = mode1(v), .groups = "drop")
+
+# Keep Top-K levels for each trait to control sparsity; others → 'other'
+K <- 5
+top_levels <- cat_sp %>%
+  count(trait_name, lbl, sort = TRUE) %>%   # counts per trait×level
+  group_by(trait_name) %>% slice_head(n = K) %>% ungroup()
+
+# Build one-hot features 'trait__level' and pivot to wide
+X_cat <- cat_sp %>%
+  left_join(top_levels, by = c("trait_name","lbl")) %>%
+  mutate(lbl2 = if_else(is.na(n), "other", lbl),                       
+         feat = paste0(make.names(trait_name), "__", make.names(lbl2)),      # column name: trait__level
+         val  = 1L) %>%
+  select(taxon_name, feat, val) %>% distinct() %>%
+  pivot_wider(names_from = feat, values_from = val, values_fill = 0L)
+```
+## 3.7 Join, Prune,Impute
+join labels with numeric and categorical wide table to form XY(one row per species and one column per feature) and then dropping features with greater than 50% missing. Impute numeric columns with medians fill NA in numeric predictors.One-hot categorical columns are already 0/1 and need no imputation.
+```{r}
+#Join, prune (only high-missing), and impute(NO near-constant removal)
+#Join label + numeric-wide + categorical-wide → final modeling matrix
+XY <- label_df %>%
+  inner_join(X_num, by = "taxon_name") %>%   # numeric features
+  left_join(X_cat,  by = "taxon_name")       # categorical features
+
+# Drop features with >50% missingness (keep keys/label)
+drop_na50 <- names(XY)[ sapply(XY, function(z) mean(is.na(z)) > 0.5) ]
+XY <- XY %>% select(-any_of(setdiff(drop_na50, c("taxon_name","y"))))
+
+# Median imputation for numeric predictors (one-hots are already 0/1)
+num_cols <- names(XY)[sapply(XY, is.numeric)]
+for(nm in setdiff(num_cols, "taxon_name")){
+  med <- median(XY[[nm]], na.rm = TRUE)
+  XY[[nm]][is.na(XY[[nm]])] <- med
+}
+
+# Quick check
+cat("ready for modeling:", nrow(XY), "species ×", ncol(XY) - 2, "features\n")
+
+
+```
+```{r}
+View(XY)    #view the table after processing
+
+```
+
+
+# 4.Explore and Visualize
+## 4.1 Missing value
+In Part 3, we have already inspected and conducted basic processing on the missing values. To make the data features more intuitive, we further present the proportion and distribution of the missing values through visualization here. This systematic examination helps us assess the completeness and validity of the data
+
+We use colSums() and colMeans() to calculate missingness, and barplot for visualization.  
+```{r}
+# check missing values per column
+na_count <- colSums(is.na(XY))
+na_percent <- colMeans(is.na(XY))*100
+
+# barplot
+barplot(na_percent,
+        main="Missing value percentage by column",
+        ylab="Percent (%)",
+        las=2, cex.names=0.7)
+```
+
+## 4.2 Outliers
+Use the boxplot to visually identify outliers. The boxplot can simultaneously display the median, quartiles and extreme points.
+```{r}
+# pick the first 6 numeric columns from XY
+num_cols <- names(XY)[sapply(XY, is.numeric)]
+sel_cols <- num_cols[1:6]
+
+# set plotting area: 2 rows x 3 columns
+par(mfrow = c(2, 3))
+
+# draw a boxplot for each selected column
+for (nm in sel_cols){
+  boxplot(XY[[nm]], 
+          main = paste("Boxplot of", nm),  # plot title
+          ylab = nm)                       # y-axis label
+}
+
+# reset layout back to default (1 plot per window)
+par(mfrow = c(1, 1))
+
+```
+
+## 4.3 Distribution of variables
+What is the distribution shape of the numerical variable? Is there any skewness or multimodality?
+
+Use histogram and density plot. Histograms are suitable for showing the overall distribution and central tendency. Density plot can smooth out curves and make skewness more intuitively visible.
+```{r}
+# pick the first 6 numeric columns
+num_cols <- names(XY)[sapply(XY, is.numeric)]
+sel_cols <- num_cols[1:6]
+
+# loop through selected columns
+for (nm in sel_cols){
+  x <- XY[[nm]]
+  x <- x[!is.na(x)]   # remove NA values
+  
+  if (length(x) > 0){
+    # set plotting area: 1 row x 2 columns
+    par(mfrow = c(1, 2), mar = c(4, 4, 2, 1))
+    
+    # raw scale histogram
+    hist(x, breaks=50, col="skyblue", border="white",
+         main=paste("Histogram of", nm),
+         xlab=nm)
+    
+    # log10 histogram (positive values only)
+    x2 <- log10(x[x>0])
+    hist(x2, breaks=50, col="lightgreen", border="white",
+         main=paste("log10 Histogram of", nm),
+         xlab=paste("log10", nm))
+    
+    # reset after each pair (not strictly necessary, but cleaner)
+    par(mfrow = c(1, 1))
+  }
+}
+```
+
+## 4.4 Distribution of target variable
+Is the category distribution of the target variable (growth form) balanced?
+
+Use a barplot to display the sample size of each category. Class imbalance can affect the performance of classification models.
+```{r}
+tab <- sort(table(XY$y), decreasing=TRUE)
+
+barplot(tab, las=2, col="orange",
+        main="Distribution of growth forms",
+        ylab="count")
+```
+  
+It is clear that the dataset is highly imbalanced. Two classes, shrub and herb, dominate the dataset, with shrub having over 10,000 samples and herb around 7,500. In contrast, other classes such as graminoid, tree, climber, subshrub, fern, and others have far fewer samples, and some are extremely rare.
+
+## 4.5 Trait distributions across growth forms（boxplot）
+
+```{r}
+# choose several numeric traits to compare
+sel_traits <- c("leaf_length", "leaf_width", "plant_height")
+
+for (trait in sel_traits) {
+  # safely extract and log10-transform (only positive values)
+  vals <- XY[[trait]]
+  vals[vals <= 0] <- NA   # log10 can't handle zero or negative
+  XY$log_val <- log10(vals)
+  
+  # plot
+  boxplot(log_val ~ y, data = XY,
+          main = paste("log10", trait, "by growth form"),
+          xlab = "Growth form",
+          ylab = paste("log10", trait),
+          xaxt = "n", col = "lightgreen")
+  
+  # Rotate the x-axis labels by 45 degrees to prevent text overlap and improve visual clarity.
+  labs <- levels(XY$y)
+  axis(1, at = 1:length(labs), labels = FALSE)
+  text(x = 1:length(labs), 
+       y = par("usr")[3] - 0.1, 
+       labels = labs, 
+       srt = 45, adj = 1, xpd = TRUE)
+}
+```
+  
+In the boxplot (leaf_length by growth form): trees and climbers tend to have longer leaves on average, while subshrubs and shrubs generally have shorter leaves. Herbs and graminoids show wide variation, with many species having intermediate leaf lengths but also a few with very long leaves.
+
+In the boxplot (leaf_width by growth form): trees and climbers have wider leaves compared to most other groups, with their medians clearly above those of shrubs, herbs, and graminoids. Shrubs and herbs show relatively narrow leaves on average, although both categories include a large number of outliers, indicating considerable variability within these groups. Ferns also display moderate values but with a fairly wide spread, while the "other" category remains small and less representative.
+
+In the boxplot (plant_height by growth form): trees stand out with the greatest median plant height and the largest overall values, reflecting their tall growth habit. Climbers also show relatively high values, though with a wider spread that includes many shorter species. In contrast, shrubs, herbs, and graminoids generally have much smaller heights, with medians below those of trees and climbers.
+
+## 4.6 PCA visualisation
+In high-dimensional space, the relationships among features are complex. Can the differences in categories be discerned in a low-dimensional space?
+
+Use Principal Component Analysis (PCA) to reduce the data dimension to 2D and display it with a scatter plot.
+```{r}
+# keep only numeric predictors and drop the target column y
+num_cols <- names(XY)[sapply(XY, is.numeric)]
+num_cols <- setdiff(num_cols, "y")
+X <- XY[, num_cols, drop = FALSE]
+
+# drop columns that are all NA or have < 2 non-NA values (cannot compute sd)
+keep_non_na <- colSums(!is.na(X)) >= 2
+X <- X[, keep_non_na, drop = FALSE]
+
+# drop zero-variance columns (sd == 0 after removing NA)
+sdx <- apply(X, 2, function(z) sd(z, na.rm = TRUE))
+keep_var <- !is.na(sdx) & sdx > 0
+X <- X[, keep_var, drop = FALSE]
+
+# drop near-constant binary one-hots (e.g., prevalence <0.5% or >99.5%)
+is_binary <- sapply(X, function(z) all(z %in% c(0, 1), na.rm = TRUE))
+if (any(is_binary)) {
+  m <- colMeans(X[, is_binary, drop = FALSE], na.rm = TRUE)
+  keep_bin <- m > 0.005 & m < 0.995
+  X <- cbind(
+    X[, !is_binary, drop = FALSE],
+    X[, is_binary, drop = FALSE][, keep_bin, drop = FALSE]
+  )
+}
+
+# drop rows with any remaining NA across kept columns and align y accordingly
+row_keep <- complete.cases(X)
+X <- X[row_keep, , drop = FALSE]
+y_vec <- XY$y[row_keep]
+
+# safety checks: need at least 2 rows and 2 columns for PCA
+if (nrow(X) < 2 || ncol(X) < 2) {
+  stop(sprintf("Not enough data for PCA after filtering: rows=%d, cols=%d", nrow(X), ncol(X)))
+}
+
+# PCA (center & scale)
+p <- prcomp(X, center = TRUE, scale. = TRUE)
+
+# prepare data for plotting
+df <- data.frame(PC1 = p$x[, 1], PC2 = p$x[, 2], y = y_vec)
+
+# plot
+cols <- as.factor(df$y)
+plot(df$PC1, df$PC2,
+     col = as.integer(cols), pch = 19,
+     xlab = "PC1", ylab = "PC2",
+     main = "PCA by target class (y)")
+legend("topright", legend = levels(cols),
+       col = 1:length(levels(cols)), pch = 19, cex = 0.6)
+
+```
+  
+From the PCA plot, we can observe that points representing different growth forms (tree, shrub, herb, graminoid, climber, fern, subshrub, and others) show considerable overlap in the PC1–PC2 space. Although some small local groupings exist, there is no strong global separation between major classes. This suggests that the top two principal components capture part of the variance but are not sufficient to fully distinguish the classes.  
+
+However, this result does not necessarily imply that classification is infeasible. PCA is an unsupervised dimensionality reduction method that focuses on maximizing overall variance rather than optimizing separation between predefined classes. Therefore, while the first two PCs provide a useful visualization of the data structure, more advanced feature extraction and supervised modeling approaches may still uncover meaningful class distinctions.
+
+# 5.Modelling Plan
+## 5.1 Models plan to use
+In the next stage, we plan to implement five classification models:
+Logistic Regression: This will serve as the baseline model for comparison with more complex approaches. Its strong interpretability allows for an initial examination of which features are most discriminative.
+
+Decision Tree: This model can capture non-linear relationships while maintaining good interpretability, which helps in understanding how features contribute to the splitting points among growth forms.
+
+Random Forest: In addition to improving classification performance, it provides measures of feature importance, offering valuable support for subsequent analyses.
+
+Support Vector Machine (SVM): Since the PCA visualization revealed partial overlaps among different growth forms, the kernel functions of SVM are useful for capturing more complex decision boundaries.
+
+k-Nearest Neighbors (kNN): As a simple and intuitive classifier, it enables straightforward comparison of classification performance in lower-dimensional spaces.
+
+## 5.2 How to evaluate classification model
+To evaluate the models, we will first split the dataset into training and testing sets. Within the training set, we will tune parameters in order to select the most suitable model. Model performance will then be assessed using accuracy, precision, recall, and F1-score. Both macro- and weighted-averaged metrics will be reported to account for class imbalance. In addition, confusion matrices will be used to provide further insight into misclassifications across different growth forms.
+
+# 6.Appendix
+I acknowledge that i used ai to learn standard preprocessing techniques like one-hot top-k level and species level majority vote, the ai was used for concept explanation and code drating only. 
+
+I acknowledge that I used generative AI tools, including ChatGPT and GitHub, to support my understanding of the concepts in Part 4. These tools help me clarify coding methods and structure my analysis. All final interpretations, conclusions are entirely my own. 
+
+I acknowledge that I used AI for translation in Sections 1 and 5.

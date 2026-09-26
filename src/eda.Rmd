@@ -1,0 +1,80 @@
+---
+title: "4. Explore and Visualize"
+subtitle: "Understanding Our Data Before Modelling"
+author: "Your Name"
+output:
+  xaringan::moon_reader:
+    nature:
+      ratio: "16:9"
+      slideNumberFormat: "%current%"
+      highlightStyle: github
+---
+
+## 4.1 Missing Values & Outliers (Data Quality Check)
+
+### Missing Values
+- We checked missingness using `colSums()` / `colMeans()`.
+- Most variables show very low missing rate (<5%).
+- This suggests the dataset is complete and reliable.
+
+### Outliers
+- Boxplots revealed clear extreme values (e.g., leaf size, height).
+- These traits require **log transformation** or **capping**.
+- Overall: data is usable but needs normalization.
+
+---
+
+## 4.2 Distribution & Class Balance
+
+.pull-left[
+### Feature Distribution (Skewness)
+
+<img src="fig_hist.png" style="max-width:60%; height:auto; border:1px solid #ccc; border-radius:6px;">
+
+.smaller[
+- Many numeric traits are **right-skewed** (long tail).  
+- After log10 transform they become more regular / comparable.  
+- Helps ensure large values don't dominate during modelling.
+]
+]
+
+.pull-right[
+### Target Variable (Growth Form)
+
+<img src="fig_target.png" style="max-width:60%; height:auto; border:1px solid #ccc; border-radius:6px;">
+
+.smaller[
+- The dataset is **highly imbalanced**.  
+- **Shrub** and **Herb** dominate the samples.  
+- Rare classes (e.g. climber, fern) are very few.  
+- → Apply **class weighting / resampling** later.
+]
+]
+
+---
+
+## 4.3 Trait Comparison & PCA
+
+.pull-left[
+### Trait Differences by Growth Form
+
+<img src="fig_trait_box.png" style="max-width:60%; height:auto; border:1px solid #ccc; border-radius:6px;">
+
+.smaller[
+- **Trees / Climbers:** longer leaves, taller growth.  
+- **Shrubs / Herbs:** smaller, but wide variation.  
+- Confirms growth form impacts plant morphology.
+]
+]
+
+.pull-right[
+### PCA Visualization
+
+<img src="fig_pca.png" style="max-width:60%; height:auto; border:1px solid #ccc; border-radius:6px;">
+
+.smaller[
+- PCA (PC1–PC2) shows partial clustering but overlap.  
+- PCA emphasizes variance, not class separation.  
+- → Supervised models (Decision Tree, XGBoost) can still classify effectively.
+]
+]
