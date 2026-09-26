@@ -1,0 +1,14 @@
+{
+  "title": "安全研究课程A2材料索引",
+  "category": "安全研究",
+  "period": "2026 S1",
+  "actual_role": "团队材料；个人分工待确认",
+  "verification_status": "not suitable for public reproduction",
+  "metrics": {
+    "local_report_count": 1,
+    "local_demo_videos": 2
+  },
+  "limits": "原始材料包含第三方服务的账号枚举、泄漏查询和未确认公开状态的漏洞记录。本分支只提供去目标化的材料索引，不公开账号、原始扫描日志、未披露细节或攻击脚本；不执行线上验证。完整复现不适用此公开分支。",
+  "public_assets": [],
+  "original_evidence": []
+}
