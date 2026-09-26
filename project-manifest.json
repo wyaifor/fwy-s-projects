@@ -1,0 +1,64 @@
+{
+  "title": "机器人即服务（RaaS）项目治理与实施规划",
+  "category": "产品规划与项目管理",
+  "period": "2025 S2",
+  "actual_role": "课程案例方案；个人分工待确认",
+  "verification_status": "code and saved outputs checked",
+  "metrics": {
+    "assignment_documents": 10
+  },
+  "limits": "这是课堂模拟的治理与交付方案，不是实际企业上线项目。材料包括项目章程、里程碑、沟通计划、治理、变更、QA与测试、风险及伦理。预算和时间表均为方案假设，不能写为实际收益或交付成果。",
+  "public_assets": [],
+  "original_evidence": [
+    {
+      "archive_member": "AW10+-+Risk%2C+Security+and+Privacy.docx",
+      "sha256_original": "cc2d7f6b6cc70fb040f41c5a833237f4e1548ba41a9b3bf08770fde07cb7324e",
+      "bytes": 53243
+    },
+    {
+      "archive_member": "AW11+-+Ethics+and+Responsibility.docx",
+      "sha256_original": "d316ae1311ef05518a60881382f73b210d03fe2d2f0ca9feec84bd5488570e08",
+      "bytes": 43596
+    },
+    {
+      "archive_member": "AW2+-+About+the+Organisation.docx",
+      "sha256_original": "ff3817027c17cedbb620ecadb385eb92f9808b88de861650470e1a55c93af65d",
+      "bytes": 834021
+    },
+    {
+      "archive_member": "AW3+-+Governance+and+proposal -edited.docx",
+      "sha256_original": "e5c956815fbe4c7a6eaf7aed60503656704fa1ad9dbe173bd0c6725f10bc9a10",
+      "bytes": 44591
+    },
+    {
+      "archive_member": "AW4+-+PMP+and+Timeline.docx",
+      "sha256_original": "261af1a2adbeba78558faa6380b4f337220e3c8d7eae961899e8c65a1b31d472",
+      "bytes": 296323
+    },
+    {
+      "archive_member": "AW5+-+Stakeholder+mapping+and+Communication+plan.docx",
+      "sha256_original": "bef5e180e3b96690a730b123b8610222da0dae8dd9685d918f600f91eaa15b4a",
+      "bytes": 141031
+    },
+    {
+      "archive_member": "AW6+-+Justification%2C+Tools%2C+Time+and+Resources.docx",
+      "sha256_original": "983511352226278dd43dd8626d55bd3838b7182f3fa363a78bb0043cb26fe86a",
+      "bytes": 46827
+    },
+    {
+      "archive_member": "AW7+-+IT+Governance+Framework.docx",
+      "sha256_original": "a0392bbcca4d43270a818d811f4cc0a64dd3e4f5bd7560d0564f239f5f9eaa99",
+      "bytes": 60137
+    },
+    {
+      "archive_member": "AW8+-+Change+Management+Plan.docx",
+      "sha256_original": "c6ae238239c66eb6c8ca341e7069294c359edfba27a9365040e67b73d83a9f1a",
+      "bytes": 47981
+    },
+    {
+      "archive_member": "AW9 - QA and Testing Plans.docx",
+      "sha256_original": "da7d0bf8df152e82462d8722e22b29bb51efe26f0d093fb0ad1c99f3919fa460",
+      "bytes": 59042
+    }
+  ]
+}
