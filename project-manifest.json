@@ -1,0 +1,51 @@
+{
+  "title": "PathMNIST图像分类与模型比较",
+  "category": "计算机视觉",
+  "period": "2026 S1",
+  "actual_role": "三人课程项目；个人模块待确认",
+  "verification_status": "code and saved outputs checked",
+  "metrics": {
+    "train_samples": 32000,
+    "test_samples": 8000,
+    "shape": [
+      28,
+      28,
+      3
+    ],
+    "classes": 9
+  },
+  "limits": "课程子集用于比较随机森林、MLP与CNN；仅属离线课程实验，不是临床产品，不写医疗诊断准确率。完整深度学习训练未在本机重跑。",
+  "public_assets": [],
+  "original_evidence": [
+    {
+      "archive_member": "a2-code-550520999-540391576-540458569.ipynb",
+      "sha256_original": "a9d83b100c1068c15ac2fc2b364cf834aac87c426d3a315214e6b9d3beadf9af",
+      "bytes": 768869
+    },
+    {
+      "archive_member": "A2-report-550520999-540391576-540458569.pdf",
+      "sha256_original": "54af7b4caff882d59e327d824f91bc22c70faa86883e3ceb50e6618ec488044b",
+      "bytes": 747918
+    },
+    {
+      "archive_member": "X_test.npy",
+      "sha256_original": "644c267fadac9bce1b1c75273f521fa22f92bdd831ed821ee1b8f98e9f861693",
+      "bytes": 18816128
+    },
+    {
+      "archive_member": "X_train.npy",
+      "sha256_original": "abd9bebaccd42d42505d5f86b5632349e30c47a34b39808e2b92ab69843f33a3",
+      "bytes": 75264128
+    },
+    {
+      "archive_member": "y_test.npy",
+      "sha256_original": "c3bed54d86a454329527824d76a507f1dea7e8f91a6efacbb5be9b83acdf6610",
+      "bytes": 8128
+    },
+    {
+      "archive_member": "y_train.npy",
+      "sha256_original": "76cf03f064af80e4ede8be1826793803a6568549dbcdeef9b4e1f1041f6e094c",
+      "bytes": 32128
+    }
+  ]
+}
