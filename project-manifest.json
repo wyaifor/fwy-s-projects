@@ -1,0 +1,32 @@
+{
+  "title": "图像去噪神经网络与噪声泛化实验",
+  "category": "计算机视觉",
+  "period": "2026 S1",
+  "actual_role": "小组课程项目；个人分工待确认",
+  "verification_status": "code and saved outputs checked",
+  "metrics": {
+    "planned_train_images": 350,
+    "planned_test_images": 50,
+    "historical_gaussian_noisy_PSNR": 20.45,
+    "historical_gaussian_restored_PSNR": 25.74
+  },
+  "limits": "原Notebook需要400幅课程图像，归档未发现该图像集及训练权重。本次只能核验源代码和保存的输出；PSNR来自历史输出，不是本次重跑结果。",
+  "public_assets": [],
+  "original_evidence": [
+    {
+      "archive_member": "5304project_1_group_37.pdf",
+      "sha256_original": "1c26994d30ee9877a41119265b705042f70d12acee39087f6c5cf5a64ce000e8",
+      "bytes": 3089488
+    },
+    {
+      "archive_member": "member1-introduction&network_design.docx",
+      "sha256_original": "7a392a22f489af731fcdeff48f2775918948c3abab06b51b15d9b534d376b5c4",
+      "bytes": 33088
+    },
+    {
+      "archive_member": "project_1_2026.ipynb",
+      "sha256_original": "be1f87e92989fb3d0acc3593e958640fd8ef9fb60653fbcf2e2e9dd5e1dcb88a",
+      "bytes": 1843975
+    }
+  ]
+}
