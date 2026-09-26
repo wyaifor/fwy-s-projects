@@ -1,0 +1,58 @@
+{
+  "title": "世界发展指标数据质量与Tableau可视化",
+  "category": "BI与数据质量",
+  "period": "2025 S2",
+  "actual_role": "个人报告：评估与一致性模块；小组项目",
+  "verification_status": "code and saved outputs checked",
+  "metrics": {
+    "panel_rows": 14075,
+    "countries": 217,
+    "years": 65,
+    "year_range": [
+      1960,
+      2024
+    ],
+    "indicators": 9,
+    "worksheets": 7,
+    "dashboards": 2
+  },
+  "limits": "团队分析不等于个人独立开发。个人报告记录了数据整合、覆盖率、缺失分布和时间波动分析。MAE_Proxy/RMSE_Proxy实际是年度变化量的统计，不能写成预测模型误差；不同单位不可直接汇总比较。",
+  "public_assets": [],
+  "original_evidence": [
+    {
+      "archive_member": "5048assignment2_individual_report_wfen0730.docx",
+      "sha256_original": "b824c1b1aca51189f47f41dd1fb3d0fd5b6ba5336991d151ee00eaab9c2ff36b",
+      "bytes": 1377826
+    },
+    {
+      "archive_member": "COMP5048_assignment2_report.pdf",
+      "sha256_original": "66771f8a6df7395731d90f50d1c39800886d2cc04cfeab0d9dd635d2ebe00201",
+      "bytes": 7542297
+    },
+    {
+      "archive_member": "WDI_Data.csv",
+      "sha256_original": "da9689f5ec8b41f799493b68ea06bfebccd4f5d6b3f48309285955988cb22a5c",
+      "bytes": 1465399
+    },
+    {
+      "archive_member": "WDI_indicator_lookup.csv",
+      "sha256_original": "b85a864fa55b911e21c65918f270b82685829f836fb3b02f23eb5e55cd820fd8",
+      "bytes": 492
+    },
+    {
+      "archive_member": "WDI_long.xlsx",
+      "sha256_original": "bf1483fe6f7b2af7f4333422c646b706a9a7a12b96dac6e28c9ed0d8152391e7",
+      "bytes": 4731978
+    },
+    {
+      "archive_member": "WDI_panel_raw.csv",
+      "sha256_original": "3aa6ce35e43faa58fc516b3b01c1fa959511ea1a37f635a92941f0b1874693e8",
+      "bytes": 1934791
+    },
+    {
+      "archive_member": "zuoye2part5.twb",
+      "sha256_original": "8d9fb86085c4dfe2ac71337258ba70e2d2b821e01572cd39e1f225be0ba77b90",
+      "bytes": 320353
+    }
+  ]
+}
