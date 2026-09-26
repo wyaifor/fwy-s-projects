@@ -1,0 +1,10 @@
+# Reacquire source data and rebuild locally
+data/raw/
+data/external/
+data/b_handoff/
+data/handoff/
+output/
+*.duckdb
+__pycache__/
+*.py[cod]
+.venv/

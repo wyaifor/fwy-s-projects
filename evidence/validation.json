@@ -1,0 +1,181 @@
+{
+  "validated_at_utc": "2026-09-25T07:44:31.819181+00:00",
+  "database": "ev_chargers.duckdb",
+  "passed": true,
+  "checks": [
+    {
+      "check": "all source records retained",
+      "passed": true,
+      "detail": 1958
+    },
+    {
+      "check": "DC population retained",
+      "passed": true,
+      "detail": 433
+    },
+    {
+      "check": "upcoming not inferred DC",
+      "passed": true,
+      "detail": 98
+    },
+    {
+      "check": "charger unique keys",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "check": "location unique keys",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "check": "operator unique keys",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "check": "region unique keys",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "check": "augmentation_match unique keys",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "check": "augmentation_attribute unique keys",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "check": "all regions edition 4",
+      "passed": true,
+      "detail": 2026
+    },
+    {
+      "check": "every charger has NSW SA4",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "check": "polygon match geometry valid",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "check": "coastal exception bounded",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "check": "no orphan attributes",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "check": "attributes only for verified matches",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "check": "no unknown values published",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "check": "no false bay/access semantics",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "check": "ChargeAlong includes non-TfNSW provenance",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "check": "every matched record adds a substantive attribute",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "check": "coverage denominator uses all DC source records",
+      "passed": true,
+      "detail": 433
+    },
+    {
+      "check": "location metric reported separately",
+      "passed": true,
+      "detail": 431
+    },
+    {
+      "check": "50 percent augmentation target",
+      "passed": true,
+      "detail": {
+        "numerator": 217,
+        "denominator": 433,
+        "coverage": 0.5011547344110855
+      }
+    },
+    {
+      "check": "record threshold requires at least 217",
+      "passed": true,
+      "detail": 217
+    },
+    {
+      "check": "raw operator rating and plug count preserved",
+      "passed": true,
+      "detail": 1958
+    },
+    {
+      "check": "all B and C identifiers preserved",
+      "passed": true,
+      "detail": 433
+    },
+    {
+      "check": "DDL matches augmentation_attribute",
+      "passed": true,
+      "detail": 11
+    },
+    {
+      "check": "DDL matches augmentation_match",
+      "passed": true,
+      "detail": 12
+    },
+    {
+      "check": "DDL matches charger",
+      "passed": true,
+      "detail": 15
+    },
+    {
+      "check": "DDL matches external_provenance",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "check": "DDL matches location",
+      "passed": true,
+      "detail": 10
+    },
+    {
+      "check": "DDL matches operator",
+      "passed": true,
+      "detail": 2
+    },
+    {
+      "check": "DDL matches quality_issue",
+      "passed": true,
+      "detail": 4
+    },
+    {
+      "check": "DDL matches region",
+      "passed": true,
+      "detail": 7
+    },
+    {
+      "check": "DDL matches source_dataset",
+      "passed": true,
+      "detail": 6
+    }
+  ]
+}

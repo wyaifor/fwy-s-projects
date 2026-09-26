@@ -1,0 +1,5 @@
+duckdb==1.5.5
+pandas>=2.0
+shapely>=2.0
+pyproj>=3.5
+pyogrio>=0.7

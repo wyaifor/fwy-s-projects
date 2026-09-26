@@ -1,0 +1,58 @@
+{
+  "title": "NSW EV Charger Data Integration and DuckDB Validation",
+  "status": "code and saved outputs checked",
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 156
+    },
+    {
+      "path": "evidence/summary.json",
+      "bytes": 3020
+    },
+    {
+      "path": "evidence/validation.json",
+      "bytes": 3850
+    },
+    {
+      "path": "README.md",
+      "bytes": 1832
+    },
+    {
+      "path": "requirements.txt",
+      "bytes": 69
+    },
+    {
+      "path": "sql/example_queries.sql",
+      "bytes": 976
+    },
+    {
+      "path": "sql/schema.sql",
+      "bytes": 4622
+    },
+    {
+      "path": "src/acquire.py",
+      "bytes": 3223
+    },
+    {
+      "path": "src/augment.py",
+      "bytes": 17187
+    },
+    {
+      "path": "src/build.py",
+      "bytes": 12919
+    },
+    {
+      "path": "src/refresh_external.py",
+      "bytes": 4066
+    },
+    {
+      "path": "src/validate.py",
+      "bytes": 6126
+    },
+    {
+      "path": "tests/test_matching.py",
+      "bytes": 3440
+    }
+  ]
+}

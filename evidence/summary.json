@@ -1,0 +1,134 @@
+{
+  "built_at_utc": "2026-09-25T07:44:07.131127+00:00",
+  "duckdb_version": "1.5.5",
+  "tables": {
+    "source_dataset": 2,
+    "region": 30,
+    "operator": 49,
+    "location": 1956,
+    "charger": 1958,
+    "augmentation_match": 433,
+    "augmentation_attribute": 1171,
+    "external_provenance": 355,
+    "quality_issue": 4157
+  },
+  "raw_rows": 1958,
+  "raw_exact_duplicate_rows": 0,
+  "charger_types": {
+    "AC": 1427,
+    "DC": 433,
+    "Upcoming": 98
+  },
+  "missing_raw": {
+    "OBJECTID": 1837,
+    "Station_name": 1438,
+    "Station_address": 0,
+    "Operator": 0,
+    "Number_of_plugs": 0,
+    "Charger_Type": 0,
+    "Charger_rating": 0,
+    "Latitude": 0,
+    "Longitude": 0,
+    "LGANAME": 121,
+    "PCODE": 121,
+    "Source": 121
+  },
+  "coverage": {
+    "total_dc_records": 433,
+    "augmented_records": 217,
+    "coverage": 0.5011547344110855,
+    "total_dc_locations": 431,
+    "augmented_locations": 217,
+    "location_coverage": 0.5034802784222738
+  },
+  "spatial_methods": [
+    {
+      "spatial_method": "covers",
+      "records": 1957
+    },
+    {
+      "spatial_method": "nearest_boundary_within_10m",
+      "records": 1
+    }
+  ],
+  "sa4_changed_dc_records": 0,
+  "matching_statuses": {
+    "matched": 217,
+    "needs_review": 216
+  },
+  "attribute_counts": [
+    {
+      "source_name": "ChargeAlong",
+      "attribute_name": "access_text",
+      "n": 5
+    },
+    {
+      "source_name": "ChargeAlong",
+      "attribute_name": "access_type",
+      "n": 75
+    },
+    {
+      "source_name": "ChargeAlong",
+      "attribute_name": "external_max_power_kw",
+      "n": 117
+    },
+    {
+      "source_name": "ChargeAlong",
+      "attribute_name": "external_plug_count",
+      "n": 117
+    },
+    {
+      "source_name": "ChargeAlong",
+      "attribute_name": "plug_types",
+      "n": 117
+    },
+    {
+      "source_name": "ChargeAlong",
+      "attribute_name": "pricing",
+      "n": 45
+    },
+    {
+      "source_name": "ChargeAlong",
+      "attribute_name": "status",
+      "n": 117
+    },
+    {
+      "source_name": "Open Charge Map",
+      "attribute_name": "access_type",
+      "n": 100
+    },
+    {
+      "source_name": "Open Charge Map",
+      "attribute_name": "external_max_power_kw",
+      "n": 99
+    },
+    {
+      "source_name": "Open Charge Map",
+      "attribute_name": "external_number_of_points",
+      "n": 100
+    },
+    {
+      "source_name": "Open Charge Map",
+      "attribute_name": "plug_types",
+      "n": 100
+    },
+    {
+      "source_name": "Open Charge Map",
+      "attribute_name": "pricing",
+      "n": 79
+    },
+    {
+      "source_name": "Open Charge Map",
+      "attribute_name": "status",
+      "n": 100
+    }
+  ],
+  "original_c_augmented_locations": 284,
+  "matched_by_source": {
+    "ChargeAlong": 117,
+    "Open Charge Map": 100
+  },
+  "cache_verified_matches": 217,
+  "detail_cache_files": 904,
+  "candidate_evidence_rows": 2080
+}
