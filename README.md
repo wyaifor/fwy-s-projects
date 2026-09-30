@@ -1,47 +1,28 @@
-# 冯婉怡的课程项目索引
+# 冯婉怡｜项目作品集
 
-每个项目位于独立 `project/...` 分支；本分支只保留索引。公开内容经过隐私、授权和安全边界筛选。
+本仓库只展示适合招聘阅读的课程项目：每个项目均有可核验的代码、项目报告或已保存的实验/数据产出。项目按独立分支维护；本页用于快速判断项目主题、本人实际参与边界与复现条件。
 
-- `project/bi-wdi-quality` — 世界发展指标数据质量与Tableau可视化（code and saved outputs checked）
-- `project/bi-air-quality` — 空气质量时空分析与Tableau仪表板（code and saved outputs checked）
-- `project/data-multi-dataset-cleaning` — 汽车、糖尿病与森林覆盖数据质量分析（code and saved outputs checked）
-- `project/ml-car-price` — 二手汽车价格预测与决策树解释（re-run verified）
-- `project/ml-plant-traits` — 澳大利亚植物性状清洗与生长型分类（code and saved outputs checked）
-- `project/management-raas-governance` — 机器人即服务（RaaS）项目治理与实施规划（code and saved outputs checked）
-- `project/cv-image-denoising` — 图像去噪神经网络与噪声泛化实验（code and saved outputs checked）
-- `project/ml-rice-classification` — 水稻品种分类与8种机器学习模型比较（code and saved outputs checked）
-- `project/cv-pathmnist-classification` — PathMNIST图像分类与模型比较（code and saved outputs checked）
-- `project/nlp-qanet-debugging` — QANet问答模型调试与实验（code and saved outputs checked）
-- `project/responsible-ai-clip` — CLIP图文关联偏差与推荐模拟（code and saved outputs checked）
-- `project/security-android-token` — Android课堂应用Token安全分析与验证（not suitable for public reproduction）
-- `project/security-research-a2` — 安全研究课程A2材料索引（not suitable for public reproduction）
-- `project/undergrad-01` — 基于查表法的智能温度计开发（proteus仿真）（report only）
-- `project/undergrad-02` — 智能感知，了解如下实验器材及原理：温度计，电阻应变式传感器，电涡流传感器，光电传感器热敏实验，光纤传感器，（report only）
-- `project/undergrad-03` — 手势识别 飞腾派开发板实现（report only）
-- `project/undergrad-04` — 单片机小车寻迹实验报告（report only）
-- `project/undergrad-05` — 实验一： 数码管显示系统设计（report only）
-- `project/undergrad-06` — 实验二： 定时器应用程序设计(1)（report only）
-- `project/undergrad-07` — 智能系统建模与仿真实验1 微分方程的求解 实验报告(1)（report only）
-- `project/undergrad-08` — 智能系统建模与仿真实验2（report only）
-- `project/undergrad-09` — 机器人学实验三机器人正逆动力学（report only）
-- `project/undergrad-10` — 机器人学实验四机械臂轨迹规划及控制（report only）
-- `project/undergrad-11` — 机器人学实验欧拉变换 2机械臂正逆运动学（report only）
-- `project/undergrad-12` — 实验一遗传算法的设计与实现（report only）
-- `project/undergrad-13` — 机器学习实验二神经网络在信息预测中的应用（report only）
-- `project/undergrad-14` — 实验一Bayes分类器设计（report only）
-- `project/undergrad-15` — 模式识别-实验二图像变换（report only）
-- `project/undergrad-16` — 模式识别实验三图像目标系统设计与实现（report only）
-- `project/undergrad-17` — 神经网络与深度学习实验一（report only）
-- `project/undergrad-18` — 神经网络与深度学习实验二（report only）
-- `project/undergrad-19` — 光电小交警（report only）
-- `project/undergrad-20` — 机器智能综合实验（report only）
-- `project/undergrad-21` — 人工智能实验1-2，（report only）
-- `project/undergrad-22` — 实验四 基于Python的深度学习应用（report only）
-- `project/undergrad-23` — 实验一 多项式的链表表示及运算（report only）
-- `project/undergrad-24` — 实验三 图的表示及其遍历（report only）
-- `project/undergrad-25` — 实验二 二叉树的生成与遍历（report only）
-- `project/undergrad-26` — 实验五 排序方法实验（report only）
-- `project/undergrad-27` — 实验四   查找方法比较（report only）
-- `project/undergrad-28` — 数据挖掘与处理实验1-2（report only）
-- `project/undergrad-29` — 机器鼠 实验报告（report only）
-- `project/undergrad-30` — ROS实验报告（report only）
+## 推荐阅读
+
+| 项目 | 适合岗位 | 已核验内容 | 本人实际角色 | 查看 |
+|---|---|---|---|---|
+| NSW EV 充电设施数据集成与 DuckDB 核验 | 数据产品、AI 产品、数据运营、项目交付 | 1,958 条源记录；9 张表、3 个视图；433 个 DC ID 完整保留；空间匹配与数据质量校验 | 负责最终集成与结果检查；实现与文档存在 AI 辅助 | [项目说明](https://github.com/wyaifor/fwy-s-projects/tree/project/data-ev-charger-duckdb) |
+| CLIP 图文关联偏差与推荐模拟 | AI 产品、负责任 AI、数据分析 | 4,200 张样本图像、41 个职业标签、164 条提示词；代码与保存输出已核验 | 三人课程团队成员；负责排期、进度跟进与材料整合 | [项目说明](https://github.com/wyaifor/fwy-s-projects/tree/project/responsible-ai-clip) |
+| 二手汽车价格预测与决策树解释 | 数据分析、产品策略、数据运营 | 8,107 条有效目标记录；5 折交叉验证、360 组候选参数；已完成窄范围复跑 | 决策树模块参与者；结果检查与协作，代码存在 AI 辅助 | [项目说明](https://github.com/wyaifor/fwy-s-projects/tree/project/ml-car-price) |
+| 世界发展指标数据质量与 Tableau 可视化 | 数据运营、BI、经营分析 | 14,075 行面板数据、217 个国家、65 年、9 个指标、7 张工作表与 2 个仪表板 | 小组项目中的评估与一致性模块；个人报告部分已核验 | [项目说明](https://github.com/wyaifor/fwy-s-projects/tree/project/bi-wdi-quality) |
+
+## 阅读顺序
+
+- 投递 **AI 产品、产品运营、数据产品**：先看 NSW EV，再看 CLIP。
+- 投递 **数据运营、经营分析、BI**：先看 NSW EV、WDI 和二手汽车项目。
+- 投递 **项目协调、交付或解决方案**：先看 NSW EV；其中的数据口径、核验和可追溯性最贴近业务交付。
+
+## 代码、报告与公开边界
+
+每个项目分支含 `README.md`、`project-manifest.json`，以及可公开的代码、SQL、配置或已保存输出。原始课程报告、输入数据、学生信息、第三方服务缓存及授权不明材料不上传；其文件指纹与公开范围在 manifest 中保留。项目说明会明确区分个人贡献、小组产出、课程脚手架及 AI 辅助实现。
+
+## 未在本页展示的内容
+
+早期本科实验、只有报告没有完整代码的作业、无可复现证据的材料，以及安全课程材料均不作为作品集入口。它们不应被当作核心项目阅读。
+
+详细的筛选口径见 [作品集维护说明](PORTFOLIO_GUIDE.md)。
