@@ -12,12 +12,14 @@
 | CLIP 图文关联偏差与推荐模拟 | AI 产品、负责任 AI、数据分析 | 4,200 张样本图像、41 个职业标签、164 条提示词；代码与保存输出已核验 | 三人课程团队成员；负责排期、进度跟进与材料整合 | [项目说明](https://github.com/wyaifor/fwy-s-projects/tree/project/responsible-ai-clip) |
 | 二手汽车价格预测与决策树解释 | 数据分析、产品策略、数据运营 | 8,107 条有效目标记录；5 折交叉验证、360 组候选参数；已完成窄范围复跑 | 决策树模块参与者；结果检查与协作，代码存在 AI 辅助 | [项目说明](https://github.com/wyaifor/fwy-s-projects/tree/project/ml-car-price) |
 | 世界发展指标数据质量与 Tableau 可视化 | 数据运营、BI、经营分析 | 14,075 行面板数据、217 个国家、65 年、9 个指标、7 张工作表与 2 个仪表板 | 小组项目中的评估与一致性模块；个人报告部分已核验 | [项目说明](https://github.com/wyaifor/fwy-s-projects/tree/project/bi-wdi-quality) |
+| Faster R-CNN 目标检测与误差分析 | AI 产品、数据分析、视觉 AI | VOC 2007：2,501/2,510/4,952 张训练、验证、测试图像；mAP@0.5 79.15%；报告与保存输出已核验 | 课程小组成员；仅以团队成果引用实验指标，不表述为个人独立训练 | [项目说明](https://github.com/wyaifor/fwy-s-projects/tree/project/cv-faster-rcnn-voc2007) |
 
 ### 研究生阶段阅读顺序
 
 - 投递 **AI 产品、产品运营、数据产品**：先看 NSW EV，再看 CLIP。
 - 投递 **数据运营、经营分析、BI**：先看 NSW EV、WDI 和二手汽车项目。
 - 投递 **项目协调、交付或解决方案**：先看 NSW EV；其中的数据口径、核验和可追溯性最贴近业务交付。
+- 投递 **AI 产品、视觉 AI 或模型评估相关岗位**：可补充阅读 Faster R-CNN；重点是实验评估、误差归因和可验证改进建议。
 
 ## 本科阶段｜2021.10–2025.07
 

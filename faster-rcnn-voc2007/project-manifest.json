@@ -1,0 +1,14 @@
+{
+  "project": "Faster R-CNN Object Detection and Error Analysis",
+  "project_type": "Course group project",
+  "public_files": [
+    "README.md",
+    "Assignment_Report.ipynb",
+    "project-manifest.json"
+  ],
+  "source_report_sha256": "a1cf5b84487630bf95aad7eba40812c1c8328ea1349260e1e95e6a9c475a6b24",
+  "public_notebook_sha256": "66b1395c5ab5da6c1b03ed1b164c3ade2e541827eab077fc6b060ec7559143e4",
+  "sanitization": "Removed group student IDs from the title cell. No dataset, checkpoint, environment cache, or local file path is packaged.",
+  "reproducibility": "report only; code and saved report outputs checked, full model training was not re-run for publication.",
+  "candidate_role": "Course group member. Resume wording uses team-level model results and does not claim independent training or deployment."
+}
