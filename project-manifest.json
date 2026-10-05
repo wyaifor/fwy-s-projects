@@ -1,0 +1,37 @@
+{
+  "title": "基于 LangChain 和 ChatGLM 的电子工艺实习智能问答系统",
+  "stage": "undergraduate",
+  "period": "2025-02 to 2025-06",
+  "role": "本科毕业设计作者；基于论文与归档材料整理",
+  "evidence_status": "report only",
+  "source_archive": {
+    "name": "graduateproject.zip",
+    "sha256": "09018c9e949783ebf7d9a8894da6f955472acf8244d5835c0b8004f1c3f103d0"
+  },
+  "thesis": {
+    "title": "基于 LangChain 和 ChatGLM 的电子工艺实习智能问答系统",
+    "pages": 46,
+    "sha256": "396bc8676898009f43a08c27c321e6e8ac8d4b156a541fd4328859872b63a6ef"
+  },
+  "report_recorded_metrics": {
+    "local_qa_accuracy_percent": 76.04,
+    "local_professional_relevance_percent": 85,
+    "local_mean_response_seconds": 9.75,
+    "comparison_model_accuracy_percent": 69.34,
+    "comparison_model_professional_relevance_percent": 50,
+    "comparison_model_mean_response_seconds": 2.01,
+    "verification_note": "Historical results transcribed from the thesis; not re-run in this packaging pass."
+  },
+  "public_package": [
+    "README.md",
+    "evidence/report-derived-results.md",
+    "project-manifest.json"
+  ],
+  "excluded": [
+    "Thesis PDF and DOCX containing personal identifiers",
+    "Third-party textbooks, course handouts and other copyrighted materials",
+    "Videos and screenshots",
+    "Original archive and nested archive",
+    "No runnable source code was found in the supplied archive"
+  ]
+}
