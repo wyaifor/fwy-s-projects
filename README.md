@@ -27,6 +27,7 @@
 
 | 课程材料 | 方向 | 当前状态 | 查看 |
 |---|---|---|---|
+| LangChain + ChatGLM 电子工艺实习智能问答系统（本科毕设） | 本地知识库问答、教育 AI | 论文与归档材料已核对；未发现完整源码，因此仅公开脱敏说明与报告口径，不承诺可复现 | [项目说明](https://github.com/wyaifor/fwy-s-projects/tree/project/undergrad-langchain-chatglm-electronic-qa) |
 | 手势识别飞腾派开发板实现 | 智能感知与嵌入式 | 报告与截图已保存；未发现完整工程 | [材料说明](https://github.com/wyaifor/fwy-s-projects/tree/project/undergrad-03) |
 | 单片机小车寻迹实验 | 嵌入式与控制 | 实验报告已保存；未发现完整工程 | [材料说明](https://github.com/wyaifor/fwy-s-projects/tree/project/undergrad-04) |
 | 遗传算法设计与实现 | 机器学习基础 | 实验报告已保存；未发现可安全运行的完整工程 | [材料说明](https://github.com/wyaifor/fwy-s-projects/tree/project/undergrad-12) |
