@@ -1,0 +1,23 @@
+{
+  "title": "基于 OpenCV 的手势识别与交互控制",
+  "stage": "undergraduate",
+  "period": "undergraduate period; exact date not verified",
+  "role": "课程项目参与者",
+  "evidence_status": "source code and course report checked",
+  "verified_scope": [
+    "HSV threshold segmentation and morphology",
+    "contour approximation and rule-based 1–5 gesture estimate",
+    "Tkinter UI for webcam and local file input"
+  ],
+  "public_package": [
+    "README.md",
+    "src/hand.py",
+    "project-manifest.json"
+  ],
+  "excluded": [
+    "Course report, PPT and screenshots containing personal identifiers",
+    "Hardware simulation files and third-party resources",
+    "Original archive, video and any input media"
+  ],
+  "reproducibility": "Archived course prototype; dependencies and cross-platform operation have not been re-validated."
+}
