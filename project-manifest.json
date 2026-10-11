@@ -1,0 +1,24 @@
+{
+  "title": "MSP430F5529 智能循迹小车控制",
+  "stage": "undergraduate",
+  "period": "undergraduate period; exact date not verified",
+  "role": "课程实战项目参与者",
+  "evidence_status": "source code and course report checked",
+  "verified_scope": [
+    "MSP430F5529 timer/PWM configuration",
+    "five-sensor tracking decision logic",
+    "four-digit display and count-related code"
+  ],
+  "public_package": [
+    "README.md",
+    "src/smart_car_controller.c",
+    "project-manifest.json"
+  ],
+  "excluded": [
+    "Course report containing personal identifiers",
+    "Hardware photos and test records",
+    "IDE project files, firmware binaries and schematics",
+    "Course handouts and other third-party materials"
+  ],
+  "reproducibility": "Partial source only; hardware configuration and full project environment are not public."
+}
