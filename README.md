@@ -23,14 +23,13 @@
 
 ## 本科阶段｜2021.10–2025.07
 
-本科材料以基础课程实验为主。目前保存的项目大多只有实验报告、截图或局部代码，尚无可公开的完整工程，因此不作为求职核心作品展示。为保留学习轨迹，以下列出具有明确主题的代表材料；后续补齐工程代码、报告和可核验输出后，才会升级为主项目。
+本科公开内容已按“项目可核验性、个人贡献边界、隐私与版权”重整：保留 3 项有明确主题的项目，课程 PPT、原始报告、视频、截图、数据集、硬件工程文件和仅有概念讲解的作业均不公开。
 
-| 课程材料 | 方向 | 当前状态 | 查看 |
+| 项目 | 方向 | 当前公开范围 | 查看 |
 |---|---|---|---|
-| LangChain + ChatGLM 电子工艺实习智能问答系统（本科毕设） | 本地知识库问答、教育 AI | 论文与归档材料已核对；未发现完整源码，因此仅公开脱敏说明与报告口径，不承诺可复现 | [项目说明](https://github.com/wyaifor/fwy-s-projects/tree/project/undergrad-langchain-chatglm-electronic-qa) |
-| 手势识别飞腾派开发板实现 | 智能感知与嵌入式 | 报告与截图已保存；未发现完整工程 | [材料说明](https://github.com/wyaifor/fwy-s-projects/tree/project/undergrad-03) |
-| 单片机小车寻迹实验 | 嵌入式与控制 | 实验报告已保存；未发现完整工程 | [材料说明](https://github.com/wyaifor/fwy-s-projects/tree/project/undergrad-04) |
-| 遗传算法设计与实现 | 机器学习基础 | 实验报告已保存；未发现可安全运行的完整工程 | [材料说明](https://github.com/wyaifor/fwy-s-projects/tree/project/undergrad-12) |
+| LangChain + ChatGLM 电子工艺实习智能问答系统（本科毕设） | 本地知识库问答、教育 AI | 论文与归档材料已核对；未发现完整源码，仅公开脱敏说明及历史测试口径 | [项目说明](https://github.com/wyaifor/fwy-s-projects/tree/project/undergrad-langchain-chatglm-electronic-qa) |
+| MSP430F5529 智能循迹小车控制 | 嵌入式、传感与控制 | 已核验控制源码；公开 PWM、五路循迹与显示/计数逻辑，不承诺硬件环境复现 | [项目源码](https://github.com/wyaifor/fwy-s-projects/tree/project/undergrad-smart-car-control) |
+| 基于 OpenCV 的手势识别与交互控制 | 计算机视觉、嵌入式交互 | 已核验 Python 原型；公开 HSV 分割、轮廓规则与 Tkinter 界面，不对外宣称未复核性能 | [项目源码](https://github.com/wyaifor/fwy-s-projects/tree/project/undergrad-opencv-gesture-control) |
 
 ## 代码、报告与公开边界
 

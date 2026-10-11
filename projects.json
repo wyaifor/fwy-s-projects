@@ -26,5 +26,26 @@
     "title": "世界发展指标数据质量与 Tableau 可视化",
     "category": "BI 与经营分析",
     "status": "code and saved outputs checked"
+  },
+  {
+    "branch": "project/undergrad-langchain-chatglm-electronic-qa",
+    "slug": "undergrad-langchain-chatglm-electronic-qa",
+    "title": "基于 LangChain 和 ChatGLM 的电子工艺实习智能问答系统",
+    "category": "本科毕业设计 / 教育 AI",
+    "status": "report-derived results; source code not found"
+  },
+  {
+    "branch": "project/undergrad-smart-car-control",
+    "slug": "undergrad-smart-car-control",
+    "title": "MSP430F5529 智能循迹小车控制",
+    "category": "本科课程项目 / 嵌入式控制",
+    "status": "sanitized source code and report scope checked"
+  },
+  {
+    "branch": "project/undergrad-opencv-gesture-control",
+    "slug": "undergrad-opencv-gesture-control",
+    "title": "基于 OpenCV 的手势识别与交互控制",
+    "category": "本科课程项目 / 计算机视觉",
+    "status": "sanitized source code and report scope checked"
   }
 ]
