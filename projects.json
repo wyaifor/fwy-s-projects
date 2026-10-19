@@ -1,5 +1,12 @@
 [
   {
+    "branch": "project/comp5339-quiz2-visual-study",
+    "slug": "comp5339-quiz2-visual-study",
+    "title": "COMP5339 Quiz 2 可视化学习站",
+    "category": "AI 产品与教育科技",
+    "status": "48 lessons / 48 quizzes / browser verified"
+  },
+  {
     "branch": "project/data-ev-charger-duckdb",
     "slug": "data-ev-charger-duckdb",
     "title": "NSW EV 充电设施数据集成与 DuckDB 核验",
