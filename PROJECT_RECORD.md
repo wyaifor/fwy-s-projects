@@ -20,6 +20,9 @@ The initial revision notes were comprehensive but text-heavy. The practical prob
 |---|---:|
 | Week modules | 4 |
 | Lesson units | 48 |
+| Interactive quiz boxes | 66 |
+| Quiz options | 189 |
+| Source-gap expansions | 27 |
 | Exam support views | 2 |
 | Runtime dependencies | 0 |
 | Persistent progress | Browser `localStorage` |
