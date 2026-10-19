@@ -42,7 +42,8 @@ python -m http.server 8130
 ├── site-preview.png        # 网站预览
 ├── bitcoin-july-plot.png   # 实际代码运行图表
 ├── PROJECT_RECORD.md       # 目标、过程、分工边界与验证记录
-└── SOURCE_COVERAGE.md      # 来源覆盖与公开范围说明
+├── SOURCE_COVERAGE.md      # 来源覆盖与公开范围说明
+└── project-manifest.json   # 可核验指标、公开文件与 AI 边界
 ```
 
 ## 公开范围

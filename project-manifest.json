@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "project": {
+    "title": "COMP5339 Quiz 2 Visual Study Guide",
+    "branch": "project/comp5339-quiz2-visual-study",
+    "type": "AI-assisted static study website",
+    "live_demo": "https://comp5339-quiz2-visual-study.tenderdaisy128.chatgpt.site/",
+    "published_on": "2026-10-19"
+  },
+  "verified_outputs": {
+    "week_modules": 4,
+    "lesson_units": 48,
+    "interactive_quizzes": 48,
+    "exam_support_views": 2,
+    "runtime_dependencies": 0,
+    "progress_storage": "browser localStorage"
+  },
+  "contribution_boundary": {
+    "human": "Defined the learning problem, supplied authorised materials, set completeness and visual requirements, reviewed iterations, corrected omissions, and accepted the final result.",
+    "ai_assisted": "Source synthesis, information architecture, explanatory drafting, HTML/CSS/JavaScript implementation, consistency checks, and browser QA.",
+    "claim": "AI-assisted study product directed and verified by the learner"
+  },
+  "public_files": [
+    "index.html",
+    "styles.css",
+    "app.js",
+    "content.js",
+    "README.md",
+    "PROJECT_RECORD.md",
+    "SOURCE_COVERAGE.md",
+    "site-preview.png",
+    "bitcoin-july-plot.png",
+    ".gitignore"
+  ],
+  "excluded": [
+    "course PDFs, recordings and transcripts",
+    "tutorial notebooks and raw datasets",
+    "credentials and account configuration",
+    "local runtimes and deployment identifiers",
+    "screenshots copied from course teaching material"
+  ]
+}
