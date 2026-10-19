@@ -1,38 +1,51 @@
-# 冯婉怡｜项目作品集
+# COMP5339 Quiz 2 Visual Study Guide
 
-本仓库按培养阶段整理。每个入口均说明项目性质、本人实际参与边界与复现条件；不会将课程脚手架、小组成果或 AI 辅助实现误写成独立商业项目。
+[Live demo](https://comp5339-quiz2-visual-study.tenderdaisy128.chatgpt.site/) · [Project record](PROJECT_RECORD.md) · [Source coverage](SOURCE_COVERAGE.md)
 
-## 研究生阶段｜2025.08–2027.03
+这是一个面向零基础学习者的交互式复习网站。项目起因是：只有大段文字的复习资料难以持续阅读和记忆，因此把 COMP5339 Week 7–10 的知识整理成可搜索、可视化、可自测的网页。
 
-这些项目有可公开的完整代码、课程报告、保存输出或复现验证记录，适合招聘阅读。
+![Website preview](site-preview.png)
 
-| 项目 | 适合岗位 | 已核验内容 | 本人实际角色 | 查看 |
-|---|---|---|---|---|
-| NSW EV 充电设施数据集成与 DuckDB 核验 | 数据产品、AI 产品、数据运营、项目交付 | 1,958 条源记录；9 张表、3 个视图；433 个 DC ID 完整保留；空间匹配与数据质量校验 | 负责最终集成与结果检查；实现与文档存在 AI 辅助 | [项目说明](https://github.com/wyaifor/fwy-s-projects/tree/project/data-ev-charger-duckdb) |
-| CLIP 图文关联偏差与推荐模拟 | AI 产品、负责任 AI、数据分析 | 4,200 张样本图像、41 个职业标签、164 条提示词；代码与保存输出已核验 | 三人课程团队成员；负责排期、进度跟进与材料整合 | [项目说明](https://github.com/wyaifor/fwy-s-projects/tree/project/responsible-ai-clip) |
-| 二手汽车价格预测与决策树解释 | 数据分析、产品策略、数据运营 | 8,107 条有效目标记录；5 折交叉验证、360 组候选参数；已完成窄范围复跑 | 决策树模块参与者；结果检查与协作，代码存在 AI 辅助 | [项目说明](https://github.com/wyaifor/fwy-s-projects/tree/project/ml-car-price) |
-| 世界发展指标数据质量与 Tableau 可视化 | 数据运营、BI、经营分析 | 14,075 行面板数据、217 个国家、65 年、9 个指标、7 张工作表与 2 个仪表板 | 小组项目中的评估与一致性模块；个人报告部分已核验 | [项目说明](https://github.com/wyaifor/fwy-s-projects/tree/project/bi-wdi-quality) |
-| Faster R-CNN 目标检测与误差分析 | AI 产品、数据分析、视觉 AI | VOC 2007：2,501/2,510/4,952 张训练、验证、测试图像；mAP@0.5 79.15%；报告与保存输出已核验 | 课程小组成员；仅以团队成果引用实验指标，不表述为个人独立训练 | [项目说明](https://github.com/wyaifor/fwy-s-projects/tree/project/cv-faster-rcnn-voc2007) |
+## 可核验成果
 
-### 研究生阶段阅读顺序
+- 覆盖 W7–W10，共 **48 个主题单元**。
+- 提供 **2 个考试工具**：高频概念对比与中英文术语速查。
+- 每个主题包含目标、图解或对照表、正文说明和即时自测。
+- 支持全文搜索、周次筛选、上一节/下一节导航和本地学习进度。
+- 网站使用原生 HTML、CSS 和 JavaScript，无需前端构建工具或第三方运行依赖。
+- W10 的 Bitcoin 图表来自实际 notebook 运行结果，并在网页中明确标注来源性质。
 
-- 投递 **AI 产品、产品运营、数据产品**：先看 NSW EV，再看 CLIP。
-- 投递 **数据运营、经营分析、BI**：先看 NSW EV、WDI 和二手汽车项目。
-- 投递 **项目协调、交付或解决方案**：先看 NSW EV；其中的数据口径、核验和可追溯性最贴近业务交付。
-- 投递 **AI 产品、视觉 AI 或模型评估相关岗位**：可补充阅读 Faster R-CNN；重点是实验评估、误差归因和可验证改进建议。
+## 我如何使用 AI
 
-## 本科阶段｜2021.10–2025.07
+这是一个 AI 辅助完成、由人持续提出要求并核验结果的项目。人工工作包括定义学习问题、要求覆盖全部 W7–W10 材料、指出内容遗漏、要求增加图表与流程、检查英文术语和实际运行结果，并反复验收网页。AI 用于材料归纳、知识结构设计、页面实现、交互代码生成、内容一致性检查和浏览器测试。
 
-本科公开内容已按“项目可核验性、个人贡献边界、隐私与版权”重整：保留 3 项有明确主题的项目，课程 PPT、原始报告、视频、截图、数据集、硬件工程文件和仅有概念讲解的作业均不公开。
+项目没有把“使用 AI”包装成独立手写全部代码。它展示的是如何把一个模糊需求逐步拆成可验证的产品：从文字版资料，到按周组织的 48 节内容，再到搜索、进度、自测、响应式布局和公开部署。
 
-| 项目 | 方向 | 当前公开范围 | 查看 |
-|---|---|---|---|
-| LangChain + ChatGLM 电子工艺实习智能问答系统（本科毕设） | 本地知识库问答、教育 AI | 论文与归档材料已核对；未发现完整源码，仅公开脱敏说明及历史测试口径 | [项目说明](https://github.com/wyaifor/fwy-s-projects/tree/project/undergrad-langchain-chatglm-electronic-qa) |
-| MSP430F5529 智能循迹小车控制 | 嵌入式、传感与控制 | 已核验控制源码；公开 PWM、五路循迹与显示/计数逻辑，不承诺硬件环境复现 | [项目源码](https://github.com/wyaifor/fwy-s-projects/tree/project/undergrad-smart-car-control) |
-| 基于 OpenCV 的手势识别与交互控制 | 计算机视觉、嵌入式交互 | 已核验 Python 原型；公开 HSV 分割、轮廓规则与 Tkinter 界面，不对外宣称未复核性能 | [项目源码](https://github.com/wyaifor/fwy-s-projects/tree/project/undergrad-opencv-gesture-control) |
+## 运行方式
 
-## 代码、报告与公开边界
+下载仓库分支后，在本目录运行：
 
-每个项目分支含 `README.md`、`project-manifest.json`，以及可公开的代码、SQL、配置或已保存输出。原始课程报告、输入数据、学生信息、第三方服务缓存及授权不明材料不上传；其文件指纹与公开范围在 manifest 中保留。
+```powershell
+python -m http.server 8130
+```
 
-详细筛选标准、发布前检查与后续入选规则见 [作品集维护说明](PORTFOLIO_GUIDE.md)。
+然后访问 `http://127.0.0.1:8130/`。直接双击 `index.html` 通常也能打开，但本地 HTTP 服务更接近实际部署环境。
+
+## 文件结构
+
+```text
+.
+├── index.html              # 页面结构
+├── styles.css              # 响应式视觉样式
+├── app.js                  # 搜索、导航、测验与进度逻辑
+├── content.js              # W7–W10 结构化学习内容
+├── site-preview.png        # 网站预览
+├── bitcoin-july-plot.png   # 实际代码运行图表
+├── PROJECT_RECORD.md       # 目标、过程、分工边界与验证记录
+└── SOURCE_COVERAGE.md      # 来源覆盖与公开范围说明
+```
+
+## 公开范围
+
+仓库只包含原创网页代码、重写后的学习说明和可公开展示的生成结果。课程 PDF、录屏、transcript、notebook、原始数据、账号凭据、本地运行环境和部署配置均未上传。此网站是个人学习辅助材料，不是悉尼大学官方教学资源。
+

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="COMP5339 Quiz 2 Week 7–10 零基础图文复习网站">
+  <title>COMP5339 Quiz 2 视觉学习站</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <button id="menuButton" class="icon-button" aria-label="打开课程目录">☰</button>
+    <div class="brand"><span class="brand-mark">53</span><div><b>COMP5339 Quiz 2</b><small>视觉学习站 · W7–W10</small></div></div>
+    <label class="search"><span>⌕</span><input id="searchInput" type="search" placeholder="搜索中英文术语、SQL、Kafka…" aria-label="搜索课程内容"></label>
+    <div class="progress-pill"><span id="progressText">0 / 48</span><span>已掌握</span></div>
+  </header>
+  <div class="layout">
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-intro"><p class="eyebrow">3 DAY STUDY PATH</p><h2>从小白到能做题</h2><p>每节依次完成：看图 → 读例子 → 说出英文 → 做检查题。</p></div>
+      <nav id="courseNav" aria-label="课程目录"></nav>
+      <button id="resetProgress" class="ghost-button">重置学习进度</button>
+    </aside>
+    <main id="main" class="main">
+      <section id="hero" class="hero">
+        <div><p class="eyebrow">BEGINNER-FIRST · SOURCE-CHECKED</p><h1>不要硬背 215 页课件。<br><em>先把系统在脑中画出来。</em></h1><p class="hero-copy">本网站逐项核对 W7–W10 slides、课堂 transcript、tutorial notebooks 与示例代码。所有补充内容已归入对应周，不再与主线分离。</p><div class="hero-actions"><button class="primary-button" data-route="w7-01">从 W7 开始</button><button class="secondary-button" data-route="exam-map">查看考试地图</button></div></div>
+        <div class="hero-map" aria-label="四周知识关系图"><div class="map-node n1"><b>W7</b><span>时间</span><small>事实何时发生？</small></div><i>→</i><div class="map-node n2"><b>W8</b><span>特征</span><small>数据怎样变成数字？</small></div><i>→</i><div class="map-node n3"><b>W9</b><span>流</span><small>事件怎样持续处理？</small></div><i>→</i><div class="map-node n4"><b>W10</b><span>扩展</span><small>怎样分布式运行？</small></div></div>
+      </section>
+      <section id="dashboard" class="dashboard">
+        <div class="week-card w7" data-route="w7-01"><span>W7</span><h2>Temporal Data</h2><p>时间类型、双时间、Temporal SQL、Range、数组与时间序列。</p><b>12 节</b></div>
+        <div class="week-card w8" data-route="w8-01"><span>W8</span><h2>Unstructured Data</h2><p>文本、图像、特征向量、BERT/GPT、元数据与高级特征工程。</p><b>11 节</b></div>
+        <div class="week-card w9" data-route="w9-01"><span>W9</span><h2>Stream Processing</h2><p>DSMS、Pub/Sub、MQTT、Kafka、Window、Watermark 与 Join。</p><b>12 节</b></div>
+        <div class="week-card w10" data-route="w10-01"><span>W10</span><h2>Scalable Engineering</h2><p>存储、分区复制、CAP、HDFS、MapReduce、Spark 与 Flink。</p><b>13 节</b></div>
+      </section>
+      <section id="lessonView" class="lesson-view" hidden><div class="lesson-topline"><button id="backHome" class="ghost-button">← 总览</button><div class="lesson-actions"><button id="prevLesson" class="icon-button" aria-label="上一节">←</button><button id="nextLesson" class="icon-button" aria-label="下一节">→</button></div></div><article id="lessonContent"></article><div class="mastery-box"><label><input id="masteryCheck" type="checkbox"><span><b>我能不看答案复述这一节</b><small>只有能自己说出来，才算掌握。</small></span></label></div></section>
+      <section id="searchResults" class="search-results" hidden><div class="section-heading"><p class="eyebrow">SEARCH</p><h1>搜索结果</h1></div><div id="resultsList"></div></section>
+    </main>
+  </div>
+  <script src="content.js"></script><script src="app.js"></script>
+</body>
+</html>
