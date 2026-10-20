@@ -27,3 +27,5 @@
 .exam-trap{margin-top:11px;padding:11px 14px;border-radius:11px;background:var(--orange-soft);border-left:5px solid var(--orange)}
 .cheat-downloads{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.cheat-downloads a{display:inline-block;padding:9px 12px;border-radius:9px;background:#fff;border:1px solid #9bb6e8;color:var(--blue);font-weight:800;text-decoration:none}.cheat-downloads a:hover{background:var(--blue-soft)}
 @media(max-width:760px){.exam-grid{grid-template-columns:1fr}}
+.sql-token-table td:first-child{width:22%;white-space:nowrap;font-weight:700}.sql-token-table td:nth-child(2){width:20%;color:var(--muted)}.sql-token-table code{color:#0e5c50;background:#dff3ec}.sql-token-table tbody tr:hover{background:#f7f4ec}
+@media(max-width:760px){.sql-token-table{font-size:.84rem}.sql-token-table th,.sql-token-table td{padding:8px 6px}.sql-token-table td:first-child{white-space:normal}}
