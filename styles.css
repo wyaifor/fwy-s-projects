@@ -7,3 +7,11 @@
 .key-definition{padding:18px;border-radius:16px;background:#173f7a;color:white;margin:14px 0}
 .key-definition small{display:block;color:#bcd5ff;font-weight:800;letter-spacing:.1em;margin-bottom:5px}
 .key-definition strong{font-size:1.18rem;line-height:1.55}
+.recap-card{position:relative;overflow:hidden;border:2px solid #b9ccef;background:linear-gradient(145deg,#f8fbff 0%,#eef4ff 58%,#f5f1ff 100%)}
+.recap-card:after{content:"";position:absolute;right:-55px;top:-55px;width:150px;height:150px;border-radius:50%;background:rgba(40,102,209,.08)}
+.recap-label{color:var(--blue);font-size:.75rem;font-weight:900;letter-spacing:.12em;margin-bottom:5px}
+.recap-card h2{padding-right:70px;margin-bottom:14px}
+.recap-summary{padding:13px 15px;border-radius:12px;background:white;border-left:5px solid var(--blue);box-shadow:0 5px 18px rgba(40,102,209,.07)}
+.recap-summary b{color:var(--blue)}
+.recap-flow{margin:13px 0}.recap-flow .flow-node{background:white;min-width:145px}.recap-flow .flow-node small{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--blue);color:white;font-weight:800}
+.recap-prompt{padding:12px 14px;border-radius:12px;background:var(--green-soft);border:1px solid #bddfd5}.recap-prompt b{color:var(--green)}

@@ -47,8 +47,8 @@ Quiz 2 scope was stated in the Week 10 lecture as all material covered since Qui
 
 ## Automated completeness checks
 
-- 48 lessons and 66 interactive quiz boxes.
-- Every quiz box contains exactly one correct option and an explanation.
+- 48 lessons, 2 exam-support pages and 50 end-of-page recap cards.
+- 67 interactive questions with 192 options; every question contains exactly one correct option and an explanation.
 - 47 lessons have the common concept-foundation layer; the first lesson has a dedicated deeper rewrite.
 - 27 lessons additionally contain source-gap full-coverage sections.
 - No pre-question answer bridge remains.
