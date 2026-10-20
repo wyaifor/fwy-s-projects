@@ -15,3 +15,7 @@
 .recap-summary b{color:var(--blue)}
 .recap-flow{margin:13px 0}.recap-flow .flow-node{background:white;min-width:145px}.recap-flow .flow-node small{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--blue);color:white;font-weight:800}
 .recap-prompt{padding:12px 14px;border-radius:12px;background:var(--green-soft);border:1px solid #bddfd5}.recap-prompt b{color:var(--green)}
+.recap-toggle{display:block;width:100%;margin:13px 0 0;padding:12px 16px;border:0;border-radius:12px;background:var(--ink);color:white;font:inherit;font-weight:800;cursor:pointer;transition:.18s}
+.recap-toggle:hover{background:var(--blue);transform:translateY(-1px)}
+.recap-answer{margin-top:13px;padding-top:2px;animation:recapReveal .2s ease-out}.recap-check{padding:11px 14px;border-radius:12px;background:white;border:1px solid #bddfd5}.recap-check b{color:var(--green)}
+@keyframes recapReveal{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
