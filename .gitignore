@@ -7,3 +7,6 @@ __pycache__/
 Credentials.json
 *.tar.gz
 *.zip
+output/
+__pycache__/
+*.pyc

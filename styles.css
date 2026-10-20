@@ -19,3 +19,11 @@
 .recap-toggle:hover{background:var(--blue);transform:translateY(-1px)}
 .recap-answer{margin-top:13px;padding-top:2px;animation:recapReveal .2s ease-out}.recap-check{padding:11px 14px;border-radius:12px;background:white;border:1px solid #bddfd5}.recap-check b{color:var(--green)}
 @keyframes recapReveal{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
+.exam-trigger{margin-bottom:9px;padding:9px 13px;border-radius:10px;background:#fff;border:1px dashed #9bb6e8;color:#33445a}.exam-trigger b{color:var(--blue)}
+.exam-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(260px,.75fr);gap:12px;align-items:start}
+.exam-must,.exam-code{padding:14px 16px;border-radius:13px;background:#fff;border:1px solid #d3def2}
+.exam-must>b,.exam-code>b{display:block;color:var(--blue);margin-bottom:6px}.exam-must ul{margin:4px 0;padding-left:1.25rem}.exam-must li{margin:5px 0}
+.exam-code pre{margin:7px 0 0;padding:12px;font-size:.82rem;white-space:pre-wrap}
+.exam-trap{margin-top:11px;padding:11px 14px;border-radius:11px;background:var(--orange-soft);border-left:5px solid var(--orange)}
+.cheat-downloads{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.cheat-downloads a{display:inline-block;padding:9px 12px;border-radius:9px;background:#fff;border:1px solid #9bb6e8;color:var(--blue);font-weight:800;text-decoration:none}.cheat-downloads a:hover{background:var(--blue-soft)}
+@media(max-width:760px){.exam-grid{grid-template-columns:1fr}}
