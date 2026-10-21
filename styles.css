@@ -29,3 +29,4 @@
 @media(max-width:760px){.exam-grid{grid-template-columns:1fr}}
 .sql-token-table td:first-child{width:22%;white-space:nowrap;font-weight:700}.sql-token-table td:nth-child(2){width:20%;color:var(--muted)}.sql-token-table code{color:#0e5c50;background:#dff3ec}.sql-token-table tbody tr:hover{background:#f7f4ec}
 @media(max-width:760px){.sql-token-table{font-size:.84rem}.sql-token-table th,.sql-token-table td{padding:8px 6px}.sql-token-table td:first-child{white-space:normal}}
+pre::selection,pre *::selection{background:#ffd166;color:#17222b;text-shadow:none}
