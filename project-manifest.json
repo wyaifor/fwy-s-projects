@@ -10,7 +10,9 @@
   "verified_outputs": {
     "week_modules": 4,
     "lesson_units": 48,
-    "interactive_quizzes": 48,
+    "interactive_quizzes": 71,
+    "flashcards": 48,
+    "study_modes": 5,
     "exam_support_views": 2,
     "runtime_dependencies": 0,
     "progress_storage": "browser localStorage"
@@ -25,6 +27,10 @@
     "styles.css",
     "app.js",
     "content.js",
+    "study.html",
+    "study.css",
+    "study.js",
+    "study-data.js",
     "README.md",
     "PROJECT_RECORD.md",
     "SOURCE_COVERAGE.md",

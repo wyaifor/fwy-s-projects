@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="COMP5339 Quiz 2 W7-W10 多模式完整复习工作台">
+  <title>COMP5339 W7–W10 Study Studio</title>
+  <link rel="stylesheet" href="study.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html"><span>53</span><b>COMP5339 Study Studio</b></a>
+    <div class="stats"><b id="lessonStat">48</b> 节 · <b id="quizStat">71</b> 题</div>
+    <a class="back" href="index.html">返回逐节完整讲解 →</a>
+  </header>
+  <div class="shell">
+    <aside class="sidebar">
+      <p class="eyebrow">SOURCE-GROUNDED</p>
+      <h1>一次整理，五种复习方式</h1>
+      <p>结构参考 ThetaWave 的多模式学习流程，知识内容来自本课程 W7–W10 材料。</p>
+      <nav id="weekNav"></nav>
+      <div class="study-order"><b>推荐顺序</b><ol><li>Summary 建立全局</li><li>Notes 学会规则</li><li>Mind Map 串联概念</li><li>Flashcards 主动回忆</li><li>Quiz 检查漏洞</li></ol></div>
+    </aside>
+    <main>
+      <section class="hero">
+        <p class="eyebrow" id="weekLabel">W7</p>
+        <h2 id="weekTitle"></h2>
+        <p id="weekQuestion"></p>
+        <div id="route" class="route"></div>
+      </section>
+      <nav class="modes" aria-label="学习模式">
+        <button data-mode="summary" class="active">Summary<br><small>周总结</small></button>
+        <button data-mode="notes">Notes<br><small>完整笔记</small></button>
+        <button data-mode="map">Mind Map<br><small>概念关系</small></button>
+        <button data-mode="cards">Flashcards<br><small>主动回忆</small></button>
+        <button data-mode="quiz">Quiz<br><small>考试自测</small></button>
+      </nav>
+      <section id="content" class="content"></section>
+    </main>
+  </div>
+  <script src="study-data.js"></script>
+  <script src="study.js"></script>
+</body>
+</html>
