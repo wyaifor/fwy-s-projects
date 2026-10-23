@@ -2,6 +2,8 @@
 
 [Live demo](https://comp5339-quiz2-visual-study.tenderdaisy128.chatgpt.site/) · [Project record](PROJECT_RECORD.md) · [Source coverage](SOURCE_COVERAGE.md)
 
+[48 项完整叙事总表](https://comp5339-quiz2-visual-study.tenderdaisy128.chatgpt.site/exam-table)
+
 这是一个面向零基础学习者的交互式复习网站。项目起因是：只有大段文字的复习资料难以持续阅读和记忆，因此把 COMP5339 Week 7–10 的知识整理成可搜索、可视化、可自测的网页。
 
 ![Website preview](site-preview.png)
@@ -9,6 +11,7 @@
 ## 可核验成果
 
 - 覆盖 W7–W10，共 **48 个主题单元**。
+- 新增按周组织的 **48 项完整叙事总表**，逐项给出“名称—概念—关系—例子”，并附英文题干触发词、代码/公式和易错点；支持周次筛选、搜索、手机阅读和打印为 PDF。
 - 提供 **2 个考试工具**：高频概念对比与中英文术语速查。
 - 每个主题包含目标、图解或对照表、正文说明和即时自测；全站共有 **71 道检查题**。
 - 新增多模式复习工作台：Summary、完整 Notes、Mind Map、48 张 Flashcards 和按周 Quiz；答错题目可单独重练。
@@ -47,6 +50,10 @@ python -m http.server 8130
 ├── study.css               # 工作台响应式视觉样式
 ├── study.js                # 周总结、闪卡、测验和错题重练
 ├── study-data.js           # 由同一课程来源生成的学习数据
+├── exam-table.html         # W7–W10 名称—概念—关系—例子总表
+├── exam-table.css          # 总表桌面、手机和打印样式
+├── exam-table.js           # 总表搜索、筛选和打印逻辑
+├── exam-table-data.js      # 48 项结构化叙事复习数据
 ├── assets/                 # 图表、运行截图与两份双面 A4 cheatsheet
 ├── tools/                  # 考场速查卡和 PDF 的可复现生成脚本
 ├── requirements.txt        # PDF 生成依赖
