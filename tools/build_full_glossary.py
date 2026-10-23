@@ -278,7 +278,7 @@ add(W,"计算模型","MapReduce","映射归约模型","用 map 产生 key-value�
 add(W,"计算模型","Map","映射阶段","对输入记录独立转换并发出中间 key-value。","过滤、解析和建立分组键。","通常高度并行。","每个单词输出 (word,1)。")
 add(W,"计算模型","Reduce","归约阶段","接收同 key 的所有值并计算汇总。","完成 count、sum 等按键聚合。","依赖前面的 shuffle/sort。","对 (word,[1,1,1]) 输出 3。")
 add(W,"计算模型","Combiner","本地合并器","在 map 端先局部合并中间结果。","减少 shuffle 数据量。","只能用于可安全结合的运算；平均值不能直接平均局部平均。","局部先求 word count。")
-add(W,"Spark","Apache Spark","Apache Spark","以内存计算和高层 API 为主的分布式数据处理框架。","执行批处理、SQL、ML 和流处理。","以 RDD 为核心并提供 DataFrame/SQL。","PySpark 聚合 Bitcoin 数据。")
+add(W,"Spark","Apache Spark","分布式数据处理框架","以内存计算和高层 API 为主的分布式数据处理框架。","执行批处理、SQL、ML 和流处理。","以 RDD 为核心并提供 DataFrame/SQL。","PySpark 聚合 Bitcoin 数据。")
 add(W,"Spark","SparkSession","Spark 应用入口对象","负责配置、读写数据和访问 SQL 功能。","统一建立 DataFrame 和执行环境。","本地 local[*] 与集群模式可使用相同 API。","SparkSession.builder.appName(...).getOrCreate()。")
 add(W,"Spark","Driver","驱动进程","运行主程序、构建计划并协调 executors。","调度 jobs、stages 和 tasks。","collect() 把数据拉回 driver，可能 OOM。","Notebook Python 进程常是 driver。")
 add(W,"Spark","Executor","执行器进程","在 worker 上执行 tasks 并缓存 partitions。","完成分布式计算。","executor 数与 partition 数共同影响并行度。","每个 executor 处理若干 DataFrame partitions。")
